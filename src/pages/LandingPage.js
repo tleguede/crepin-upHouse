@@ -12,6 +12,7 @@ import {
   LandingCleanInterfaces,
   LandingHugePackElements
 } from '../components/_external-pages/landing';
+import LandingSearchFilter from '../components/_external-pages/landing/landing-search-filter';
 
 // ----------------------------------------------------------------------
 
@@ -29,9 +30,10 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function LandingPage() {
   return (
-    <RootStyle title="The starting point for your next project | Minimal-UI" id="move_top">
+    <RootStyle title="upHouse" id="move_top">
       <LandingHero />
       <ContentStyle>
+        <LandingSearchFilter/>
         <LandingMinimal />
         <LandingHugePackElements />
         <LandingDarkMode />
