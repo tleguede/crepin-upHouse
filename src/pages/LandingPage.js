@@ -4,15 +4,10 @@ import { styled } from '@material-ui/core/styles';
 import Page from '../components/Page';
 import {
   LandingHero,
-  LandingMinimal,
-  LandingDarkMode,
-  LandingThemeColor,
-  LandingPricingPlans,
-  LandingAdvertisement,
-  LandingCleanInterfaces,
-  LandingHugePackElements
+
 } from '../components/_external-pages/landing';
 import LandingSearchFilter from '../components/_external-pages/landing/landing-search-filter';
+import LandingRealEstateList from '../components/_external-pages/landing/LandingRealEstateList';
 
 // ----------------------------------------------------------------------
 
@@ -34,13 +29,7 @@ export default function LandingPage() {
       <LandingHero />
       <ContentStyle>
         <LandingSearchFilter/>
-        <LandingMinimal />
-        <LandingHugePackElements />
-        <LandingDarkMode />
-        <LandingThemeColor />
-        <LandingCleanInterfaces />
-        <LandingPricingPlans />
-        <LandingAdvertisement />
+        <LandingRealEstateList/>
       </ContentStyle>
     </RootStyle>
   );

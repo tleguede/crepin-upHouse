@@ -16,7 +16,7 @@ import { CarouselControlsArrowsBasic1 } from '../../carousel';
 
 // ----------------------------------------------------------------------
 
-const MOCK_BOOKINGS = [...Array(5)].map((_, index) => ({
+export const MOCK_BOOKINGS = [...Array(5)].map((_, index) => ({
   id: mockData.id(index),
   name: mockData.name.fullName(index),
   avatar: mockData.image.avatar(index),
@@ -41,7 +41,7 @@ BookingItem.propTypes = {
   })
 };
 
-function BookingItem({ item }) {
+export function BookingItem({ item }) {
   const { avatar, name, roomNumber, bookdAt, person, cover, roomType } = item;
 
   return (

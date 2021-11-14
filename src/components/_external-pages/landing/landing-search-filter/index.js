@@ -1,14 +1,10 @@
 // material
-import { useTheme, styled } from '@material-ui/core/styles';
+import { styled } from '@material-ui/core/styles';
 import {
-  Box,
   Grid,
-  Card,
   Tabs,
   Tab,
   Container,
-  Typography,
-  useMediaQuery,
   Stack,
   TextField,
   MenuItem, Button
@@ -17,7 +13,6 @@ import {
 import { useState } from 'react';
 import { Apartment, Home } from '@material-ui/icons';
 import LandingSearchFilterPriceBox from './LandingSearchFilterPriceBox';
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import SearchIcon from '@material-ui/icons/Search';
 import LandingSearchFilterTypes from './LandingSearchFilterTypes';
 
@@ -46,9 +41,9 @@ const TABS = [
 ];
 
 export default function LandingSearchFilter() {
-  const theme = useTheme();
-  const isLight = theme.palette.mode === 'light';
-  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
+  // const theme = useTheme();
+  // const isLight = theme.palette.mode === 'light';
+  // const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const [priceRange, setPriceRange] = useState({ min: 0, max: 0 });
 
   const [firsTab] = TABS;
@@ -95,7 +90,7 @@ export default function LandingSearchFilter() {
 
           <Grid container spacing={2}>
 
-            <Grid item xs={5}>
+            <Grid item xs={3}>
               <TextField
                 fullWidth
                 label={'Rechercher par ville, quartier ...'}
@@ -129,8 +124,7 @@ export default function LandingSearchFilter() {
 
             <Grid item xs={2}>
               <LandingSearchFilterTypes
-                range={priceRange}
-                onChange={handlePriceRangeChange}
+
               />
             </Grid>
 
