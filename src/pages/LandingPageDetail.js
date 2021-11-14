@@ -2,10 +2,21 @@
 import { styled } from '@material-ui/core/styles';
 // components
 import Page from '../components/Page';
-import { Button, Container, Dialog, Divider, Grid, Stack, Typography } from '@material-ui/core';
+import {
+  Button,
+  Container,
+  Dialog, DialogActions,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  Grid,
+  Stack, TextField,
+  Typography
+} from '@material-ui/core';
 import CarouselThumbnail from '../components/carousel/CarouselThumbnail';
 import { Room, Wifi } from '@material-ui/icons';
 import useToggle from '../hooks/useToggle';
+import { LoadingButton } from '@material-ui/lab';
 
 // ----------------------------------------------------------------------
 
@@ -15,7 +26,7 @@ const RootStyle = styled(Page)({
 
 const ContentStyle = styled(Container)(({ theme }) => ({
   marginTop: 100,
-  marginBotton:100
+  marginBottom:100
 }));
 
 // ----------------------------------------------------------------------
@@ -104,6 +115,32 @@ export default function LandingPageDetail() {
         </Stack>
 
         <Dialog open={open} onClose={handleClose}>
+
+          <DialogTitle>
+            upHouse
+          </DialogTitle>
+
+          <DialogContent>
+            <Stack direction={'column'} spacing={2}>
+              <Typography variant={'subtitle1'}>
+                Laissez nous votre contact, nous vous apellerons d'ici peu
+              </Typography>
+              <TextField
+                fullWidth
+                label={'Mon nom'}
+              />
+              <TextField
+                fullWidth
+                label={'Mon nom'}
+              />
+            </Stack>
+          </DialogContent>
+
+          <DialogActions>
+            <LoadingButton variant={'contained'} onClick={handleClose}>
+              Soumettre
+            </LoadingButton>
+          </DialogActions>
 
         </Dialog>
 

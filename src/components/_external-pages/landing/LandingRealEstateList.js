@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { PATH_PAGE } from '../../../routes/paths';
 
 const RootStyle = styled(Page)({
-  height: '100%'
+  height: '100%',
+  marginTop:40
 });
 
 export default function LandingRealEstateList() {
@@ -22,7 +23,7 @@ export default function LandingRealEstateList() {
         <Grid container spacing={2}>
           {
             MOCK_BOOKINGS.map(one => (
-              <Grid item key={one?.id} onClick={() => goTo(one?.id)}>
+              <Grid  sm={6} xs={12} md={3} style={{marginBottom:10}} key={one?.id} onClick={() => goTo(one?.id)}>
                 <BookingItem item={one} />
               </Grid>
             ))

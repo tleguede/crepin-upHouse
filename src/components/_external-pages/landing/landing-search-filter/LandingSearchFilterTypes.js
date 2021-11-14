@@ -25,9 +25,6 @@ export default function LandingSearchFilterTypes({ range, onChange }) {
   const ref = useRef();
   const { open, handleOpen, handleClose } = useToggle();
 
-  const handleChange = (change) =>
-    (change.min >= 0 || change.max >= 0)
-    && isFunction(onChange) && onChange(change);
 
   return (
     <>
