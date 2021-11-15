@@ -3,7 +3,7 @@ import { Button, Checkbox, Grid, IconButton, MenuItem, Popover, Stack, TextField
 import { styled } from '@material-ui/core/styles';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import useToggle from '../../../../hooks/useToggle';
-import { isFunction, values } from 'lodash';
+import {  values } from 'lodash';
 import { SectionAccordion } from '../../../SectionAccordion';
 import {
   BUILDING_TYPE,

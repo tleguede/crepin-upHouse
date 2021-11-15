@@ -1921,6 +1921,16 @@
   resolved "https://registry.npmjs.org/@iconify/icons-ant-design/-/icons-ant-design-1.1.0.tgz"
   integrity sha512-sE4NKXMfN9arTFmfvt4zARoS+hjhd8P0z5osjWYxVkQPCri1RYpF+NRa9MsDh3ScqAcSU9wfUeQ3X4Gf8GrcNQ==
 
+"@iconify/icons-bi@^1.1.11":
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-bi/-/icons-bi-1.1.11.tgz#e8a87c9dabba07ce402d2966517cf86c47a20a3f"
+  integrity sha512-c0f4gMHpkvjsBJbt01m9L/sM4rgm5adynZ0vhxYeSiioTGFNYeDkp4hDe8tELSQjJVCVbJMa5/d9jKqQjSphBQ==
+
+"@iconify/icons-carbon@^1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-carbon/-/icons-carbon-1.1.6.tgz#defed89e146b9fd75f90571838ceeaaf0bd1fbe2"
+  integrity sha512-HHWaPhVlVuXLjrGYpofryOaddBTaIRD64PwGQQ7Z/2smzFMGtyUUMRS3/lOSwBuXKnlE4H1lcr4inJ2XBmTeHQ==
+
 "@iconify/icons-eva@^1.1.0":
   version "1.1.0"
   resolved "https://registry.npmjs.org/@iconify/icons-eva/-/icons-eva-1.1.0.tgz"

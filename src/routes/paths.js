@@ -30,11 +30,17 @@ export const PATH_PAGE = {
   page404: '/404',
   page500: '/500',
   components: '/components',
-  detail:'/detail/:id'
+  detail: '/detail/:id',
+  myFavorites: '/my_favorites',
+  myPosts: '/my_posts',
+  publish: '/publish'
 };
 
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
+  admin: {
+    validation: path(ROOTS_DASHBOARD, '/post_validation')
+  },
   general: {
     app: path(ROOTS_DASHBOARD, '/app'),
     ecommerce: path(ROOTS_DASHBOARD, '/ecommerce'),

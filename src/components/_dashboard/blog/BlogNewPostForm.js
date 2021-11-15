@@ -181,7 +181,7 @@ export default function BlogNewPostForm() {
                   <div>
                     <FormControlLabel
                       control={<Switch {...getFieldProps('publish')} checked={values.publish} />}
-                      label="Publish"
+                      label="PublishPage"
                       labelPlacement="start"
                       sx={{ mb: 1, mx: 0, width: '100%', justifyContent: 'space-between' }}
                     />

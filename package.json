@@ -48,6 +48,8 @@
     "@hookform/devtools": "^3.1.0",
     "@hookform/resolvers": "^2.7.1",
     "@iconify/icons-ant-design": "^1.1.0",
+    "@iconify/icons-bi": "^1.1.11",
+    "@iconify/icons-carbon": "^1.1.6",
     "@iconify/icons-eva": "^1.1.0",
     "@iconify/icons-ic": "^1.1.9",
     "@iconify/react": "^3.0.1",

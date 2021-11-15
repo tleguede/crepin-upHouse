@@ -77,6 +77,8 @@ export default function Router() {
       ),
       children: [
         { path: '/', element: <Navigate to="/dashboard/app" replace /> },
+        { path: '/post_validation', element: <AdminPostValidation/> },
+
         { path: 'app', element: <GeneralApp /> },
         { path: 'ecommerce', element: <GeneralEcommerce /> },
         { path: 'banking', element: <GeneralBanking /> },
@@ -162,6 +164,11 @@ export default function Router() {
       children: [
         { path: '/', element: <LandingPage /> },
         { path: '/detail/:id', element: <LandingPageDetail /> },
+        { path: '/my_favorites', element: <MyFavorites /> },
+        { path: '/my_posts', element: <MyPosts /> },
+        { path: '/publish', element: <Publish /> },
+
+
 
 
         { path: 'about-us', element: <About /> },
@@ -262,6 +269,16 @@ const Kanban = Loadable(lazy(() => import('../pages/dashboard/Kanban')));
 // Main
 const LandingPage = Loadable(lazy(() => import('../pages/LandingPage')));
 const LandingPageDetail = Loadable(lazy(() => import('../pages/LandingPageDetail')));
+const MyFavorites = Loadable(lazy(() => import('../pages/MyFavorites')));
+const MyPosts = Loadable(lazy(() => import('../pages/MyPosts')));
+const Publish = Loadable(lazy(() => import('../pages/PublishPage')));
+
+
+//admin
+
+const AdminPostValidation = Loadable(lazy(() => import('../pages/AdminPostValidation')));
+
+
 const About = Loadable(lazy(() => import('../pages/About')));
 const Contact = Loadable(lazy(() => import('../pages/Contact')));
 const Faqs = Loadable(lazy(() => import('../pages/Faqs')));

@@ -26,6 +26,19 @@ const ICONS = {
 };
 
 const sidebarConfig = [
+  // Admin
+  // ----------------------------------------------------------------------
+  {
+    subheader: 'admin',
+    items: [
+      {
+        title: 'Validation des posts',
+        path: PATH_DASHBOARD.admin.validation,
+        icon: ICONS.dashboard
+      }
+    ]
+  },
+
   // GENERAL
   // ----------------------------------------------------------------------
   {
@@ -102,7 +115,7 @@ const sidebarConfig = [
         title: 'mail',
         path: PATH_DASHBOARD.mail.root,
         icon: ICONS.mail,
-        info: <Label color="error">2</Label>
+        info: <Label color='error'>2</Label>
       },
       { title: 'chat', path: PATH_DASHBOARD.chat.root, icon: ICONS.chat },
       { title: 'calendar', path: PATH_DASHBOARD.calendar, icon: ICONS.calendar },

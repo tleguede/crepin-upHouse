@@ -23,7 +23,7 @@ export default function LandingRealEstateList() {
         <Grid container spacing={2}>
           {
             MOCK_BOOKINGS.map(one => (
-              <Grid  sm={6} xs={12} md={3} style={{marginBottom:10}} key={one?.id} onClick={() => goTo(one?.id)}>
+              <Grid item  sm={6} xs={12} md={3} style={{marginBottom:10}} key={one?.id} onClick={() => goTo(one?.id)}>
                 <BookingItem item={one} />
               </Grid>
             ))
