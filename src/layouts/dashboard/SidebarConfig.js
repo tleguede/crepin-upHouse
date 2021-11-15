@@ -34,23 +34,39 @@ const sidebarConfig = [
         title: 'Validation des posts',
         path: PATH_DASHBOARD.admin.validation,
         icon: ICONS.dashboard
-      }
+      },
+      {
+        title: 'Demande d appel',
+        path: PATH_DASHBOARD.admin.callRequest,
+        icon: ICONS.dashboard
+      },
     ]
   },
 
-  // APP
+
+  // MANAGEMENT
   // ----------------------------------------------------------------------
   {
-    subheader: 'app',
+    subheader: 'management',
     items: [
-
+      // MANAGEMENT : USER
       {
-        title: 'kanban',
-        path: PATH_DASHBOARD.kanban,
-        icon: ICONS.kanban
-      }
+        title: 'user',
+        path: PATH_DASHBOARD.user.root,
+        icon: ICONS.user,
+        children: [
+          { title: 'profile', path: PATH_DASHBOARD.user.profile },
+          { title: 'cards', path: PATH_DASHBOARD.user.cards },
+          { title: 'list', path: PATH_DASHBOARD.user.list },
+          { title: 'create', path: PATH_DASHBOARD.user.newUser },
+          { title: 'edit', path: PATH_DASHBOARD.user.editById },
+          { title: 'account', path: PATH_DASHBOARD.user.account }
+        ]
+      },
+
     ]
-  }
+  },
+
 ];
 
 export default sidebarConfig;

@@ -7,6 +7,7 @@ import LogoOnlyLayout from '../layouts/LogoOnlyLayout';
 // guards
 import GuestGuard from '../guards/GuestGuard';
 import AuthGuard from '../guards/AuthGuard';
+// import RoleBasedGuard from '../guards/RoleBasedGuard';
 // components
 import LoadingScreen from '../components/LoadingScreen';
 
@@ -77,17 +78,22 @@ export default function Router() {
       children: [
         { path: '/', element: <Navigate to="/dashboard/post_validation" replace /> },
         { path: '/post_validation', element: <AdminPostValidation/> },
+        { path: '/call_request', element: <AdminCallRequest/> },
 
-        { path: 'app', element: <GeneralApp /> },
-        { path: 'ecommerce', element: <GeneralEcommerce /> },
-        { path: 'banking', element: <GeneralBanking /> },
-        { path: 'booking', element: <GeneralBooking /> },
+
         {
-          path: 'analytics',
-          element: <GeneralAnalytics />
+          path: 'user',
+          children: [
+            { path: '/', element: <Navigate to="/dashboard/user/profile" replace /> },
+            { path: 'profile', element: <UserProfile /> },
+            { path: 'cards', element: <UserCards /> },
+            { path: 'list', element: <UserList /> },
+            { path: 'new', element: <UserCreate /> },
+            { path: '/:name/edit', element: <UserCreate /> },
+            { path: 'account', element: <UserAccount /> }
+          ]
         },
 
-        { path: 'kanban', element: <Kanban /> }
       ]
     },
 
@@ -129,13 +135,13 @@ const Register = Loadable(lazy(() => import('../pages/authentication/Register'))
 const ResetPassword = Loadable(lazy(() => import('../pages/authentication/ResetPassword')));
 const VerifyCode = Loadable(lazy(() => import('../pages/authentication/VerifyCode')));
 // Dashboard
-const GeneralApp = Loadable(lazy(() => import('../pages/dashboard/GeneralApp')));
-const GeneralEcommerce = Loadable(lazy(() => import('../pages/dashboard/GeneralEcommerce')));
-const GeneralAnalytics = Loadable(lazy(() => import('../pages/dashboard/GeneralAnalytics')));
-const GeneralBanking = Loadable(lazy(() => import('../pages/dashboard/GeneralBanking')));
-const GeneralBooking = Loadable(lazy(() => import('../pages/dashboard/GeneralBooking')));
 
-const Kanban = Loadable(lazy(() => import('../pages/dashboard/Kanban')));
+const UserProfile = Loadable(lazy(() => import('../pages/dashboard/UserProfile')));
+const UserCards = Loadable(lazy(() => import('../pages/dashboard/UserCards')));
+const UserList = Loadable(lazy(() => import('../pages/dashboard/UserList')));
+const UserAccount = Loadable(lazy(() => import('../pages/dashboard/UserAccount')));
+const UserCreate = Loadable(lazy(() => import('../pages/dashboard/UserCreate')));
+
 // Main
 const LandingPage = Loadable(lazy(() => import('../pages/LandingPage')));
 const LandingPageDetail = Loadable(lazy(() => import('../pages/LandingPageDetail')));
@@ -147,6 +153,7 @@ const Publish = Loadable(lazy(() => import('../pages/PublishPage')));
 //admin
 
 const AdminPostValidation = Loadable(lazy(() => import('../pages/AdminPostValidation')));
+const AdminCallRequest = Loadable(lazy(() => import('../pages/AdminCallRequest')));
 
 
 

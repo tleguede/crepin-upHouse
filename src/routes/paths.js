@@ -39,7 +39,8 @@ export const PATH_PAGE = {
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
   admin: {
-    validation: path(ROOTS_DASHBOARD, '/post_validation')
+    validation: path(ROOTS_DASHBOARD, '/post_validation'),
+    callRequest:path(ROOTS_DASHBOARD, '/call_request'),
   },
   general: {
     app: path(ROOTS_DASHBOARD, '/app'),
