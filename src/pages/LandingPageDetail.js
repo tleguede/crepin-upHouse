@@ -26,13 +26,13 @@ const RootStyle = styled(Page)({
 
 const ContentStyle = styled(Container)(({ theme }) => ({
   marginTop: 100,
-  marginBottom:100
+  marginBottom: 100
 }));
 
 // ----------------------------------------------------------------------
 
 export default function LandingPageDetail() {
-  const {handleOpen,open,handleClose}=useToggle()
+  const { handleOpen, open, handleClose } = useToggle();
 
   return (
     <RootStyle title='upHouse | Detail' id='move_top'>
@@ -43,12 +43,17 @@ export default function LandingPageDetail() {
             <Typography variant={'h4'}>
               Sunflower House
             </Typography>
-            <Button variant={'outlined'} color={'error'} onClick={handleOpen}>
-              Je suis interesse
-            </Button>
+            <Stack direction={'row'} spacing={1}>
+              <Button variant={'outlined'} onClick={handleOpen}>
+                Favoris
+              </Button>
+              <Button variant={'outlined'} color={'error'} onClick={handleOpen}>
+                Je suis interesse
+              </Button>
+            </Stack>
           </Stack>
 
-          <CarouselThumbnail/>
+          <CarouselThumbnail />
 
           <Divider />
 
@@ -59,7 +64,7 @@ export default function LandingPageDetail() {
           <Grid container spacing={2}>
             <Grid item>
               <Stack direction={'row'}>
-                <Wifi/>
+                <Wifi />
                 <Typography variant={'body1'}>
                   Wifi
                 </Typography>
@@ -68,7 +73,7 @@ export default function LandingPageDetail() {
 
             <Grid item>
               <Stack direction={'row'}>
-                <Room/>
+                <Room />
                 <Typography variant={'body1'}>
                   2 Chambres
                 </Typography>

@@ -24,6 +24,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function LandingPage() {
+
   return (
     <RootStyle title="upHouse" id="move_top">
       <LandingHero />

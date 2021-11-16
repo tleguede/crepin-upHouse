@@ -12,10 +12,10 @@ const RootStyle = styled('div')(() => ({
 }));
 
 LandingSearchFilterPriceBox.propTypes = {
-  range: PropTypes.objectOf(PropTypes.shape({
+  range: PropTypes.shape({
     min: PropTypes.number.isRequired,
     max: PropTypes.number.isRequired
-  })).isRequired,
+  }).isRequired,
   onChange: PropTypes.func
 };
 
