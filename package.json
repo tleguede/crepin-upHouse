@@ -9,7 +9,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .js,.jsx ./src",
-    "lint:fix": "eslint --fix --ext .js,.jsx ./src"
+    "lint:fix": "eslint --fix --ext .js,.jsx ./src",
+    "firebase:logback": "firebase logout && firebase login",
+    "deploy": "yarn run firebase:logback && yarn run build && firebase deploy"
   },
   "eslintConfig": {
     "extends": [

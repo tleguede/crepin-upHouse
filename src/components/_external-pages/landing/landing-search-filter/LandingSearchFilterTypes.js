@@ -56,7 +56,7 @@ export default function LandingSearchFilterTypes({ range, onChange }) {
             </IconButton>
           </Stack>
 
-          <SectionAccordion title={'Type de propriete'} hideShadow>
+          <SectionAccordion title={'Type de propriete'} hideShadow defaultExpanded={false}>
 
             <Grid container spacing={1}>
               {
@@ -75,7 +75,7 @@ export default function LandingSearchFilterTypes({ range, onChange }) {
 
           </SectionAccordion>
 
-          <SectionAccordion title={'Caracteristiques'} hideShadow>
+          <SectionAccordion title={'Caracteristiques'} hideShadow defaultExpanded={false}>
 
             <Grid container spacing={1}>
 
@@ -165,7 +165,7 @@ export default function LandingSearchFilterTypes({ range, onChange }) {
 
           </SectionAccordion>
 
-          <SectionAccordion title={'Batiment'} hideShadow>
+          <SectionAccordion title={'Batiment'} hideShadow defaultExpanded={false}>
             <Grid container spacing={1}>
               {
                 values(BUILDING_TYPE).map(one => (
@@ -182,7 +182,7 @@ export default function LandingSearchFilterTypes({ range, onChange }) {
             </Grid>
           </SectionAccordion>
 
-          <SectionAccordion title={'Plex'} hideShadow>
+          <SectionAccordion title={'Plex'} hideShadow defaultExpanded={false}>
             <Grid container spacing={1}>
               {
                 values(PLEX_TYPE).map(one => (
@@ -199,7 +199,7 @@ export default function LandingSearchFilterTypes({ range, onChange }) {
             </Grid>
           </SectionAccordion>
 
-          <SectionAccordion title={'Autres critères'} hideShadow>
+          <SectionAccordion title={'Autres critères'} hideShadow defaultExpanded={false}>
 
             <Grid container spacing={2}>
 

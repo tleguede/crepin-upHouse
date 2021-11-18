@@ -4,11 +4,12 @@ import flashFill from '@iconify/icons-eva/flash-fill';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { styled } from '@material-ui/core/styles';
-import { Button, Box, Container, Typography, Stack } from '@material-ui/core';
+import { Box, Button, Container, Stack, Typography } from '@material-ui/core';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 //
-import { varFadeIn, varWrapEnter, varFadeInRight } from '../../animate';
+import { varFadeIn, varFadeInRight, varWrapEnter } from '../../animate';
+import { useCallback, useEffect, useState } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -45,7 +46,8 @@ const HeroOverlayStyle = styled(motion.img)({
   width: '100%',
   height: '100%',
   objectFit: 'cover',
-  position: 'absolute'
+  position: 'absolute',
+  filter:'brightness(40%)'
 });
 
 // const HeroImgStyle = styled(motion.img)(({ theme }) => ({
@@ -65,19 +67,36 @@ const HeroOverlayStyle = styled(motion.img)({
 
 // ----------------------------------------------------------------------
 
+const images = [...Array(4)].map((_, index) => `/static/images/0${index + 1}.jpg`);
+
+
 export default function LandingHero() {
+  const [index, setIndex] = useState(0);
+  const selected = images[index];
+
+  const handleCarousel = useCallback(() => {
+    const newIndex = index + 1;
+    setIndex(newIndex > (images.length-1) ? 0 : newIndex);
+  }, [index]);
+
+
+  useEffect(() => {
+    const timer = setInterval(handleCarousel, 5000);
+    return () => clearInterval(timer);
+  }, [handleCarousel]);
+
   return (
     <>
-      <RootStyle initial="initial" animate="animate" variants={varWrapEnter}>
-        <HeroOverlayStyle alt="overlay" src="/static/home/hero.jpg" variants={varFadeIn} />
+      <RootStyle initial='initial' animate='animate' variants={varWrapEnter}>
+        <HeroOverlayStyle alt='overlay' src={selected} variants={varFadeIn} />
 
-        <Container maxWidth="lg">
+        <Container maxWidth='lg'>
           <ContentStyle>
             <motion.div variants={varFadeInRight}>
-              <Typography variant="h1" sx={{ color: 'common.white' }}>
+              <Typography variant='h1' sx={{ color: 'common.white' }}>
                 L'immobilier de vos rêves
                 <br /> avec
-                <Typography component="span" variant="h1" sx={{ color: 'primary.main' }}>
+                <Typography component='span' variant='h1' sx={{ color: 'primary.main' }}>
                   &nbsp;upHouse
                 </Typography>
               </Typography>
@@ -93,8 +112,8 @@ export default function LandingHero() {
 
             <motion.div variants={varFadeInRight}>
               <Button
-                size="large"
-                variant="contained"
+                size='large'
+                variant='contained'
                 component={RouterLink}
                 to={PATH_DASHBOARD.root}
                 startIcon={<Icon icon={flashFill} width={20} height={20} />}
