@@ -215,7 +215,12 @@ export default function Publish({ selected }) {
   const handleDrop = useCallback(
     (acceptedFiles) => {
       const files = values.files || [];
-      setFieldValue('files', uniqBy([...files, ...acceptedFiles], 'name'));
+      const newFiles = acceptedFiles?.map(one=>{
+        return Object.assign(one,{
+          preview: URL.createObjectURL(one)
+        })
+      })
+      setFieldValue('files', uniqBy([...files, ...newFiles], 'name'));
     },
     [setFieldValue, values.files]
   );

@@ -177,7 +177,8 @@ function AuthProvider({ children }) {
 }
 
 
+const auth = firebase.auth();
 const storage = firebase.storage();
 const firestore = firebase.firestore();
 
-export { AuthContext, AuthProvider, storage, firestore };
+export { AuthContext, AuthProvider, storage, firestore,auth };

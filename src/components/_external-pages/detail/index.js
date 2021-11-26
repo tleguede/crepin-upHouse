@@ -10,13 +10,43 @@ import {
   Typography
 } from '@material-ui/core';
 import CarouselThumbnail from '../../carousel/CarouselThumbnail';
-import { Room, Wifi } from '@material-ui/icons';
+import { Favorite, FavoriteBorder, Room, Wifi } from '@material-ui/icons';
 import { fNumber } from '../../../utils/formatNumber';
 import { LoadingButton } from '@material-ui/lab';
 import useToggle from '../../../hooks/useToggle';
+import useAuth from '../../../hooks/useAuth';
+import { useMemo, useState } from 'react';
+import { useDispatch } from '../../../redux/store';
+import { PATH_AUTH } from '../../../routes/paths';
+import { changeBookMarkState } from '../../../utils/real_estate/realEstate.thunks';
+// import FavoriteIcon from '@mui/icons-material/Favorite';
+// import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-export default function Detail({selected}) {
+export default function Detail({ selected }) {
+  const { isAuthenticated, user: { id } } = useAuth();
+  const dispatch = useDispatch();
   const { handleOpen, open, handleClose } = useToggle();
+  const { handleOpen: handleOpenFavorite, open: openFavorite, handleClose: handleCloseFavorite } = useToggle();
+  const [loading, setLoading] = useState(false);
+  // const { handleOpen, open, handleClose } = useToggle();
+
+  const isFavorite = useMemo(() => {
+    return selected?.bookmarkedByIds?.includes(id) || false;
+  }, [selected?.bookmarkedByIds, id]);
+
+  const handleFavorite = () => {
+    if (!isAuthenticated) {
+      handleOpenFavorite();
+    } else {
+      setLoading(true);
+      dispatch(changeBookMarkState({ id: selected?.id, state: !isFavorite }, () => {
+        setLoading(false);
+      }));
+    }
+  };
+
+  console.log(isFavorite);
+
   return (
     <>
       <Stack direction={'column'} spacing={3}>
@@ -26,31 +56,32 @@ export default function Detail({selected}) {
             {selected?.name}
           </Typography>
           <Stack direction={'row'} spacing={1}>
-            <Button variant={'outlined'} onClick={handleOpen}>
-              Favoris
-            </Button>
+            <LoadingButton loading={loading} variant={'text'}
+                           color={isFavorite ? 'error' : 'primary'}
+                           onClick={handleFavorite}>
+              {isFavorite ? <Favorite/>:<FavoriteBorder/>}
+            </LoadingButton>
             <Button variant={'outlined'} color={'error'} onClick={handleOpen}>
               Je suis interesse
             </Button>
           </Stack>
         </Stack>
 
-        <CarouselThumbnail images={selected?.images}/>
+        <CarouselThumbnail images={selected?.images} />
 
         <Divider />
 
         <Stack direction={'row'} justifyContent={'space-between'}>
 
           <Typography variant={'subtitle1'}>
-            {selected?.bookmarked||0}x Favoris
+            {selected?.bookmarked || 0}x Favoris
           </Typography>
 
           <Typography variant={'subtitle1'}>
-            {selected?.callrequests||0}x Demandes d'appel
+            {selected?.callrequests || 0}x Demandes d'appel
           </Typography>
 
         </Stack>
-
 
 
         <Divider />
@@ -136,6 +167,30 @@ export default function Detail({selected}) {
         </DialogActions>
 
       </Dialog>
+
+      <Dialog open={openFavorite} onClose={handleCloseFavorite}>
+
+        <DialogTitle>
+          Oops!
+        </DialogTitle>
+
+        <DialogContent>
+          <Stack direction={'column'} spacing={2}>
+            <Typography variant={'body1'}>
+              Vous devez être connecté pour mettre ce bien en favoris
+            </Typography>
+
+          </Stack>
+        </DialogContent>
+
+        <DialogActions>
+          <Button variant={'contained'} href={PATH_AUTH.login}>
+            Se connecter
+          </Button>
+        </DialogActions>
+
+      </Dialog>
+
     </>
-  )
+  );
 }

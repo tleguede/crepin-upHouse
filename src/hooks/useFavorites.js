@@ -1,8 +1,10 @@
 import {useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "../redux/store";
 import {isEmpty, isLoaded, useFirestoreConnect} from "react-redux-firebase";
+import useAuth from './useAuth';
 
-const useRealEstates= () => {
+const useFavorites= () => {
+  const {user:{id}}=useAuth()
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(true);
@@ -14,6 +16,7 @@ const useRealEstates= () => {
   useFirestoreConnect(() => [
     {
       collection: "realEstate",
+      where:[['bookmarkedByIds','array-contains',id]],
       orderBy:[['createdAt','desc']],
       storeAs: 'realEstates'
     }
@@ -24,4 +27,4 @@ const useRealEstates= () => {
   return {realEstates, loading};
 }
 
-export default useRealEstates
+export default useFavorites

@@ -1,9 +1,12 @@
 // material
 import { styled } from '@material-ui/core/styles';
 // components
-import Page from '../components/Page';import LandingRealEstateList from '../components/_external-pages/landing/LandingRealEstateList';
+import Page from '../components/Page';
 import { Container } from '@material-ui/core';
 import HeaderBreadcrumbs from '../components/HeaderBreadcrumbs';
+import useAuth from '../hooks/useAuth';
+import ShouldLoginFirst from '../components/_external-pages/ShouldLoginFirst';
+import FavoriteList from '../components/_external-pages/my-favorites';
 
 // ----------------------------------------------------------------------
 
@@ -18,6 +21,8 @@ const ContentStyle = styled(Container)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function MyFavorites() {
+  const { isAuthenticated } = useAuth();
+
   return (
     <RootStyle title="upHouse" id="move_top">
       <ContentStyle maxWidth={'lg'}>
@@ -28,7 +33,11 @@ export default function MyFavorites() {
             {name:'Mes favoris'}
           ]}
           />
-        <LandingRealEstateList/>
+        {
+          isAuthenticated
+            ? <FavoriteList />
+            : <ShouldLoginFirst why={'voir la liste de vos favoris'} />
+        }
       </ContentStyle>
     </RootStyle>
   );

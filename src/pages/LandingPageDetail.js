@@ -3,14 +3,16 @@ import { styled } from '@material-ui/core/styles';
 // components
 import Page from '../components/Page';
 import {
-  Container,
+  Container
 
 } from '@material-ui/core';
 
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useRealEstates from '../hooks/useRealEstates';
 import Detail from '../components/_external-pages/detail';
 import DetailSkeleton from '../components/_external-pages/detail/DetailSkeleton';
+import { useMemo, useEffect } from 'react';
+import { PATH_PAGE } from '../routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -28,7 +30,15 @@ const ContentStyle = styled(Container)(({ theme }) => ({
 export default function LandingPageDetail() {
   const { id } = useParams();
   const { realEstates, loading } = useRealEstates();
-  const selected = realEstates.find(one => one?.id === id);
+  const selected = useMemo(() => realEstates.find(one => one?.id === id), [realEstates,id]);
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    if (!loading && !selected)
+      navigate(PATH_PAGE.page404);
+  }, [loading, selected,navigate]);
+
 
   return (
     <RootStyle title='upHouse | Detail' id='move_top'>
