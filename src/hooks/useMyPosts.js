@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "../redux/store";
 import {isEmpty, isLoaded, useFirestoreConnect} from "react-redux-firebase";
 import useAuth from './useAuth';
 
-export const useLoans = () => {
+ const useMyPosts = () => {
   const { user } = useAuth();
   const dispatch = useDispatch();
 
@@ -24,3 +24,5 @@ export const useLoans = () => {
 
   return {realEstates, loading};
 }
+
+export default useMyPosts

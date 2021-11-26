@@ -1,7 +1,7 @@
 import { Container, Stack, Typography } from '@material-ui/core';
 import LandingRealEstateList from '../landing/LandingRealEstateList';
 import { styled } from '@material-ui/core/styles';
-import { useLoans } from '../../../hooks/useMyPosts';
+import useMyPosts from 'src/hooks/useMyPosts';
 
 const Waiting = styled(Container)(({ theme }) => ({
   border: 'solid',
@@ -13,7 +13,7 @@ const Waiting = styled(Container)(({ theme }) => ({
 
 
 export default function PostList() {
-  const {}=useLoans()
+  const {}=useMyPosts()
   return (
     <>
       <Waiting>
