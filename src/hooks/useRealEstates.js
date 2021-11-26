@@ -1,29 +1,27 @@
 import {useEffect, useMemo, useState} from "react";
 import {useDispatch, useSelector} from "../redux/store";
 import {isEmpty, isLoaded, useFirestoreConnect} from "react-redux-firebase";
-import useAuth from './useAuth';
 
- const useMyPosts = () => {
-  const { user } = useAuth();
+const useRealEstates= () => {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState();
-  const getData = useSelector(state => state.firestore.ordered.myPosts)
-  const realEstates = useMemo(() => isEmpty(getData) ? [] : getData, [getData])
+  const getData = useSelector(state => state.firestore.ordered.realEstates)
+  const realEstates = useMemo(() => {
+    return isEmpty(getData) ? [] : getData.map(one => ({ ...one, cover: one?.images[0]?.url }));
+  }, [getData])
 
   useFirestoreConnect(() => [
     {
       collection: "realEstate",
-      where:[['owner.id','==',user?.id]],
       orderBy:[['createdAt','desc']],
-      storeAs: 'myPosts'
+      storeAs: 'realEstates'
     }
   ]);
 
   useEffect(() => setLoading(!isLoaded(getData)), [getData, realEstates, dispatch]);
 
-  const list = realEstates.map(one=>({...one,cover:one?.images[0]?.url}))
-  return {realEstates:list, loading};
+  return {realEstates, loading};
 }
 
-export default useMyPosts
+export default useRealEstates

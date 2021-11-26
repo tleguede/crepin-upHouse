@@ -5,7 +5,9 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
 import { firebaseConfig } from '../config';
-
+import { useDispatch } from '../redux/store';
+import { createFirestoreInstance } from 'redux-firestore';
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 // ----------------------------------------------------------------------
 
 const ADMIN_EMAILS = ['demo@minimals.cc'];
@@ -53,6 +55,17 @@ AuthProvider.propTypes = {
 function AuthProvider({ children }) {
   const [profile, setProfile] = useState(null);
   const [state, dispatch] = useReducer(reducer, initialState);
+  const storeDispatch = useDispatch();
+
+  const rrfProps = {
+    firebase,
+    config: {
+      userProfile: 'users',
+      useFirestoreForProfile: true
+    },
+    dispatch: storeDispatch,
+    createFirestoreInstance
+  };
 
   useEffect(
     () =>
@@ -156,13 +169,15 @@ function AuthProvider({ children }) {
         resetPassword
       }}
     >
-      {children}
+      <ReactReduxFirebaseProvider {...rrfProps}>
+        {children}
+      </ReactReduxFirebaseProvider>
     </AuthContext.Provider>
   );
 }
 
 
-const storage = firebase.storage()
-const firestore = firebase.firestore()
+const storage = firebase.storage();
+const firestore = firebase.firestore();
 
-export { AuthContext, AuthProvider,storage,firestore };
+export { AuthContext, AuthProvider, storage, firestore };

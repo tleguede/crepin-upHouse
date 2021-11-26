@@ -5,18 +5,10 @@ import { useState, useRef, useEffect } from 'react';
 import { styled } from '@material-ui/core/styles';
 import { Box } from '@material-ui/core';
 // utils
-import mockData from '../../utils/mock-data';
 //
 import { CarouselControlsArrowsIndex } from './controls';
 
 // ----------------------------------------------------------------------
-
-const MOCK_CAROUSELS = [...Array(5)].map((_, index) => ({
-  id: mockData.id(index),
-  title: mockData.text.title(index),
-  image: mockData.image.feed(index),
-  description: mockData.text.description(index)
-}));
 
 const THUMB_SIZE = 64;
 
@@ -60,7 +52,7 @@ LargeItem.propTypes = {
 };
 
 function LargeItem({ item }) {
-  const { image, title } = item;
+  const {name,url}=item
 
   return (
     <Box
@@ -72,7 +64,7 @@ function LargeItem({ item }) {
         }
       }}
     >
-      <LargeImgStyle alt={title} src={image} />
+      <LargeImgStyle alt={name} src={url} />
     </Box>
   );
 }
@@ -82,12 +74,12 @@ ThumbnailItem.propTypes = {
 };
 
 function ThumbnailItem({ item }) {
-  const { image, title } = item;
+  const { url, name } = item;
 
-  return <ThumbImgStyle alt={title} src={image} />;
+  return <ThumbImgStyle alt={name} src={url} />;
 }
 
-export default function CarouselThumbnail() {
+export default function CarouselThumbnail({images=[]}) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
@@ -112,7 +104,7 @@ export default function CarouselThumbnail() {
     focusOnSelect: true,
     variableWidth: true,
     centerPadding: '0px',
-    slidesToShow: MOCK_CAROUSELS.length > 3 ? 3 : MOCK_CAROUSELS.length
+    slidesToShow: images.length > 3 ? 3 : images.length
   };
 
   useEffect(() => {
@@ -139,13 +131,13 @@ export default function CarouselThumbnail() {
         }}
       >
         <Slider {...settings1} asNavFor={nav2} ref={slider1}>
-          {MOCK_CAROUSELS.map((item) => (
+          {images.map((item) => (
             <LargeItem key={item} item={item} />
           ))}
         </Slider>
         <CarouselControlsArrowsIndex
           index={currentIndex}
-          total={MOCK_CAROUSELS.length}
+          total={images.length}
           onNext={handleNext}
           onPrevious={handlePrevious}
         />
@@ -155,11 +147,11 @@ export default function CarouselThumbnail() {
         sx={{
           mt: 3,
           mx: 'auto',
-          ...(MOCK_CAROUSELS.length === 1 && { maxWidth: THUMB_SIZE * 1 + 16 }),
-          ...(MOCK_CAROUSELS.length === 2 && { maxWidth: THUMB_SIZE * 2 + 32 }),
-          ...(MOCK_CAROUSELS.length === 3 && { maxWidth: THUMB_SIZE * 3 + 48 }),
-          ...(MOCK_CAROUSELS.length === 4 && { maxWidth: THUMB_SIZE * 3 + 48 }),
-          ...(MOCK_CAROUSELS.length === 5 && { maxWidth: THUMB_SIZE * 6 }),
+          ...(images.length === 1 && { maxWidth: THUMB_SIZE * 1 + 16 }),
+          ...(images.length === 2 && { maxWidth: THUMB_SIZE * 2 + 32 }),
+          ...(images.length === 3 && { maxWidth: THUMB_SIZE * 3 + 48 }),
+          ...(images.length === 4 && { maxWidth: THUMB_SIZE * 3 + 48 }),
+          ...(images.length === 5 && { maxWidth: THUMB_SIZE * 6 }),
           '& .slick-current img': {
             opacity: 1,
             border: (theme) => `solid 3px ${theme.palette.primary.main}`
@@ -167,7 +159,7 @@ export default function CarouselThumbnail() {
         }}
       >
         <Slider {...settings2} asNavFor={nav1} ref={slider2}>
-          {MOCK_CAROUSELS.map((item) => (
+          {images.map((item) => (
             <ThumbnailItem key={item} item={item} />
           ))}
         </Slider>

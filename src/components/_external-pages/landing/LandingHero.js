@@ -1,12 +1,10 @@
 import { Icon } from '@iconify/react';
 import { motion } from 'framer-motion';
 import flashFill from '@iconify/icons-eva/flash-fill';
-import { Link as RouterLink } from 'react-router-dom';
 // material
 import { styled } from '@material-ui/core/styles';
 import { Box, Button, Container, Stack, Typography } from '@material-ui/core';
 // routes
-import { PATH_DASHBOARD } from '../../../routes/paths';
 //
 import { varFadeIn, varFadeInRight, varWrapEnter } from '../../animate';
 import { useCallback, useEffect, useState } from 'react';
@@ -114,8 +112,7 @@ export default function LandingHero() {
               <Button
                 size='large'
                 variant='contained'
-                component={RouterLink}
-                to={PATH_DASHBOARD.root}
+                href={'#list'}
                 startIcon={<Icon icon={flashFill} width={20} height={20} />}
               >
                 Allons y !
