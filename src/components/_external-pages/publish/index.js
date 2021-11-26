@@ -1,6 +1,6 @@
 import {
   Container, MenuItem, Stack, TextField,
-  Box, Collapse, Grid
+  Box, Collapse, Grid, Typography
 } from '@material-ui/core';
 import { UploadMultiFile } from '../../upload';
 import { LoadingButton } from '@material-ui/lab';
@@ -16,14 +16,9 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import { useCallback, useMemo } from 'react';
 import ResidentialSection from './ResidentialSection';
 import CommercialSection from './CommercialSection';
-import {usePlacesWidget} from 'react-google-autocomplete'
 
 export default function Publish({ selected }) {
 
-  const { ref } = usePlacesWidget({
-    apiKey: process.env.REACT_APP_FIREBASE_MAP_KEY,
-    onPlaceSelected: (place) => console.log(place)
-  })
 
   const schema = Yup.object().shape({
     name: Yup.string().required('Le nom est requis')
@@ -35,11 +30,12 @@ export default function Publish({ selected }) {
     initialValues: {
 
       name: selected?.name || '',
+      description: selected?.description || '',
       category: selected?.category || REAL_ESTATE_CATEGORY.RESIDENTIAL,
       type: selected?.type || RESIDENCE_TYPE.SINGLE_FAMILY_HOME,
       files: selected?.files || [],
       cost: selected?.cost || 0,
-      paymentRhythm:selected?.paymentRhythm||PAYMENT_RHYTHM.PER_MONTH,
+      paymentRhythm: selected?.paymentRhythm || PAYMENT_RHYTHM.PER_MONTH,
 
       _areaMax: 0,
       _areaMin: 0,
@@ -60,13 +56,80 @@ export default function Publish({ selected }) {
       _featureType: null,
       _commercialAreaMax: 0,
       _commercialAreaMin: 0,
-      _buildingOtherCriterion:[]
+      _buildingOtherCriterion: []
 
 
     },
     validationSchema: schema,
 
     onSubmit: async (values, { setErrors, setSubmitting, resetForm }) => {
+
+      const {
+        files,
+        _areaMax,
+        _areaMin,
+
+        _numberOfRoom,
+        _numberOfBathRoom,
+        _numberOfParking,
+        _numberOfHangar,
+        _residentialOtherFeature,
+        _building,
+        _plexType,
+        _residentialOtherCriterion,
+
+        _featureType,
+        _commercialAreaMax,
+        _commercialAreaMin,
+        _buildingOtherCriterion,
+
+        ...rest
+      } = values;
+
+
+      const searchHelper = [
+        _numberOfRoom, _numberOfBathRoom, _numberOfParking, _numberOfHangar,
+        ..._residentialOtherFeature, ..._building, _plexType, ..._residentialOtherCriterion,
+        _featureType, ..._buildingOtherCriterion
+      ].filter(one => one !== null || one !== '' || one !== undefined);
+
+      const residential = {
+        ...rest,
+        searchHelper,
+        area: {
+          max: _areaMax,
+          min: _areaMin
+        },
+        features:{
+          numberOfRoom: _numberOfRoom === '' ? null : _numberOfRoom,
+          numberOfBathRoom: _numberOfBathRoom === '' ? null : _numberOfBathRoom,
+          numberOfHangar: _numberOfHangar === '' ? null : _numberOfHangar,
+          residentialOtherFeature:_residentialOtherFeature,
+          building:_building,
+          plexType: _plexType === '' ? null : _plexType,
+          residentialOtherCriterion:_residentialOtherCriterion
+        }
+      };
+
+      const commercial = {
+        ...rest,
+        searchHelper,
+        area: {
+          max: _areaMax,
+          min: _areaMin
+        },
+        features:{
+          featureType: _featureType === '' ? null : _featureType,
+          buildingOtherCriterion:_buildingOtherCriterion,
+          commercialArea: {
+            max: _commercialAreaMax,
+            min: _commercialAreaMin
+          },
+        }
+      };
+
+      console.log(residential);
+      console.log(commercial);
 
     }
   });
@@ -159,6 +222,7 @@ export default function Publish({ selected }) {
   //#endregion
   // console.log(values);
 
+
   return (
     <FormikProvider value={formik}>
       <Box sx={{ mb: 5 }} />
@@ -166,14 +230,6 @@ export default function Publish({ selected }) {
 
         <Container maxWidth={'md'} style={{ marginBottom: 50 }}>
           <Stack direction={'column'} spacing={2}>
-
-            <TextField
-              ref={ref}
-              label={'Place'}
-              error={Boolean(touched.name && errors.name)}
-              helperText={touched.name && errors.name}
-              {...getFieldProps('name')}
-            />
 
             <TextField
               label={'Nom du bien'}
@@ -215,6 +271,10 @@ export default function Publish({ selected }) {
                 ))
               }
             </TextField>
+
+            <Typography variant={'subtitle1'}>
+              Paiements
+            </Typography>
 
             <Grid container spacing={2}>
 
@@ -265,6 +325,9 @@ export default function Publish({ selected }) {
               label={'Description'}
               multiline
               minRows={10}
+              error={Boolean(touched.description && errors.description)}
+              helperText={touched.description && errors.description}
+              {...getFieldProps('description')}
             />
 
 
@@ -277,7 +340,7 @@ export default function Publish({ selected }) {
               onRemoveAll={handleRemoveAll}
             />
 
-            <LoadingButton variant={'contained'} style={{ width: 200 }}>
+            <LoadingButton type={'submit'} variant={'contained'} style={{ width: 200 }}>
               Créer
             </LoadingButton>
 
