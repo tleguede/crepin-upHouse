@@ -1,5 +1,10 @@
 import { isObject, isEmpty ,isUndefined} from 'lodash';
 
+
+export const isFile = (file) => {
+  return file instanceof File;
+};
+
 export const isNot = (value) => {
   return Boolean(value) === false;
 };

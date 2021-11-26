@@ -160,4 +160,8 @@ function AuthProvider({ children }) {
   );
 }
 
-export { AuthContext, AuthProvider };
+
+const storage = firebase.storage()
+const firestore = firebase.firestore()
+
+export { AuthContext, AuthProvider,storage,firestore };

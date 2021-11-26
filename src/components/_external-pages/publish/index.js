@@ -16,10 +16,16 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import { useCallback, useMemo } from 'react';
 import ResidentialSection from './ResidentialSection';
 import CommercialSection from './CommercialSection';
+import { multipleFilesSave } from '../../../utils/document';
+import { isFile } from '../../../utils/type_check';
+
+import { useDispatch } from 'react-redux';
+import { createRealEstate, editRealEstate } from '../../../utils/real_estate/realEstate.thunks';
 
 export default function Publish({ selected }) {
 
   const isEdit = Boolean(selected);
+  const dispatch = useDispatch();
 
   const schema = Yup.object().shape({
     name: Yup.string().required('Le nom est requis')
@@ -34,7 +40,7 @@ export default function Publish({ selected }) {
       description: selected?.description || '',
       category: selected?.category || REAL_ESTATE_CATEGORY.RESIDENTIAL,
       type: selected?.type || RESIDENCE_TYPE.SINGLE_FAMILY_HOME,
-      files: selected?.files || [],
+      files: selected?.images?.map(one => ({ ...one, preview: one?.url })) || [],
       cost: selected?.cost || 0,
       paymentRhythm: selected?.paymentRhythm || PAYMENT_RHYTHM.PER_MONTH,
 
@@ -129,25 +135,45 @@ export default function Publish({ selected }) {
         }
       };
 
-      let data =(values.category === REAL_ESTATE_CATEGORY.RESIDENTIAL)
+      let data = (values.category === REAL_ESTATE_CATEGORY.RESIDENTIAL)
         ? residential
         : commercial;
 
-      if(!isEdit){
+      if (!isEdit) {
         data = {
           ...data,
-          state:REAL_ESTATE_STATE.WAITING_FOR_VALIDATION,
+          state: REAL_ESTATE_STATE.WAITING_FOR_VALIDATION,
           createdAt: new Date()
-        }
-      }
-      else {
+        };
+      } else {
         data = {
           ...selected,
           ...data
-        }
+        };
       }
 
       console.log(data);
+
+      const filesToUpload = files.filter(one => isFile(one));
+
+      await multipleFilesSave(filesToUpload, (uploaded = []) => {
+        const images = files.map(file => {
+          const exist = uploaded.find(one => one?.name === file?.name);
+          return exist || file;
+        });
+        cosnt finalData = {...data,images}
+
+
+        isEdit
+          ? dispatch(editRealEstate(data, () => {
+            console.log('done');
+          }))
+          : dispatch(createRealEstate(data, () => {
+            console.log('done');
+          }));
+
+
+      });
 
     }
   });
