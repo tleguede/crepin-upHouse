@@ -7,7 +7,7 @@ import { LoadingButton } from '@material-ui/lab';
 import { values as _values, uniqBy, isEqual } from 'lodash';
 import {
   COMMERCIAL_TYPE, PAYMENT_RHYTHM,
-  REAL_ESTATE_CATEGORY,
+  REAL_ESTATE_CATEGORY, REAL_ESTATE_STATE,
   RESIDENCE_TYPE
 } from '../../../constant';
 import * as Yup from 'yup';
@@ -19,6 +19,7 @@ import CommercialSection from './CommercialSection';
 
 export default function Publish({ selected }) {
 
+  const isEdit = Boolean(selected);
 
   const schema = Yup.object().shape({
     name: Yup.string().required('Le nom est requis')
@@ -37,26 +38,26 @@ export default function Publish({ selected }) {
       cost: selected?.cost || 0,
       paymentRhythm: selected?.paymentRhythm || PAYMENT_RHYTHM.PER_MONTH,
 
-      _areaMax: 0,
-      _areaMin: 0,
+      _areaMax: selected?.area?.max || 0,
+      _areaMin: selected?.area?.min || 0,
 
 
       //residential
-      _numberOfRoom: '',
-      _numberOfBathRoom: '',
-      _numberOfParking: '',
-      _numberOfHangar: '',
-      _residentialOtherFeature: [],
-      _building: [],
-      _plexType: null,
-      _residentialOtherCriterion: [],
+      _numberOfRoom: selected?.features?.numberOfRoom || '',
+      _numberOfBathRoom: selected?.features?.numberOfBathRoom || '',
+      _numberOfParking: selected?.features?.numberOfParking || '',
+      _numberOfHangar: selected?.features?.numberOfHangar || '',
+      _residentialOtherFeature: selected?.features?.otherFeature || [],
+      _building: selected?.features?.building || [],
+      _plexType: selected?.features?.plexType || null,
+      _residentialOtherCriterion: selected?.features?.otherCriterion || [],
 
 
       //commercial
-      _featureType: null,
-      _commercialAreaMax: 0,
-      _commercialAreaMin: 0,
-      _buildingOtherCriterion: []
+      _featureType: selected?.features?.featureType || null,
+      _commercialAreaMax: selected?.features?.commercialArea?.max || 0,
+      _commercialAreaMin: selected?.features?.commercialArea?.min || 0,
+      _buildingOtherCriterion: selected?.features?.buildingOtherCriterion || []
 
 
     },
@@ -91,7 +92,7 @@ export default function Publish({ selected }) {
         _numberOfRoom, _numberOfBathRoom, _numberOfParking, _numberOfHangar,
         ..._residentialOtherFeature, ..._building, _plexType, ..._residentialOtherCriterion,
         _featureType, ..._buildingOtherCriterion
-      ].filter(one => one !== null || one !== '' || one !== undefined);
+      ].filter(one => one !== null && one !== '' && one !== undefined);
 
       const residential = {
         ...rest,
@@ -100,14 +101,14 @@ export default function Publish({ selected }) {
           max: _areaMax,
           min: _areaMin
         },
-        features:{
+        features: {
           numberOfRoom: _numberOfRoom === '' ? null : _numberOfRoom,
           numberOfBathRoom: _numberOfBathRoom === '' ? null : _numberOfBathRoom,
           numberOfHangar: _numberOfHangar === '' ? null : _numberOfHangar,
-          residentialOtherFeature:_residentialOtherFeature,
-          building:_building,
+          otherFeature: _residentialOtherFeature,
+          building: _building,
           plexType: _plexType === '' ? null : _plexType,
-          residentialOtherCriterion:_residentialOtherCriterion
+          otherCriterion: _residentialOtherCriterion
         }
       };
 
@@ -118,18 +119,35 @@ export default function Publish({ selected }) {
           max: _areaMax,
           min: _areaMin
         },
-        features:{
+        features: {
           featureType: _featureType === '' ? null : _featureType,
-          buildingOtherCriterion:_buildingOtherCriterion,
+          buildingOtherCriterion: _buildingOtherCriterion,
           commercialArea: {
             max: _commercialAreaMax,
             min: _commercialAreaMin
-          },
+          }
         }
       };
 
-      console.log(residential);
-      console.log(commercial);
+      let data =(values.category === REAL_ESTATE_CATEGORY.RESIDENTIAL)
+        ? residential
+        : commercial;
+
+      if(!isEdit){
+        data = {
+          ...data,
+          state:REAL_ESTATE_STATE.WAITING_FOR_VALIDATION,
+          createdAt: new Date()
+        }
+      }
+      else {
+        data = {
+          ...selected,
+          ...data
+        }
+      }
+
+      console.log(data);
 
     }
   });
