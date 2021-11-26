@@ -28,7 +28,8 @@ export default function Publish({ selected }) {
   const dispatch = useDispatch();
 
   const schema = Yup.object().shape({
-    name: Yup.string().required('Le nom est requis')
+    name: Yup.string().required('Le nom est requis'),
+    description: Yup.string().required('La description est requise'),
 
   });
 
@@ -157,18 +158,20 @@ export default function Publish({ selected }) {
       const filesToUpload = files.filter(one => isFile(one));
 
       await multipleFilesSave(filesToUpload, (uploaded = []) => {
+
         const images = files.map(file => {
           const exist = uploaded.find(one => one?.name === file?.name);
           return exist || file;
         });
-        cosnt finalData = {...data,images}
+
+        const finalData = {...data,images}
 
 
         isEdit
-          ? dispatch(editRealEstate(data, () => {
+          ? dispatch(editRealEstate(finalData, () => {
             console.log('done');
           }))
-          : dispatch(createRealEstate(data, () => {
+          : dispatch(createRealEstate(finalData, () => {
             console.log('done');
           }));
 
