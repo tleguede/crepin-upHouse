@@ -1,81 +1,292 @@
-import { Container, MenuItem, Stack, TextField } from '@material-ui/core';
+import {
+  Container, MenuItem, Stack, TextField,
+  Box, Collapse, Grid
+} from '@material-ui/core';
 import { UploadMultiFile } from '../../upload';
 import { LoadingButton } from '@material-ui/lab';
-import { values } from 'lodash';
-import { RESIDENCE_TYPE } from '../../../constant';
+import { values as _values, uniqBy, isEqual } from 'lodash';
+import {
+  COMMERCIAL_TYPE, PAYMENT_RHYTHM,
+  REAL_ESTATE_CATEGORY,
+  RESIDENCE_TYPE
+} from '../../../constant';
+import * as Yup from 'yup';
+import { useFormik, Form, FormikProvider } from 'formik';
 
-export default function Publish() {
+import { useCallback, useMemo } from 'react';
+import ResidentialSection from './ResidentialSection';
+import CommercialSection from './CommercialSection';
+import {usePlacesWidget} from 'react-google-autocomplete'
+
+export default function Publish({ selected }) {
+
+  const { ref } = usePlacesWidget({
+    apiKey: process.env.REACT_APP_FIREBASE_MAP_KEY,
+    onPlaceSelected: (place) => console.log(place)
+  })
+
+  const schema = Yup.object().shape({
+    name: Yup.string().required('Le nom est requis')
+
+  });
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+
+      name: selected?.name || '',
+      category: selected?.category || REAL_ESTATE_CATEGORY.RESIDENTIAL,
+      type: selected?.type || RESIDENCE_TYPE.SINGLE_FAMILY_HOME,
+      files: selected?.files || [],
+      cost: selected?.cost || 0,
+      paymentRhythm:selected?.paymentRhythm||PAYMENT_RHYTHM.PER_MONTH,
+
+      _areaMax: 0,
+      _areaMin: 0,
+
+
+      //residential
+      _numberOfRoom: '',
+      _numberOfBathRoom: '',
+      _numberOfParking: '',
+      _numberOfHangar: '',
+      _residentialOtherFeature: [],
+      _building: [],
+      _plexType: null,
+      _residentialOtherCriterion: [],
+
+
+      //commercial
+      _featureType: null,
+      _commercialAreaMax: 0,
+      _commercialAreaMin: 0,
+      _buildingOtherCriterion:[]
+
+
+    },
+    validationSchema: schema,
+
+    onSubmit: async (values, { setErrors, setSubmitting, resetForm }) => {
+
+    }
+  });
+
+  const {
+    values,
+    errors,
+    touched,
+    handleSubmit,
+    getFieldProps,
+    setFieldValue
+  } = formik;
+
+  //#region dropzone
+  const handleDrop = useCallback(
+    (acceptedFiles) => {
+      const files = values.files || [];
+      setFieldValue('files', uniqBy([...files, ...acceptedFiles], 'name'));
+    },
+    [setFieldValue, values.files]
+  );
+
+  const handleRemove = useCallback((file) => {
+    setFieldValue('files', values.files.filter(one => !isEqual(one, file)));
+  }, [setFieldValue, values.files]);
+
+  const handleRemoveAll = useCallback((val) => {
+    setFieldValue('files', []);
+  }, [setFieldValue]);
+
+  //#endregion
+
+  const handleCategoryChange = (change) => {
+    setFieldValue('category', change);
+    switch (change) {
+      case REAL_ESTATE_CATEGORY.RESIDENTIAL:
+        setFieldValue('type', RESIDENCE_TYPE.SINGLE_FAMILY_HOME);
+        break;
+
+      case REAL_ESTATE_CATEGORY.COMMERCIAL:
+        setFieldValue('type', COMMERCIAL_TYPE.MULTI_FAMILIAL);
+        break;
+
+      default  :
+        setFieldValue('type', RESIDENCE_TYPE.SINGLE_FAMILY_HOME);
+
+    }
+  };
+
+  const handleTypeChange = (change) => {
+    setFieldValue('type', change);
+
+    if (values.type !== RESIDENCE_TYPE.PLEX)
+      setFieldValue('_plexType', null);
+
+    setFieldValue('_featureType', null);
+    setFieldValue('_commercialAreaMax', 0);
+    setFieldValue('_commercialAreaMin', 0);
+    setFieldValue('_areaMax', 0);
+    setFieldValue('_areaMin', 0);
+  };
+
+  //#region residential
+  const typeOptions = useMemo(() => {
+    switch (values.category) {
+
+      case REAL_ESTATE_CATEGORY.RESIDENTIAL:
+        return _values(RESIDENCE_TYPE);
+
+      case REAL_ESTATE_CATEGORY.COMMERCIAL:
+        return _values(COMMERCIAL_TYPE);
+
+      default  :
+        return _values(RESIDENCE_TYPE);
+
+    }
+  }, [values.category]);
+
+  const openResidentialFeature = useMemo(() => {
+    return values.category === REAL_ESTATE_CATEGORY.RESIDENTIAL;
+  }, [values.category]);
+
+  const handleListChange = (key, value, shouldAdd) => {
+    if (shouldAdd)
+      setFieldValue(key, [...values[key], value]);
+    else
+      setFieldValue(key, values[key].filter(one => one !== value));
+  };
+
+  //#endregion
+  // console.log(values);
+
   return (
-    <Container maxWidth={'md'} style={{ marginBottom: 50 }}>
-      <Stack direction={'column'} spacing={2}>
+    <FormikProvider value={formik}>
+      <Box sx={{ mb: 5 }} />
+      <Form autoComplete='off' noValidate autoCapitalize='on' onSubmit={handleSubmit}>
 
-        <TextField
-          label={'Nom du bien'}
-        />
+        <Container maxWidth={'md'} style={{ marginBottom: 50 }}>
+          <Stack direction={'column'} spacing={2}>
 
-        <TextField
-          select
-          label={'Type de propriete'}
-          defaultValue={RESIDENCE_TYPE.SINGLE_FAMILY_HOME}
-        >
-          {
-            values(RESIDENCE_TYPE).map(one => (
-              <MenuItem key={one} value={one}>
-                {one}
-              </MenuItem>
-            ))
-          }
-        </TextField>
+            <TextField
+              ref={ref}
+              label={'Place'}
+              error={Boolean(touched.name && errors.name)}
+              helperText={touched.name && errors.name}
+              {...getFieldProps('name')}
+            />
 
-        <Stack direction={'row'} spacing={2}>
-          <TextField
-            select fullWidth
-            label={'Pays'}
-            defaultValue={'Togo'}
-          >
-            <MenuItem value={'Togo'}>
-              Togo
-            </MenuItem>
-          </TextField>
+            <TextField
+              label={'Nom du bien'}
+              error={Boolean(touched.name && errors.name)}
+              helperText={touched.name && errors.name}
+              {...getFieldProps('name')}
+            />
 
-          <TextField
-            select fullWidth
-            label={'Vile'}
-            defaultValue={'Lome'}
-          >
-            <MenuItem value={'Lome'}>
-              Lome
-            </MenuItem>
-          </TextField>
+            <TextField
+              select
+              label={'Categorie'}
+              error={Boolean(touched.category && errors.category)}
+              helperText={touched.category && errors.category}
+              {...getFieldProps('category')}
+              onChange={event => handleCategoryChange(event.target.value)}
+            >
+              {
+                _values(REAL_ESTATE_CATEGORY).map(one => (
+                  <MenuItem key={one} value={one}>
+                    {one}
+                  </MenuItem>
+                ))
+              }
+            </TextField>
 
-          <TextField
-            select
-            fullWidth
-            label={'Quartier'}
-            defaultValue={'Agoue'}
-          >
-            <MenuItem value={'Agoue'}>
-              Agoue
-            </MenuItem>
-          </TextField>
+            <TextField
+              select
+              label={'Type de propriete'}
+              error={Boolean(touched.type && errors.type)}
+              helperText={touched.type && errors.type}
+              {...getFieldProps('type')}
+              onChange={event => handleTypeChange(event.target.value)}
+            >
+              {
+                typeOptions.map(one => (
+                  <MenuItem key={one} value={one}>
+                    {one}
+                  </MenuItem>
+                ))
+              }
+            </TextField>
 
-        </Stack>
+            <Grid container spacing={2}>
 
-        <TextField
-          label={'Description'}
-          multiline
-          minRows={10}
-        />
+              <Grid item xs={12} md={6}>
+                <TextField
+                  label={'Coût'}
+                  type={'number'}
+                  fullWidth
+                  error={Boolean(touched.cost && errors.cost)}
+                  helperText={touched.cost && errors.cost}
+                  {...getFieldProps('cost')}
+                />
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <TextField
+                  select
+                  label={'Rythme de paiement'}
+                  type={'number'}
+                  fullWidth
+                  error={Boolean(touched.paymentRhythm && errors.paymentRhythm)}
+                  helperText={touched.paymentRhythm && errors.paymentRhythm}
+                  {...getFieldProps('paymentRhythm')}
+                >
+                  {
+                    _values(PAYMENT_RHYTHM).map(one => (
+                      <MenuItem key={one} value={one}>
+                        {one}
+                      </MenuItem>
+                    ))
+                  }
+                </TextField>
+              </Grid>
+
+            </Grid>
 
 
-        <UploadMultiFile files={[]} />
+            <Collapse in={openResidentialFeature}>
+              <ResidentialSection formik={formik} handleListChange={handleListChange} />
+            </Collapse>
 
-        <LoadingButton variant={'contained'} style={{ width: 200 }}>
-          Creer
-        </LoadingButton>
 
-      </Stack>
+            <Collapse in={!openResidentialFeature}>
+              <CommercialSection formik={formik} handleListChange={handleListChange} />
+            </Collapse>
 
-    </Container>
+            <TextField
+              label={'Description'}
+              multiline
+              minRows={10}
+            />
+
+
+            <UploadMultiFile
+              files={values.files}
+              accept='image/*'
+              showPreview
+              onDrop={handleDrop}
+              onRemove={handleRemove}
+              onRemoveAll={handleRemoveAll}
+            />
+
+            <LoadingButton variant={'contained'} style={{ width: 200 }}>
+              Créer
+            </LoadingButton>
+
+          </Stack>
+
+        </Container>
+
+      </Form>
+    </FormikProvider>
+
   );
 }

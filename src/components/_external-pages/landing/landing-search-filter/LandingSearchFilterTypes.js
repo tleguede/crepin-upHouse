@@ -165,7 +165,7 @@ export default function LandingSearchFilterTypes({ range, onChange }) {
 
           </SectionAccordion>
 
-          <SectionAccordion title={'Batiment'} hideShadow defaultExpanded={false}>
+          <SectionAccordion title={'Bâtiment'} hideShadow defaultExpanded={false}>
             <Grid container spacing={1}>
               {
                 values(BUILDING_TYPE).map(one => (

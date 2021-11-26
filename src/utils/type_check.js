@@ -15,3 +15,14 @@ export const isNotUndefined= (value) => {
 export const isFirebaseTimestamp = (timestamp) => {
   return isObject(timestamp) && ('toDate' in timestamp);
 };
+
+export const equalsEither = (value,collection=[])=>{
+  let flag= false;
+
+  for (const element of collection) {
+    if(element===value)
+      return true
+  }
+
+  return flag
+}
