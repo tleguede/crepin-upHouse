@@ -21,16 +21,23 @@ import { isFile } from '../../../utils/type_check';
 
 import { useDispatch } from 'react-redux';
 import { createRealEstate, editRealEstate } from '../../../utils/real_estate/realEstate.thunks';
+import { useSnackbar } from 'notistack5';
+import { useNavigate } from 'react-router-dom';
+import { PATH_PAGE } from '../../../routes/paths';
+import useAuth from '../../../hooks/useAuth';
 
 export default function Publish({ selected }) {
+  const { user } = useAuth();
 
   const isEdit = Boolean(selected);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const schema = Yup.object().shape({
     name: Yup.string().required('Le nom est requis'),
     description: Yup.string().required('La description est requise'),
-
+    files: Yup.array().min(1, 'Ajouter au moins une image')
   });
 
   const formik = useFormik({
@@ -164,16 +171,29 @@ export default function Publish({ selected }) {
           return exist || file;
         });
 
-        const finalData = {...data,images}
+        const finalData = {
+          ...data,
+          images,
+          owner: {
+            id: user?.id,
+            displayName: user?.displayName,
+            photoURL: user?.photoURL
+          }
+        };
 
+        const callback = () => {
+          enqueueSnackbar(
+            isEdit
+              ? 'La modification a été bien faite'
+              : 'Votre demande a été bien soumise',
+            { variant: 'success' }
+          );
+          navigate(PATH_PAGE.myPosts);
+        };
 
         isEdit
-          ? dispatch(editRealEstate(finalData, () => {
-            console.log('done');
-          }))
-          : dispatch(createRealEstate(finalData, () => {
-            console.log('done');
-          }));
+          ? dispatch(editRealEstate(finalData, callback))
+          : dispatch(createRealEstate(finalData, callback));
 
 
       });
@@ -187,7 +207,8 @@ export default function Publish({ selected }) {
     touched,
     handleSubmit,
     getFieldProps,
-    setFieldValue
+    setFieldValue,
+    isSubmitting
   } = formik;
 
   //#region dropzone
@@ -385,9 +406,11 @@ export default function Publish({ selected }) {
               onDrop={handleDrop}
               onRemove={handleRemove}
               onRemoveAll={handleRemoveAll}
+              error={Boolean(touched.files && errors.files)}
+
             />
 
-            <LoadingButton type={'submit'} variant={'contained'} style={{ width: 200 }}>
+            <LoadingButton type={'submit'} variant={'contained'} style={{ width: 200 }} loading={isSubmitting}>
               Créer
             </LoadingButton>
 

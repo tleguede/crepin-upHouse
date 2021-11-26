@@ -2,9 +2,11 @@
 import { styled } from '@material-ui/core/styles';
 // components
 import Page from '../components/Page';
-import LandingRealEstateList from '../components/_external-pages/landing/LandingRealEstateList';
-import { Container, Stack ,Typography} from '@material-ui/core';
+import { Container, } from '@material-ui/core';
 import HeaderBreadcrumbs from '../components/HeaderBreadcrumbs';
+import useAuth from '../hooks/useAuth';
+import ShouldLoginFirst from '../components/_external-pages/ShouldLoginFirst';
+import PostList from '../components/_external-pages/my-posts';
 
 // ----------------------------------------------------------------------
 
@@ -16,18 +18,13 @@ const ContentStyle = styled(Container)(({ theme }) => ({
   marginTop: 100
 }));
 
-const Waiting = styled(Container)(({ theme }) => ({
-  border: 'solid',
-  borderWidth: 1,
-  borderColor: 'green',
-  borderRadius:20,
-  paddingTop:20
-}));
-
 
 // ----------------------------------------------------------------------
 
 export default function MyPosts() {
+
+  const { isAuthenticated } = useAuth();
+
   return (
     <RootStyle title='upHouse' id='move_top'>
       <ContentStyle maxWidth={'lg'}>
@@ -39,18 +36,11 @@ export default function MyPosts() {
           ]}
         />
 
-        <Waiting>
-          <Stack direction={'column'} spacing={2}>
-            <Typography variant={'h6'}>
-              En attente de validation
-            </Typography>
-            <LandingRealEstateList />
-          </Stack>
-
-
-        </Waiting>
-
-        <LandingRealEstateList />
+        {
+          isAuthenticated
+            ? <PostList />
+            : <ShouldLoginFirst why={'voir la liste de vos biens'} />
+        }
 
       </ContentStyle>
     </RootStyle>
