@@ -4,6 +4,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
+import 'firebase/database';
 import { firebaseConfig } from '../config';
 import { useDispatch } from '../redux/store';
 import { createFirestoreInstance } from 'redux-firestore';
@@ -15,6 +16,18 @@ const ADMIN_EMAILS = ['demo@minimals.cc'];
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
   firebase.firestore();
+}
+
+const auth = firebase.auth();
+const storage = firebase.storage();
+const firestore = firebase.firestore();
+const realtimeDb = firebase.database();
+
+if (window.location.hostname === "localhost") {
+  auth.useEmulator('http://localhost:9099/');
+  storage.useEmulator('localhost',9199);
+  firestore.useEmulator('localhost',8080);
+  realtimeDb.useEmulator('localhost',9000);
 }
 
 const initialState = {
@@ -177,8 +190,6 @@ function AuthProvider({ children }) {
 }
 
 
-const auth = firebase.auth();
-const storage = firebase.storage();
-const firestore = firebase.firestore();
 
-export { AuthContext, AuthProvider, storage, firestore,auth };
+
+export { AuthContext, AuthProvider, storage, firestore,auth,realtimeDb };

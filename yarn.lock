@@ -1404,6 +1404,20 @@
   dependencies:
     prop-types "^15.6.0"
 
+"@editorjs/editorjs@^2.22.2":
+  version "2.22.2"
+  resolved "https://registry.yarnpkg.com/@editorjs/editorjs/-/editorjs-2.22.2.tgz#bf1d10c9fa9dd1dc574c18d8f4b77fef43d8e7f6"
+  integrity sha512-rPCv7Z5LZebreQaaL4DZuWzoVGEqwB+P7BF1dsefGQNBmLyeLF412topeW2b6e+g4l1oQ7t75kCOACNTEyYYIA==
+  dependencies:
+    codex-notifier "^1.1.2"
+    codex-tooltip "^1.0.2"
+    nanoid "^3.1.22"
+
+"@editorjs/paragraph@^2.8.0":
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/paragraph/-/paragraph-2.8.0.tgz#11cc381fcafaf8b9160517ce65d59eee93fc4af9"
+  integrity sha512-z6w5ZR0ru3p/IjxJW/tb7OcSnVttkZukQMIsnBMX1FIKc1BNdr7NwM1YoCyTl4OnC90YfL0xgES6/20/W267pw==
+
 "@emotion/babel-plugin@^11.3.0":
   version "11.3.0"
   resolved "https://registry.npmjs.org/@emotion/babel-plugin/-/babel-plugin-11.3.0.tgz"
@@ -2810,6 +2824,25 @@
   version "1.1.0"
   resolved "https://registry.npmjs.org/@protobufjs/utf8/-/utf8-1.1.0.tgz"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
+
+"@react-editor-js/client@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@react-editor-js/client/-/client-2.0.3.tgz#b8907987d106fa0f4bbec500dc224f85e4c4a514"
+  integrity sha512-JAH90BCBzkFlW52qIam/nfHbf00CYevh7L8qRmj23LuH220iI12hnAXC+CKDFa5uQzMAvkMnDRQTU8IQKiydOg==
+  dependencies:
+    "@react-editor-js/core" "2.0.3"
+
+"@react-editor-js/core@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@react-editor-js/core/-/core-2.0.3.tgz#adb8f7f39e4079046e4c4e95cbccb17630c7707c"
+  integrity sha512-W2DkOaLHKthQl0ewjOBG+DFqfy552fcbHyhZcEUNJRx5UmxquxjDOj+tREZOhDe6ZLRbAZkH9x4K1TIHcl5VRA==
+
+"@react-editor-js/server@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@react-editor-js/server/-/server-2.0.3.tgz#e73558c49e81a51d337042b0640f7518b56d2fe0"
+  integrity sha512-rmjZFfYEGfS1ZQlYm7+S7RmZCiXu1sSCMUoIyZ0hhGO0uci2f8jn+ugE+pgwhczRHggKtUtAV9S3RU7eLbv3nA==
+  dependencies:
+    "@react-editor-js/core" "2.0.3"
 
 "@react-pdf/font@^2.0.12":
   version "2.0.12"
@@ -5760,6 +5793,16 @@ codepage@~1.14.0:
   dependencies:
     commander "~2.14.1"
     exit-on-epipe "~1.0.1"
+
+codex-notifier@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/codex-notifier/-/codex-notifier-1.1.2.tgz#a733079185f4c927fa296f1d71eb8753fe080895"
+  integrity sha512-DCp6xe/LGueJ1N5sXEwcBc3r3PyVkEEDNWCVigfvywAkeXcZMk9K41a31tkEFBW0Ptlwji6/JlAb49E3Yrxbtg==
+
+codex-tooltip@^1.0.2:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/codex-tooltip/-/codex-tooltip-1.0.4.tgz#bb8c6e0fe7accc68ce79cdcb7c71bf7b4bf1317a"
+  integrity sha512-Ud+N+y8PMIa9xGyKuo2j3q8QlfTzkMWQ5KeRrbCDerwVn7xq45nqPKQCFBXEMV0YI42/OqSMnsxP8MyVAyVhnA==
 
 collect-v8-coverage@^1.0.0:
   version "1.0.1"
@@ -12361,6 +12404,11 @@ nanoclone@^0.2.1:
   resolved "https://registry.npmjs.org/nanoclone/-/nanoclone-0.2.1.tgz"
   integrity sha512-wynEP02LmIbLpcYw8uBKpcfF6dmg2vcpKqxeH5UcoKEYdExslsdUA4ugFauuaeYdTB76ez6gJW8XAZ6CgkXYxA==
 
+nanoid@^3.1.22:
+  version "3.1.30"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.30.tgz#63f93cc548d2a113dc5dfbc63bfa09e2b9b64362"
+  integrity sha512-zJpuPDwOv8D2zq2WRoMe1HsfZthVewpel9CAvTfc/2mBD1uUT/agc5f7GHGWXlYkFvi1mVxe4IjvP2HNrop7nQ==
+
 nanoid@^3.1.23:
   version "3.1.23"
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.1.23.tgz"
@@ -14583,6 +14631,14 @@ react-dropzone@^11.3.4:
     attr-accept "^2.2.1"
     file-selector "^0.2.2"
     prop-types "^15.7.2"
+
+react-editor-js@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-editor-js/-/react-editor-js-2.0.3.tgz#e41cbdb086cb8696dd9c4fc46e73bedb914b0a8a"
+  integrity sha512-pq6A1EOf8sP9iShecnBIuFwcjvOsTlJ0zQ+OwsqzvWyYXScQOsEHKfvY/pUXTmreYf0f6FYmUD6pWrCBT52oLg==
+  dependencies:
+    "@react-editor-js/client" "2.0.3"
+    "@react-editor-js/server" "2.0.3"
 
 react-error-overlay@^6.0.9:
   version "6.0.9"

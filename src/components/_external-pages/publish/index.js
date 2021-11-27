@@ -13,18 +13,38 @@ import {
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import ResidentialSection from './ResidentialSection';
 import CommercialSection from './CommercialSection';
 import { multipleFilesSave } from '../../../utils/document';
 import { isFile } from '../../../utils/type_check';
 
 import { useDispatch } from 'react-redux';
-import { createRealEstate, editRealEstate } from '../../../utils/real_estate/realEstate.thunks';
+import { createRealEstate, editRealEstate } from '../../../redux/slices/realEstate.thunks';
 import { useSnackbar } from 'notistack5';
 import { useNavigate } from 'react-router-dom';
 import { PATH_PAGE } from '../../../routes/paths';
 import useAuth from '../../../hooks/useAuth';
+import { createReactEditorJS } from 'react-editor-js';
+import { styled } from '@material-ui/styles';
+
+const EditorJs = createReactEditorJS();
+
+const EditorContainer = styled('div')(({ theme, issues }) => ({
+  borderColor: issues==='true' ? 'red' : '#e7e7e7',
+  borderWidth: 1,
+  borderStyle: 'solid',
+  borderRadius: 10,
+  '&:hover': {
+    borderColor:  issues==='true' ? 'red' :'green'
+  }
+}));
+
+const EditorErrorHelper = styled('small')({
+  fontSize: 12,
+  color: 'red',
+  paddingLeft: 20
+});
 
 export default function Publish({ selected }) {
   const { user } = useAuth();
@@ -33,6 +53,18 @@ export default function Publish({ selected }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
+
+  const editorJs = useRef();
+
+  const handleInitialize = useCallback((instance) => {
+    editorJs.current = instance;
+  }, []);
+
+
+  const handleSave = useCallback(async () => {
+    return await editorJs.current.save();
+  }, []);
+
 
   const schema = Yup.object().shape({
     name: Yup.string().required('Le nom est requis'),
@@ -160,7 +192,7 @@ export default function Publish({ selected }) {
         };
       }
 
-      console.log(data);
+      // console.log(data);
 
       const filesToUpload = files.filter(one => isFile(one));
 
@@ -177,7 +209,7 @@ export default function Publish({ selected }) {
           owner: {
             id: user?.id,
             displayName: user?.displayName,
-            photoURL: user?.photoURL
+            photoURL: user?.photoURL || null
           }
         };
 
@@ -198,6 +230,10 @@ export default function Publish({ selected }) {
 
       });
 
+      const result = await handleSave();
+      console.log('---');
+      console.log(result);
+
     }
   });
 
@@ -215,11 +251,11 @@ export default function Publish({ selected }) {
   const handleDrop = useCallback(
     (acceptedFiles) => {
       const files = values.files || [];
-      const newFiles = acceptedFiles?.map(one=>{
-        return Object.assign(one,{
+      const newFiles = acceptedFiles?.map(one => {
+        return Object.assign(one, {
           preview: URL.createObjectURL(one)
-        })
-      })
+        });
+      });
       setFieldValue('files', uniqBy([...files, ...newFiles], 'name'));
     },
     [setFieldValue, values.files]
@@ -402,6 +438,24 @@ export default function Publish({ selected }) {
               helperText={touched.description && errors.description}
               {...getFieldProps('description')}
             />
+
+            <div hidden>
+              <EditorContainer issues={Boolean(touched.description && errors.description).toString()}>
+                <EditorJs
+                  onInitialize={handleInitialize}
+                  placeholder={'Description'}
+
+                />
+              </EditorContainer>
+              {
+                Boolean(touched.description && errors.description) && (
+                  <EditorErrorHelper>
+                    {errors.description}
+                  </EditorErrorHelper>
+                )
+              }
+            </div>
+
 
 
             <UploadMultiFile

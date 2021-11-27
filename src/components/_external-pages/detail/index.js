@@ -18,7 +18,7 @@ import useAuth from '../../../hooks/useAuth';
 import { useMemo, useState } from 'react';
 import { useDispatch } from '../../../redux/store';
 import { PATH_AUTH } from '../../../routes/paths';
-import { changeBookMarkState } from '../../../utils/real_estate/realEstate.thunks';
+import { changeBookMarkState } from '../../../redux/slices/realEstate.thunks';
 // import FavoriteIcon from '@mui/icons-material/Favorite';
 // import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 

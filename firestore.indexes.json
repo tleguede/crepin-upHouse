@@ -1,0 +1,33 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "realEstate",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "bookmarkedByIds",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "realEstate",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "owner.id",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "createdAt",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
