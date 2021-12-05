@@ -11,8 +11,6 @@ import { createFirestoreInstance } from 'redux-firestore';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 // ----------------------------------------------------------------------
 
-const ADMIN_EMAILS = ['demo@minimals.cc'];
-
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
@@ -204,7 +202,7 @@ function AuthProvider({ children }) {
           email: auth.email,
           photoURL: auth.photoURL || profile?.photoURL,
           displayName: auth.displayName || profile?.displayName,
-          role: ADMIN_EMAILS.includes(auth.email) ? 'admin' : 'user',
+          role: profile?.isAdmin  ? 'admin' : 'user',
           isAdmin: profile?.isAdmin || false,
           phoneNumber: auth.phoneNumber || profile?.phoneNumber || '',
           country: profile?.country || '',

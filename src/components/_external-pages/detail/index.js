@@ -8,7 +8,7 @@ import {
   Typography
 } from '@material-ui/core';
 import CarouselThumbnail from '../../carousel/CarouselThumbnail';
-import { Favorite, FavoriteBorder, } from '@material-ui/icons';
+import { Favorite, FavoriteBorder } from '@material-ui/icons';
 import { fNumber } from '../../../utils/formatNumber';
 import { LoadingButton } from '@material-ui/lab';
 import useToggle from '../../../hooks/useToggle';
@@ -17,7 +17,7 @@ import { useMemo, useState } from 'react';
 import { useDispatch } from '../../../redux/store';
 import { changeBookMarkState } from '../../../redux/slices/realEstate.thunks';
 import FavoriteAskLogin from '../FavoriteAskLogin';
-import {  isString, isArray } from 'lodash';
+import { isString, isArray } from 'lodash';
 import { Icon } from '@iconify/react';
 // import FavoriteIcon from '@mui/icons-material/Favorite';
 // import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -27,11 +27,12 @@ import bxsParking from '@iconify/icons-bx/bxs-parking';
 import areaCustom from '@iconify/icons-carbon/area-custom';
 import { REAL_ESTATE_STATE } from '../../../constant';
 import DetailIAmInteressed from './DetailIAmInteressed';
+import DetailStateSwitcher from './DetailStateSwitcher';
 
 const SIZE = { height: 50, width: 50 };
 
-const Item=({icon,label})=>{
-  return(
+const Item = ({ icon, label }) => {
+  return (
     <Container sx={{
       borderRadius: 1,
       borderWidth: 1,
@@ -44,18 +45,18 @@ const Item=({icon,label})=>{
         <Icon icon={icon} {...SIZE} />
 
         <Stack direction={'column'} justifyContent={'center'}>
-          <Typography variant={'body'} sx={{pl:1,}}>
+          <Typography variant={'body'} sx={{ pl: 1 }}>
             {label}
           </Typography>
         </Stack>
 
       </Stack>
     </Container>
-  )
-}
+  );
+};
 
 export default function Detail({ selected }) {
-  const { isAuthenticated, user: { id } } = useAuth();
+  const { isAuthenticated, user: { id, isAdmin } } = useAuth();
   const dispatch = useDispatch();
   const { handleOpen, open, handleClose } = useToggle();
   const { handleOpen: handleOpenFavorite, open: openFavorite, handleClose: handleCloseFavorite } = useToggle();
@@ -112,10 +113,17 @@ export default function Detail({ selected }) {
               {isFavorite ? <Favorite /> : <FavoriteBorder />}
             </LoadingButton>
             <Button variant={'outlined'} color={'error'} onClick={handleOpen}
-                    disabled={selected?.state!==REAL_ESTATE_STATE.VALIDATED}
+                    disabled={selected?.state !== REAL_ESTATE_STATE.VALIDATED}
             >
               Je suis interesse
             </Button>
+
+            {
+              isAdmin && (
+                <DetailStateSwitcher item={selected} />
+              )
+            }
+
           </Stack>
         </Stack>
 
@@ -161,7 +169,7 @@ export default function Detail({ selected }) {
         <Grid container spacing={2}>
 
           {
-            (selected?.features?.numberOfRoom)  && (
+            (selected?.features?.numberOfRoom) && (
               <Grid item sm={12} md={3}>
                 <Item
                   icon={outlineBedroomParent}
@@ -173,7 +181,7 @@ export default function Detail({ selected }) {
 
 
           {
-            (selected?.features?.numberOfBathRoom)  && (
+            (selected?.features?.numberOfBathRoom) && (
               <Grid item sm={12} md={3}>
                 <Item
                   icon={bathroomIcon}
@@ -185,7 +193,7 @@ export default function Detail({ selected }) {
           }
 
           {
-            (selected?.features?.numberOfParking)  && (
+            (selected?.features?.numberOfParking) && (
               <Grid item sm={12} md={3}>
                 <Item
                   icon={bxsParking}
@@ -205,7 +213,6 @@ export default function Detail({ selected }) {
               </Grid>
             )
           }
-
 
 
         </Grid>
@@ -233,7 +240,7 @@ export default function Detail({ selected }) {
           multiline
           minRows={5}
           value={selected?.description}
-          />
+        />
 
 
         <Divider />
@@ -247,7 +254,7 @@ export default function Detail({ selected }) {
             {`${selected?.transactionType}  -  ${fNumber(selected?.cost)} CFA`}
           </Typography>
           <Button variant={'outlined'} color={'error'} onClick={handleOpen}
-                  disabled={selected?.state!==REAL_ESTATE_STATE.VALIDATED}
+                  disabled={selected?.state !== REAL_ESTATE_STATE.VALIDATED}
 
           >
             Je suis interesse
@@ -256,7 +263,7 @@ export default function Detail({ selected }) {
 
       </Stack>
 
-      <DetailIAmInteressed selected={selected} open={open} onclose={handleClose}/>
+      <DetailIAmInteressed selected={selected} open={open} onclose={handleClose} />
 
       <FavoriteAskLogin open={openFavorite} onClose={handleCloseFavorite} />
     </>

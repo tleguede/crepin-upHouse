@@ -10,6 +10,7 @@ import AuthGuard from '../guards/AuthGuard';
 // import RoleBasedGuard from '../guards/RoleBasedGuard';
 // components
 import LoadingScreen from '../components/LoadingScreen';
+import AdminGuard from '../guards/AdminGuard';
 
 // ----------------------------------------------------------------------
 
@@ -72,19 +73,21 @@ export default function Router() {
       path: 'dashboard',
       element: (
         <AuthGuard>
-          <DashboardLayout />
+          <AdminGuard>
+            <DashboardLayout />
+          </AdminGuard>
         </AuthGuard>
       ),
       children: [
-        { path: '/', element: <Navigate to="/dashboard/post_validation" replace /> },
-        { path: '/post_validation', element: <AdminPostValidation/> },
-        { path: '/call_request', element: <AdminCallRequest/> },
+        { path: '/', element: <Navigate to='/dashboard/post_validation' replace /> },
+        { path: '/post_validation', element: <AdminPostValidation /> },
+        { path: '/call_request', element: <AdminCallRequest /> },
 
 
         {
           path: 'user',
           children: [
-            { path: '/', element: <Navigate to="/dashboard/user/profile" replace /> },
+            { path: '/', element: <Navigate to='/dashboard/user/profile' replace /> },
             { path: 'profile', element: <UserProfile /> },
             { path: 'cards', element: <UserCards /> },
             { path: 'list', element: <UserList /> },
@@ -92,7 +95,7 @@ export default function Router() {
             { path: '/:name/edit', element: <UserCreate /> },
             { path: 'account', element: <UserAccount /> }
           ]
-        },
+        }
 
       ]
     },
@@ -108,7 +111,7 @@ export default function Router() {
         { path: 'payment', element: <Payment /> },
         { path: '500', element: <Page500 /> },
         { path: '404', element: <NotFound /> },
-        { path: '*', element: <Navigate to="/404" replace /> }
+        { path: '*', element: <Navigate to='/404' replace /> }
       ]
     },
     {
@@ -120,11 +123,11 @@ export default function Router() {
         { path: '/my_favorites', element: <MyFavorites /> },
         { path: '/my_posts', element: <MyPosts /> },
         { path: '/my_posts/edit/:id', element: <Publish /> },
-        { path: '/publish', element: <Publish /> },
+        { path: '/publish', element: <Publish /> }
 
       ]
     },
-    { path: '*', element: <Navigate to="/404" replace /> }
+    { path: '*', element: <Navigate to='/404' replace /> }
   ]);
 }
 
@@ -155,7 +158,6 @@ const Publish = Loadable(lazy(() => import('../pages/PublishPage')));
 
 const AdminPostValidation = Loadable(lazy(() => import('../pages/AdminPostValidation')));
 const AdminCallRequest = Loadable(lazy(() => import('../pages/AdminCallRequest')));
-
 
 
 const ComingSoon = Loadable(lazy(() => import('../pages/ComingSoon')));

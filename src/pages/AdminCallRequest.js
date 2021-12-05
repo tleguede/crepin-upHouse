@@ -2,11 +2,15 @@
 import { styled } from '@material-ui/core/styles';
 // components
 import Page from '../components/Page';
-import { Container, IconButton } from '@material-ui/core';
+import { Checkbox, Container, IconButton } from '@material-ui/core';
 import HeaderBreadcrumbs from '../components/HeaderBreadcrumbs';
 import EnhancedDataGrid from '../components/enhanced-data-grid';
 import { fDate } from '../utils/formatTime';
 import LinkIcon from '@material-ui/icons/Link';
+import useCallRequest from '../hooks/useCallRequest';
+import { useDispatch } from '../redux/store';
+import { useState } from 'react';
+import { editCallRequest } from '../redux/slices/callRequest.thunks';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)({
@@ -17,33 +21,48 @@ const ContentStyle = styled(Container)(({ theme }) => ({}));
 
 // ----------------------------------------------------------------------
 
-const thead = [
-  { id: 'username', label: 'Utilisateur' },
-  { id: 'phoneNumber', label: 'Numero' },
-  { id: 'state', label: 'Etat' },
-  { id: 'link', label: 'Lien',
-    render:link=>(
-      <IconButton href={link}>
-        <LinkIcon/>
-      </IconButton>
-    )
-  },
-  { id: 'createdAt', label: '...' ,
-    render:date=>fDate(date)
-  }
-
-];
-const data = [
-  {
-    id: 'adfasdf',
-    username: 'Random User',
-    phoneNumber: '00030003000',
-    state: 'Non contacter',
-    link: '/detail/asdf4w4fq34rwqef',
-    createdAt: new Date()
-  }
-];
 export default function AdminCallRequest() {
+  const dispatch = useDispatch();
+  const { loading, calls } = useCallRequest();
+  const [editLoading, setEditLoading] = useState(false);
+
+  const handleChange = change => {
+    setEditLoading(true);
+    dispatch(editCallRequest(change, () => {
+      setEditLoading(false);
+    }));
+  };
+
+  const thead = [
+    { id: 'displayName', label: 'Utilisateur' },
+    { id: 'phoneNumber', label: 'Numero' },
+    {
+      id: 'realEstateId', label: 'Lien',
+      render: id => (
+        <IconButton href={`/detail/${id}`}>
+          <LinkIcon />
+        </IconButton>
+      )
+    },
+    {
+      id: 'createdAt', label: 'Le',
+      render: date => date ? fDate(date?.toDate()) : ''
+    },
+    {
+      id: 'isDone', label: 'Fait',
+      render: (isDone, { id }) => (
+        <Checkbox
+          disabled={editLoading}
+          checked={isDone||false}
+          onChange={(event, checked) => handleChange({ id, isDone: checked })}
+        />
+      )
+
+    }
+
+  ];
+
+
   return (
     <RootStyle title='upHouse' id='move_top'>
       <ContentStyle maxWidth={'lg'}>
@@ -56,7 +75,8 @@ export default function AdminCallRequest() {
         />
         <EnhancedDataGrid
           columns={thead}
-          data={data}
+          data={calls}
+          loading={loading}
         />
 
       </ContentStyle>

@@ -1,4 +1,4 @@
-import { IconButton, List, MenuItem, Popover } from '@material-ui/core';
+import {  List, MenuItem, Popover } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import useToggle from '../../../hooks/useToggle';
 import { useRef, useState } from 'react';
@@ -9,6 +9,7 @@ import { useDispatch } from '../../../redux/store';
 import { deleteRealEstate, editRealEstate } from '../../../redux/slices/realEstate.thunks';
 import { useSnackbar } from 'notistack5';
 import { REAL_ESTATE_STATE } from '../../../constant';
+import { LoadingButton } from '@material-ui/lab';
 
 export default function RealEstateItemMenu({ item, isMyPosts, isAdminValidator, isInValidation }) {
   const anchor = useRef();
@@ -52,9 +53,9 @@ export default function RealEstateItemMenu({ item, isMyPosts, isAdminValidator, 
 
   return (
     <>
-      <IconButton onClick={handleOpen} ref={anchor}>
+      <LoadingButton loading={loading} onClick={handleOpen} ref={anchor}>
         <MoreVertIcon />
-      </IconButton>
+      </LoadingButton>
 
       <Popover
         open={open} onClose={handleClose} anchorEl={anchor.current}
