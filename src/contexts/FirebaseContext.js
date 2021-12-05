@@ -13,21 +13,18 @@ import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 
 const ADMIN_EMAILS = ['demo@minimals.cc'];
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-  firebase.firestore();
-}
+firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 const storage = firebase.storage();
 const firestore = firebase.firestore();
 const realtimeDb = firebase.database();
 
-if (window.location.hostname === "localhost") {
+if (window.location.hostname === 'localhost') {
   auth.useEmulator('http://localhost:9099/');
-  storage.useEmulator('localhost',9199);
-  firestore.useEmulator('localhost',8080);
-  realtimeDb.useEmulator('localhost',9000);
+  storage.useEmulator('localhost', 9199);
+  firestore.useEmulator('localhost', 8080);
+  realtimeDb.useEmulator('localhost', 9000);
 }
 
 const initialState = {
@@ -110,21 +107,66 @@ function AuthProvider({ children }) {
     [dispatch]
   );
 
-  const login = (email, password) => firebase.auth().signInWithEmailAndPassword(email, password);
+  const logUserProfile = ({ email, uid, displayName, photoURL,firstName,lastName }) => {
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(uid)
+      .set({
+        uid,
+        email,
+        photoURL: photoURL || null,
+        displayName: displayName || `${firstName} ${lastName}`
+      }).catch(error=>console.log(error))
+  };
+
+  const login = (email, password) => {
+    return firebase.auth().signInWithEmailAndPassword(email, password);
+  };
 
   const loginWithGoogle = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
-    return firebase.auth().signInWithPopup(provider);
-  };
+    return new Promise((resolve, reject) => {
+      firebase.auth().signInWithPopup(provider)
+        .then(result=> {
+          logUserProfile({ ...result.user });
+          resolve(result)
+        })
+        .catch(reason => reject(reason))
+    })  };
 
   const loginWithFaceBook = () => {
     const provider = new firebase.auth.FacebookAuthProvider();
-    return firebase.auth().signInWithPopup(provider);
-  };
+    return new Promise((resolve, reject) => {
+      firebase.auth().signInWithPopup(provider)
+        .then(result=> {
+          logUserProfile({ ...result.user });
+          resolve(result)
+        })
+        .catch(reason => reject(reason))
+    })  };
 
   const loginWithTwitter = () => {
     const provider = new firebase.auth.TwitterAuthProvider();
-    return firebase.auth().signInWithPopup(provider);
+    return new Promise((resolve, reject) => {
+      firebase.auth().signInWithPopup(provider)
+        .then(result=> {
+          logUserProfile({ ...result.user });
+          resolve(result)
+        })
+        .catch(reason => reject(reason))
+    })  };
+
+  const loginWithPhone = () => {
+    const provider = new firebase.auth.PhoneAuthProvider();
+    return new Promise((resolve, reject) => {
+      firebase.auth().signInWithPopup(provider)
+        .then(result=> {
+          logUserProfile({ ...result.user });
+          resolve(result)
+        })
+        .catch(reason => reject(reason))
+    })
   };
 
   const register = (email, password, firstName, lastName) =>
@@ -132,15 +174,13 @@ function AuthProvider({ children }) {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then((res) => {
-        firebase
-          .firestore()
-          .collection('users')
-          .doc(res.user.uid)
-          .set({
-            uid: res.user.uid,
-            email,
-            displayName: `${firstName} ${lastName}`
-          });
+
+        logUserProfile({
+          ...res.user,
+          firstName,
+          lastName
+        })
+
       });
 
   const logout = async () => {
@@ -153,6 +193,7 @@ function AuthProvider({ children }) {
 
   const auth = { ...state.user };
 
+
   return (
     <AuthContext.Provider
       value={{
@@ -164,6 +205,7 @@ function AuthProvider({ children }) {
           photoURL: auth.photoURL || profile?.photoURL,
           displayName: auth.displayName || profile?.displayName,
           role: ADMIN_EMAILS.includes(auth.email) ? 'admin' : 'user',
+          isAdmin: profile?.isAdmin || false,
           phoneNumber: auth.phoneNumber || profile?.phoneNumber || '',
           country: profile?.country || '',
           address: profile?.address || '',
@@ -178,6 +220,7 @@ function AuthProvider({ children }) {
         loginWithGoogle,
         loginWithFaceBook,
         loginWithTwitter,
+        loginWithPhone,
         logout,
         resetPassword
       }}
@@ -190,6 +233,4 @@ function AuthProvider({ children }) {
 }
 
 
-
-
-export { AuthContext, AuthProvider, storage, firestore,auth,realtimeDb };
+export { AuthContext, AuthProvider, storage, firestore, auth, realtimeDb };

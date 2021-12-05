@@ -1,12 +1,12 @@
 import {
-  Checkbox, Collapse, Grid,
+  Checkbox, Collapse, Grid, MenuItem,
   Radio, Stack, TextField, Typography
 } from '@material-ui/core';
 import { values as _values } from 'lodash';
 import {
-  ACCOMMODATION_TYPE, AGRICULTURAL_TYPE,
-   BUSINESS_TYPE, COMMERCIAL_BUILDING_OTHER, COMMERCIAL_TYPE, LAND_TYPE,
-   OTHER_CRITERION,
+  ACCOMMODATION_TYPE, AGRICULTURAL_TYPE, AREA_UNIT,
+  BUSINESS_TYPE, COMMERCIAL_BUILDING_OTHER, COMMERCIAL_TYPE, LAND_TYPE,
+  OTHER_CRITERION
 } from '../../../constant';
 import { equalsEither } from '../../../utils/type_check';
 import { useMemo } from 'react';
@@ -33,22 +33,16 @@ export default function CommercialSection({ formik, handleListChange }) {
   const openBuildingBox = useMemo(() => {
     return !equalsEither(values.type, [
       COMMERCIAL_TYPE.BUSINESS,
-      COMMERCIAL_TYPE.LAND,
+      COMMERCIAL_TYPE.LAND
     ]);
   }, [values.type]);
 
-  const openAreaBox = useMemo(() => {
-    return !equalsEither(values.type, [
-      COMMERCIAL_TYPE.ACCOMMODATION,
-      COMMERCIAL_TYPE.AGRICULTURAL,
-    ]);
-  }, [values.type]);
 
   const openCriterionAreaBox = useMemo(() => {
     return equalsEither(values.type, [
       COMMERCIAL_TYPE.MULTI_FAMILIAL,
       COMMERCIAL_TYPE.ACCOMMODATION,
-      COMMERCIAL_TYPE.BUSINESS,
+      COMMERCIAL_TYPE.BUSINESS
     ]);
   }, [values.type]);
 
@@ -72,7 +66,7 @@ export default function CommercialSection({ formik, handleListChange }) {
                       <Grid item xs={6} key={one}>
                         <Stack direction={'row'} spacing={2}>
                           <Radio
-                            checked={values._featureType===one}
+                            checked={values._featureType === one}
                             onChange={(event, checked) => {
                               setFieldValue('_featureType', values._featureType === one ? null : one);
                             }}
@@ -96,7 +90,7 @@ export default function CommercialSection({ formik, handleListChange }) {
                       <Grid item xs={6} key={one}>
                         <Stack direction={'row'} spacing={2}>
                           <Radio
-                            checked={values._featureType===one}
+                            checked={values._featureType === one}
                             onChange={(event, checked) => {
                               setFieldValue('_featureType', values._featureType === one ? null : one);
                             }}
@@ -120,7 +114,7 @@ export default function CommercialSection({ formik, handleListChange }) {
                       <Grid item xs={6} key={one}>
                         <Stack direction={'row'} spacing={2}>
                           <Radio
-                            checked={values._featureType===one}
+                            checked={values._featureType === one}
                             onChange={(event, checked) => {
                               setFieldValue('_featureType', values._featureType === one ? null : one);
                             }}
@@ -144,7 +138,7 @@ export default function CommercialSection({ formik, handleListChange }) {
                       <Grid item xs={6} key={one}>
                         <Stack direction={'row'} spacing={2}>
                           <Radio
-                            checked={values._featureType===one}
+                            checked={values._featureType === one}
                             onChange={(event, checked) => {
                               setFieldValue('_featureType', values._featureType === one ? null : one);
                             }}
@@ -171,39 +165,6 @@ export default function CommercialSection({ formik, handleListChange }) {
           <Typography variant={'subtitle1'}>
             Bâtiment
           </Typography>
-
-          <Collapse in={openAreaBox}>
-          <Grid item xs={12}>
-            <Grid container spacing={1}>
-
-              <Grid item xs={12}>
-                <Typography variant={'body1'}>
-                  Superficie commerciale disponible
-                </Typography>
-              </Grid>
-
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  label={'Min'}
-                  type={'number'}
-                  error={Boolean(touched._commercialAreaMin && errors._commercialAreaMin)}
-                  helperText={touched._commercialAreaMin && errors._commercialAreaMin}
-                  {...getFieldProps('_commercialAreaMin')}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  label={'Max'}
-                  error={Boolean(touched._commercialAreaMax && errors._commercialAreaMax)}
-                  helperText={touched._commercialAreaMax && errors._commercialAreaMax}
-                  {...getFieldProps('_commercialAreaMax')}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-          </Collapse>
 
           <Grid container spacing={1}>
             {
@@ -246,22 +207,33 @@ export default function CommercialSection({ formik, handleListChange }) {
               <Grid item xs={6}>
                 <TextField
                   fullWidth
-                  label={'Min'}
+                  label={'digit'}
                   type={'number'}
-                  error={Boolean(touched._areaMin && errors._areaMin)}
-                  helperText={touched._areaMin && errors._areaMin}
-                  {...getFieldProps('_areaMin')}
+                  error={Boolean(touched.area && errors.area)}
+                  helperText={touched.area && errors.area}
+                  {...getFieldProps('area')}
                 />
               </Grid>
+
               <Grid item xs={6}>
                 <TextField
                   fullWidth
-                  label={'Max'}
-                  error={Boolean(touched._areaMax && errors._areaMax)}
-                  helperText={touched._areaMax && errors._areaMax}
-                  {...getFieldProps('_areaMax')}
-                />
+                  select
+                  label={'unit'}
+                  error={Boolean(touched.areaUnit && errors.areaUnit)}
+                  helperText={touched.areaUnit && errors.areaUnit}
+                  {...getFieldProps('areaUnit')}
+                >
+                  {
+                    _values(AREA_UNIT).map(one => (
+                      <MenuItem key={one} value={one}>
+                        {one}
+                      </MenuItem>
+                    ))
+                  }
+                </TextField>
               </Grid>
+
             </Grid>
           </Grid>
 

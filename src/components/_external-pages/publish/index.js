@@ -6,14 +6,15 @@ import { UploadMultiFile } from '../../upload';
 import { LoadingButton } from '@material-ui/lab';
 import { values as _values, uniqBy, isEqual } from 'lodash';
 import {
+  AREA_UNIT,
   COMMERCIAL_TYPE, PAYMENT_RHYTHM,
   REAL_ESTATE_CATEGORY, REAL_ESTATE_STATE,
-  RESIDENCE_TYPE
+  RESIDENCE_TYPE, TRANSACTION_TYPE
 } from '../../../constant';
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useMemo } from 'react';
 import ResidentialSection from './ResidentialSection';
 import CommercialSection from './CommercialSection';
 import { multipleFilesSave } from '../../../utils/document';
@@ -25,26 +26,7 @@ import { useSnackbar } from 'notistack5';
 import { useNavigate } from 'react-router-dom';
 import { PATH_PAGE } from '../../../routes/paths';
 import useAuth from '../../../hooks/useAuth';
-import { createReactEditorJS } from 'react-editor-js';
-import { styled } from '@material-ui/styles';
-
-const EditorJs = createReactEditorJS();
-
-const EditorContainer = styled('div')(({ theme, issues }) => ({
-  borderColor: issues==='true' ? 'red' : '#e7e7e7',
-  borderWidth: 1,
-  borderStyle: 'solid',
-  borderRadius: 10,
-  '&:hover': {
-    borderColor:  issues==='true' ? 'red' :'green'
-  }
-}));
-
-const EditorErrorHelper = styled('small')({
-  fontSize: 12,
-  color: 'red',
-  paddingLeft: 20
-});
+import ErrorHelper from '../../ErrorHelper';
 
 export default function Publish({ selected }) {
   const { user } = useAuth();
@@ -54,22 +36,14 @@ export default function Publish({ selected }) {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
-  const editorJs = useRef();
 
-  const handleInitialize = useCallback((instance) => {
-    editorJs.current = instance;
-  }, []);
-
-
-  const handleSave = useCallback(async () => {
-    return await editorJs.current.save();
-  }, []);
 
 
   const schema = Yup.object().shape({
     name: Yup.string().required('Le nom est requis'),
     description: Yup.string().required('La description est requise'),
-    files: Yup.array().min(1, 'Ajouter au moins une image')
+    cost: Yup.number().required('Le prix est requis'),
+    files: Yup.array().min(1, 'Ajouter au moins une image'),
   });
 
   const formik = useFormik({
@@ -81,11 +55,12 @@ export default function Publish({ selected }) {
       category: selected?.category || REAL_ESTATE_CATEGORY.RESIDENTIAL,
       type: selected?.type || RESIDENCE_TYPE.SINGLE_FAMILY_HOME,
       files: selected?.images?.map(one => ({ ...one, preview: one?.url })) || [],
+      transactionType: selected?.transactionType||TRANSACTION_TYPE.RENT,
       cost: selected?.cost || 0,
       paymentRhythm: selected?.paymentRhythm || PAYMENT_RHYTHM.PER_MONTH,
 
-      _areaMax: selected?.area?.max || 0,
-      _areaMin: selected?.area?.min || 0,
+      area: selected?.area || 0,
+      areaUnit: selected?.areaUnit || AREA_UNIT.MC,
 
 
       //residential
@@ -101,8 +76,6 @@ export default function Publish({ selected }) {
 
       //commercial
       _featureType: selected?.features?.featureType || null,
-      _commercialAreaMax: selected?.features?.commercialArea?.max || 0,
-      _commercialAreaMin: selected?.features?.commercialArea?.min || 0,
       _buildingOtherCriterion: selected?.features?.buildingOtherCriterion || []
 
 
@@ -143,14 +116,11 @@ export default function Publish({ selected }) {
       const residential = {
         ...rest,
         searchHelper,
-        area: {
-          max: _areaMax,
-          min: _areaMin
-        },
         features: {
           numberOfRoom: _numberOfRoom === '' ? null : _numberOfRoom,
           numberOfBathRoom: _numberOfBathRoom === '' ? null : _numberOfBathRoom,
           numberOfHangar: _numberOfHangar === '' ? null : _numberOfHangar,
+          numberOfParking: _numberOfParking === '' ? null : _numberOfParking,
           otherFeature: _residentialOtherFeature,
           building: _building,
           plexType: _plexType === '' ? null : _plexType,
@@ -161,17 +131,9 @@ export default function Publish({ selected }) {
       const commercial = {
         ...rest,
         searchHelper,
-        area: {
-          max: _areaMax,
-          min: _areaMin
-        },
         features: {
           featureType: _featureType === '' ? null : _featureType,
           buildingOtherCriterion: _buildingOtherCriterion,
-          commercialArea: {
-            max: _commercialAreaMax,
-            min: _commercialAreaMin
-          }
         }
       };
 
@@ -223,6 +185,7 @@ export default function Publish({ selected }) {
           navigate(PATH_PAGE.myPosts);
         };
 
+
         isEdit
           ? dispatch(editRealEstate(finalData, callback))
           : dispatch(createRealEstate(finalData, callback));
@@ -230,9 +193,6 @@ export default function Publish({ selected }) {
 
       });
 
-      const result = await handleSave();
-      console.log('---');
-      console.log(result);
 
     }
   });
@@ -389,6 +349,25 @@ export default function Publish({ selected }) {
 
               <Grid item xs={12} md={6}>
                 <TextField
+                  select
+                  label={'Type de transaction'}
+                  fullWidth
+                  error={Boolean(touched.transactionType && errors.transactionType)}
+                  helperText={touched.transactionType && errors.transactionType}
+                  {...getFieldProps('transactionType')}
+                >
+                  {
+                    _values(TRANSACTION_TYPE).map(one => (
+                      <MenuItem key={one} value={one}>
+                        {one}
+                      </MenuItem>
+                    ))
+                  }
+                </TextField>
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <TextField
                   label={'Coût'}
                   type={'number'}
                   fullWidth
@@ -396,26 +375,6 @@ export default function Publish({ selected }) {
                   helperText={touched.cost && errors.cost}
                   {...getFieldProps('cost')}
                 />
-              </Grid>
-
-              <Grid item xs={12} md={6}>
-                <TextField
-                  select
-                  label={'Rythme de paiement'}
-                  type={'number'}
-                  fullWidth
-                  error={Boolean(touched.paymentRhythm && errors.paymentRhythm)}
-                  helperText={touched.paymentRhythm && errors.paymentRhythm}
-                  {...getFieldProps('paymentRhythm')}
-                >
-                  {
-                    _values(PAYMENT_RHYTHM).map(one => (
-                      <MenuItem key={one} value={one}>
-                        {one}
-                      </MenuItem>
-                    ))
-                  }
-                </TextField>
               </Grid>
 
             </Grid>
@@ -439,23 +398,6 @@ export default function Publish({ selected }) {
               {...getFieldProps('description')}
             />
 
-            <div hidden>
-              <EditorContainer issues={Boolean(touched.description && errors.description).toString()}>
-                <EditorJs
-                  onInitialize={handleInitialize}
-                  placeholder={'Description'}
-
-                />
-              </EditorContainer>
-              {
-                Boolean(touched.description && errors.description) && (
-                  <EditorErrorHelper>
-                    {errors.description}
-                  </EditorErrorHelper>
-                )
-              }
-            </div>
-
 
 
             <UploadMultiFile
@@ -466,11 +408,16 @@ export default function Publish({ selected }) {
               onRemove={handleRemove}
               onRemoveAll={handleRemoveAll}
               error={Boolean(touched.files && errors.files)}
+              helperText={touched.files && errors.files}
 
             />
 
+
+            <ErrorHelper error={touched.files && errors.files}/>
+
+
             <LoadingButton type={'submit'} variant={'contained'} style={{ width: 200 }} loading={isSubmitting}>
-              Créer
+              {isEdit? 'Editer':'Créer'}
             </LoadingButton>
 
           </Stack>

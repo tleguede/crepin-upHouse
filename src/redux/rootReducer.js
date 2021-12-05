@@ -10,6 +10,7 @@ import productReducer from './slices/product';
 import calendarReducer from './slices/calendar';
 import kanbanReducer from './slices/kanban';
 import { firestoreReducer } from 'redux-firestore';
+import realEstateReducer from './slices/realEstate.slice';
 
 // ----------------------------------------------------------------------
 
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   calendar: calendarReducer,
   kanban: kanbanReducer,
+  realEstate: realEstateReducer,
   product: persistReducer(productPersistConfig, productReducer)
 });
 

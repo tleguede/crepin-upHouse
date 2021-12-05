@@ -4,6 +4,7 @@ import {
 } from '@material-ui/core';
 import { values as _values } from 'lodash';
 import {
+  AREA_UNIT,
   BUILDING_TYPE,
   NUMBER_OF_BATHROOM,
   NUMBER_OF_HANGAR,
@@ -224,22 +225,33 @@ export default function ResidentialSection({ formik, handleListChange }) {
             <Grid item xs={6}>
               <TextField
                 fullWidth
-                label={'Min'}
+                label={'digit'}
                 type={'number'}
-                error={Boolean(touched._areaMin && errors._areaMin)}
-                helperText={touched._areaMin && errors._areaMin}
-                {...getFieldProps('_areaMin')}
+                error={Boolean(touched.area && errors.area)}
+                helperText={touched.area && errors.area}
+                {...getFieldProps('area')}
               />
             </Grid>
+
             <Grid item xs={6}>
               <TextField
                 fullWidth
-                label={'Max'}
-                error={Boolean(touched._areaMax && errors._areaMax)}
-                helperText={touched._areaMax && errors._areaMax}
-                {...getFieldProps('_areaMax')}
-              />
+                select
+                label={'unit'}
+                error={Boolean(touched.areaUnit && errors.areaUnit)}
+                helperText={touched.areaUnit && errors.areaUnit}
+                {...getFieldProps('areaUnit')}
+              >
+                {
+                  _values(AREA_UNIT).map(one => (
+                    <MenuItem key={one} value={one}>
+                      {one}
+                    </MenuItem>
+                  ))
+                }
+              </TextField>
             </Grid>
+
           </Grid>
         </Grid>
 

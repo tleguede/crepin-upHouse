@@ -1,6 +1,7 @@
 import { realEstateCollection } from '../../constant/firestore';
 import { isFunction } from 'lodash';
 import { auth, firestore } from '../../contexts/FirebaseContext';
+import { gotSelectedRealEstate, hasError, startLoading } from './realEstate.slice';
 
 export const createRealEstate = (data, callback = null) => {
   return async () => {
@@ -60,6 +61,31 @@ export const changeBookMarkState = (data, callback = null) => {
 
     } catch (e) {
       console.error(e);
+    }
+  };
+};
+
+export const getRealEstate = (id, callback = null) => {
+  return async (dispatch) => {
+    try {
+      dispatch(startLoading());
+
+      const result = await realEstateCollection.doc(id).get();
+
+      if (result.exists) {
+        const data = {
+          id: result.id,
+          ...result.data()
+        };
+        dispatch(gotSelectedRealEstate(data));
+      } else {
+        dispatch(hasError('notFound'));
+      }
+
+      isFunction(callback) && callback();
+
+    } catch (e) {
+      dispatch(hasError(e));
     }
   };
 };

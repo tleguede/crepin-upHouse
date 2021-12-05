@@ -1,0 +1,1 @@
+export const selectRealEstate = state =>state.realEstate;

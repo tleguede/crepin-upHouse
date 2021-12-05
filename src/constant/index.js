@@ -1,3 +1,16 @@
+export const TRANSACTION_TYPE={
+  SELL:'A vendre',
+  RENT:'A Louer'
+}
+
+export const AREA_UNIT={
+  PC:'pc',
+  MC:'mc',
+  AC:'ac',
+  ARP:'arp.',
+  HA:'ha'
+}
+
 export const REAL_ESTATE_CATEGORY={
   RESIDENTIAL:'Résidentiel',
   COMMERCIAL:'Commercial'
@@ -172,3 +185,4 @@ export const REAL_ESTATE_STATE={
   VALIDATED:'Validé',
   REJECTED:'Rejeté'
 }
+

@@ -33,6 +33,7 @@ export const PATH_PAGE = {
   detail: '/detail/:id',
   myFavorites: '/my_favorites',
   myPosts: '/my_posts',
+  myPostsEdit: '/my_posts/edit/:id',
   publish: '/publish'
 };
 
