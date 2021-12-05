@@ -22,7 +22,6 @@ export function RealEstateItem({ item }) {
   const location = useLocation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  console.log('isMobile', isMobile);
 
   const isMyPosts = useMemo(() => location.pathname === PATH_PAGE.myPosts, [location.pathname]);
   const isAdminValidator = useMemo(() => location.pathname === PATH_DASHBOARD.admin.validation, [location.pathname]);

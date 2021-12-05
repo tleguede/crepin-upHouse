@@ -1,8 +1,6 @@
 import {
-  Button,
-  Dialog, DialogActions,
-  DialogContent,
-  DialogTitle,
+  Button, Container,
+
   Divider,
   Grid,
   Stack,
@@ -10,7 +8,7 @@ import {
   Typography
 } from '@material-ui/core';
 import CarouselThumbnail from '../../carousel/CarouselThumbnail';
-import { Favorite, FavoriteBorder, Room, Wifi } from '@material-ui/icons';
+import { Favorite, FavoriteBorder, } from '@material-ui/icons';
 import { fNumber } from '../../../utils/formatNumber';
 import { LoadingButton } from '@material-ui/lab';
 import useToggle from '../../../hooks/useToggle';
@@ -19,8 +17,42 @@ import { useMemo, useState } from 'react';
 import { useDispatch } from '../../../redux/store';
 import { changeBookMarkState } from '../../../redux/slices/realEstate.thunks';
 import FavoriteAskLogin from '../FavoriteAskLogin';
+import {  isString, isArray } from 'lodash';
+import { Icon } from '@iconify/react';
 // import FavoriteIcon from '@mui/icons-material/Favorite';
 // import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import outlineBedroomParent from '@iconify/icons-ic/outline-bedroom-parent';
+import bathroomIcon from '@iconify/icons-cil/bathroom';
+import bxsParking from '@iconify/icons-bx/bxs-parking';
+import areaCustom from '@iconify/icons-carbon/area-custom';
+import { REAL_ESTATE_STATE } from '../../../constant';
+import DetailIAmInteressed from './DetailIAmInteressed';
+
+const SIZE = { height: 50, width: 50 };
+
+const Item=({icon,label})=>{
+  return(
+    <Container sx={{
+      borderRadius: 1,
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: '#dcdcdc'
+
+    }}>
+      <Stack direction={'row'} justifyContent={'space-between'}>
+
+        <Icon icon={icon} {...SIZE} />
+
+        <Stack direction={'column'} justifyContent={'center'}>
+          <Typography variant={'body'} sx={{pl:1,}}>
+            {label}
+          </Typography>
+        </Stack>
+
+      </Stack>
+    </Container>
+  )
+}
 
 export default function Detail({ selected }) {
   const { isAuthenticated, user: { id } } = useAuth();
@@ -45,7 +77,25 @@ export default function Detail({ selected }) {
     }
   };
 
-  console.log(isFavorite);
+  const otherFeatures = useMemo(() => {
+    let list = [];
+    selected?.features?.plexType && list.push(selected?.features?.plexType);
+    selected?.features?.featureType && list.push(selected?.features?.featureType);
+
+    if (isArray(selected?.features?.otherFeature)) {
+      list = list.concat(selected?.features?.otherFeature);
+    }
+    if (isArray(selected?.features?.building)) {
+      list = list.concat(selected?.features?.building);
+    }
+    if (isArray(selected?.features?.otherCriterion)) {
+      list = list.concat(selected?.features?.otherCriterion);
+    }
+    if (isArray(selected?.features?.buildingOtherCriterion)) {
+      list = list.concat(selected?.features?.buildingOtherCriterion);
+    }
+    return list.filter(one => isString(one));
+  }, [selected?.features]);
 
   return (
     <>
@@ -59,15 +109,33 @@ export default function Detail({ selected }) {
             <LoadingButton loading={loading} variant={'text'}
                            color={isFavorite ? 'error' : 'primary'}
                            onClick={handleFavorite}>
-              {isFavorite ? <Favorite/>:<FavoriteBorder/>}
+              {isFavorite ? <Favorite /> : <FavoriteBorder />}
             </LoadingButton>
-            <Button variant={'outlined'} color={'error'} onClick={handleOpen}>
+            <Button variant={'outlined'} color={'error'} onClick={handleOpen}
+                    disabled={selected?.state!==REAL_ESTATE_STATE.VALIDATED}
+            >
               Je suis interesse
             </Button>
           </Stack>
         </Stack>
 
         <CarouselThumbnail images={selected?.images} />
+
+
+        <Divider />
+
+        <Stack direction={'row'} justifyContent={'space-between'}>
+
+          <Typography variant={'subtitle1'}>
+            {selected?.category}
+          </Typography>
+
+          <Typography variant={'subtitle1'}>
+            {selected?.type}
+          </Typography>
+
+        </Stack>
+
 
         <Divider />
 
@@ -91,34 +159,81 @@ export default function Detail({ selected }) {
         </Typography>
 
         <Grid container spacing={2}>
-          <Grid item>
-            <Stack direction={'row'}>
-              <Wifi />
-              <Typography variant={'body1'}>
-                Wifi
-              </Typography>
-            </Stack>
-          </Grid>
 
-          <Grid item>
-            <Stack direction={'row'}>
-              <Room />
-              <Typography variant={'body1'}>
-                2 Chambres
-              </Typography>
-            </Stack>
-          </Grid>
+          {
+            (selected?.features?.numberOfRoom)  && (
+              <Grid item sm={12} md={3}>
+                <Item
+                  icon={outlineBedroomParent}
+                  label={selected?.features?.numberOfRoom}
+                />
+              </Grid>
+            )
+          }
+
+
+          {
+            (selected?.features?.numberOfBathRoom)  && (
+              <Grid item sm={12} md={3}>
+                <Item
+                  icon={bathroomIcon}
+                  label={selected?.features?.numberOfBathRoom}
+                />
+
+              </Grid>
+            )
+          }
+
+          {
+            (selected?.features?.numberOfParking)  && (
+              <Grid item sm={12} md={3}>
+                <Item
+                  icon={bxsParking}
+                  label={selected?.features?.numberOfParking}
+                />
+              </Grid>
+            )
+          }
+
+          {
+            (selected?.area) && selected?.area !== 0 && (
+              <Grid item sm={12} md={3}>
+                <Item
+                  icon={areaCustom}
+                  label={`${selected?.area} ${selected?.areaUnit}`}
+                />
+              </Grid>
+            )
+          }
+
+
 
         </Grid>
 
+        <Grid container spacing={2}>
+          {otherFeatures.map(one => (
+            <Grid item key={one}>
+              <Typography variant={'body'}>
+                {`# ${one}`}
+              </Typography>
+            </Grid>
+          ))}
+        </Grid>
 
         <Divider />
+
 
         <Typography variant={'subtitle1'}>
           Description
         </Typography>
 
-        {selected?.description}
+        <TextField
+          disabled
+          fullWidth
+          multiline
+          minRows={5}
+          value={selected?.description}
+          />
 
 
         <Divider />
@@ -129,46 +244,21 @@ export default function Detail({ selected }) {
 
         <Stack direction={'row'} spacing={1} justifyContent={'space-between'}>
           <Typography variant={'body1'}>
-            {`${fNumber(selected?.cost)} CFA ${selected?.paymentRhythm}`}
+            {`${selected?.transactionType}  -  ${fNumber(selected?.cost)} CFA`}
           </Typography>
-          <Button variant={'outlined'} color={'error'} onClick={handleOpen}>
+          <Button variant={'outlined'} color={'error'} onClick={handleOpen}
+                  disabled={selected?.state!==REAL_ESTATE_STATE.VALIDATED}
+
+          >
             Je suis interesse
           </Button>
         </Stack>
 
       </Stack>
 
-      <Dialog open={open} onClose={handleClose}>
+      <DetailIAmInteressed selected={selected} open={open} onclose={handleClose}/>
 
-        <DialogTitle>
-          upHouse
-        </DialogTitle>
-
-        <DialogContent>
-          <Stack direction={'column'} spacing={2}>
-            <Typography variant={'subtitle1'}>
-              Laissez nous votre contact, nous vous apellerons d'ici peu
-            </Typography>
-            <TextField
-              fullWidth
-              label={'Mon nom'}
-            />
-            <TextField
-              fullWidth
-              label={'Mon nom'}
-            />
-          </Stack>
-        </DialogContent>
-
-        <DialogActions>
-          <LoadingButton variant={'contained'} onClick={handleClose}>
-            Soumettre
-          </LoadingButton>
-        </DialogActions>
-
-      </Dialog>
-
-      <FavoriteAskLogin open={openFavorite} onClose={handleCloseFavorite}/>
+      <FavoriteAskLogin open={openFavorite} onClose={handleCloseFavorite} />
     </>
   );
 }
