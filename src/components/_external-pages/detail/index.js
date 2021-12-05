@@ -146,7 +146,7 @@ export default function Detail({ selected }) {
           </Typography>
 
           <Typography variant={'subtitle1'}>
-            {selected?.callrequests || 0}x Demandes d'appel
+            {selected?.callRequests || 0}x Demandes d'appel
           </Typography>
 
         </Stack>
