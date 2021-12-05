@@ -1,0 +1,19 @@
+{
+  "name": "pexels-roberto-nickson-2478248.jpg",
+  "bucket": "up-house.appspot.com",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1638711955639,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "d35d9388-06dd-40ea-8265-984fcf1c4f54"
+  ],
+  "timeCreated": "2021-12-05T13:45:55.638Z",
+  "updated": "2021-12-05T13:45:55.658Z",
+  "size": 2788502,
+  "md5Hash": "VskihHyJofq3dU0SlhSrWg==",
+  "crc32c": "594343183"
+}

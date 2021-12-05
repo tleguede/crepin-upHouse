@@ -3,16 +3,16 @@
   "bucket": "up-house.appspot.com",
   "contentType": "image/jpeg",
   "metageneration": 1,
-  "generation": 1638011872927,
+  "generation": 1638721594350,
   "storageClass": "STANDARD",
   "etag": "someETag",
   "contentDisposition": "inline",
   "contentEncoding": "identity",
   "downloadTokens": [
-    "cc159359-a404-4aa0-bb0c-9608f13ef709"
+    "985b3fb0-47a2-4b59-a69e-e515a4299c6c"
   ],
-  "timeCreated": "2021-11-27T11:17:52.926Z",
-  "updated": "2021-11-27T11:17:52.927Z",
+  "timeCreated": "2021-12-05T16:26:34.349Z",
+  "updated": "2021-12-05T16:26:34.351Z",
   "size": 180119,
   "md5Hash": "gaP/g293Ht2GkRsIw9+sRQ==",
   "crc32c": "149724813"
