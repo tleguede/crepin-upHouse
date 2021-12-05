@@ -8,7 +8,7 @@ const useFavorites= () => {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(true);
-  const getData = useSelector(state => state.firestore.ordered.realEstates)
+  const getData = useSelector(state => state.firestore.ordered.favorites)
   const realEstates = useMemo(() => {
     return isEmpty(getData) ? [] : getData.map(one => ({ ...one, cover: one?.images[0]?.url }));
   }, [getData])
@@ -18,7 +18,7 @@ const useFavorites= () => {
       collection: "realEstate",
       where:[['bookmarkedByIds','array-contains',id]],
       orderBy:[['createdAt','desc']],
-      storeAs: 'realEstates'
+      storeAs: 'favorites'
     }
   ]);
 

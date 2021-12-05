@@ -22,10 +22,10 @@ export default function AdminPostValidation() {
     <RootStyle title='upHouse' id='move_top'>
       <ContentStyle maxWidth={'lg'}>
         <HeaderBreadcrumbs
-          heading={'Biens immobiliers en attente de validation'}
+          heading={'Validation'}
           links={[
             { name: 'Admin', href: PATH_DASHBOARD.root },
-            { name: 'Biens immobiliers en attente de validation' }
+            { name: 'Validation' }
           ]}
         />
         <LandingRealEstateList />

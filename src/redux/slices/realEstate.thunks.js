@@ -33,6 +33,20 @@ export const editRealEstate = (data, callback = null) => {
   };
 };
 
+export const deleteRealEstate = (id, callback = null) => {
+  return async () => {
+    try {
+
+      await realEstateCollection.doc(id).delete();
+
+      isFunction(callback) && callback();
+
+    } catch (e) {
+      console.error(e);
+    }
+  };
+};
+
 export const changeBookMarkState = (data, callback = null) => {
   return async () => {
     try {

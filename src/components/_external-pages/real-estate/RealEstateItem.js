@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, Grid, Tooltip, IconButton } from '@material-ui/core';
+import { Box, Typography, Paper, Grid, Tooltip, IconButton, useMediaQuery } from '@material-ui/core';
 
 import Label from '../../Label';
 import { Favorite, FavoriteBorder } from '@material-ui/icons';
@@ -9,16 +9,23 @@ import { useDispatch } from '../../../redux/store';
 import useToggle from '../../../hooks/useToggle';
 import FavoriteAskLogin from '../FavoriteAskLogin';
 import { useMemo, useState } from 'react';
-import { PATH_PAGE } from '../../../routes/paths';
+import { PATH_DASHBOARD, PATH_PAGE } from '../../../routes/paths';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { REAL_ESTATE_STATE } from '../../../constant';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import BlockIcon from '@material-ui/icons/Block';
+import RealEstateItemMenu from './RealEstateItemMenu';
+import { useTheme } from '@material-ui/core/styles';
 
 export function RealEstateItem({ item }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  console.log('isMobile', isMobile);
+
   const isMyPosts = useMemo(() => location.pathname === PATH_PAGE.myPosts, [location.pathname]);
+  const isAdminValidator = useMemo(() => location.pathname === PATH_DASHBOARD.admin.validation, [location.pathname]);
   const isInValidation = useMemo(() => item?.state === REAL_ESTATE_STATE.WAITING_FOR_VALIDATION, [item?.state]);
   const isBanned = useMemo(() => item?.state === REAL_ESTATE_STATE.REJECTED, [item?.state]);
 
@@ -55,7 +62,14 @@ export function RealEstateItem({ item }) {
       <Paper sx={{ mx: 1.5, borderRadius: 2, bgcolor: 'background.neutral' }}>
         <Box sx={{ p: 1, position: 'relative' }}>
 
-          <Box sx={{ position: 'absolute', bottom: 110, right: 5 }}>
+          <Box sx={{
+            position: 'absolute',
+            bottom: isMobile ? 170 : 110,
+            right: 5,
+            bgcolor: 'white',
+            borderRadius: 20,
+            mr: 2
+          }}>
             {
               !isMyPosts && (
                 <LoadingButton
@@ -70,15 +84,28 @@ export function RealEstateItem({ item }) {
             }
 
             {
-              isMyPosts &&(
+              isMyPosts && (
                 <Tooltip title={item?.state}>
-                  <IconButton color={(isInValidation && 'success') || (isBanned && 'error')} sx={{mr:2}}>
+                  <IconButton color={(isInValidation && 'success') || (isBanned && 'error') || 'default'}>
                     {isInValidation && (<AccessTimeIcon />)}
                     {isBanned && (<BlockIcon />)}
                   </IconButton>
                 </Tooltip>
               )
             }
+
+            {
+              (isMyPosts || isAdminValidator) && (
+                <RealEstateItemMenu
+                  item={item}
+                  isMyPosts={isMyPosts}
+                  isBanned={isBanned}
+                  isInValidation={isInValidation}
+                  isAdminValidator={isAdminValidator}
+                />
+              )
+            }
+
 
           </Box>
 

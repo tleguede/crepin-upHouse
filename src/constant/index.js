@@ -183,6 +183,8 @@ export const  PAYMENT_RHYTHM={
 export const REAL_ESTATE_STATE={
   WAITING_FOR_VALIDATION:'En attente de validation',
   VALIDATED:'Validé',
+  NOT_AVAILABLE:'Non disponible',
+  BESPEAK:'Reservé',
   REJECTED:'Rejeté'
 }
 
