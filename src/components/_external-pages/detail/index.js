@@ -17,8 +17,8 @@ import useToggle from '../../../hooks/useToggle';
 import useAuth from '../../../hooks/useAuth';
 import { useMemo, useState } from 'react';
 import { useDispatch } from '../../../redux/store';
-import { PATH_AUTH } from '../../../routes/paths';
 import { changeBookMarkState } from '../../../redux/slices/realEstate.thunks';
+import FavoriteAskLogin from '../FavoriteAskLogin';
 // import FavoriteIcon from '@mui/icons-material/Favorite';
 // import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
@@ -168,29 +168,7 @@ export default function Detail({ selected }) {
 
       </Dialog>
 
-      <Dialog open={openFavorite} onClose={handleCloseFavorite}>
-
-        <DialogTitle>
-          Oops!
-        </DialogTitle>
-
-        <DialogContent>
-          <Stack direction={'column'} spacing={2}>
-            <Typography variant={'body1'}>
-              Vous devez être connecté pour mettre ce bien en favoris
-            </Typography>
-
-          </Stack>
-        </DialogContent>
-
-        <DialogActions>
-          <Button variant={'contained'} href={PATH_AUTH.login}>
-            Se connecter
-          </Button>
-        </DialogActions>
-
-      </Dialog>
-
+      <FavoriteAskLogin open={openFavorite} onClose={handleCloseFavorite}/>
     </>
   );
 }

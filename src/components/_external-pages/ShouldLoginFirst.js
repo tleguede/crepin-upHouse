@@ -12,7 +12,7 @@ import { PATH_AUTH } from '../../routes/paths';
 export default function ShouldLoginFirst({why=''}) {
   return (
     <Container>
-      <Box sx={{ maxWidth: 480, margin: 'auto', textAlign: 'center' }}>
+      <Box sx={{ maxWidth: 480, margin: 'auto', textAlign: 'center', my:2}}>
         <Typography variant="h3" paragraph>
            Ops!
         </Typography>

@@ -1,144 +1,99 @@
-import PropTypes from 'prop-types';
-import Slider from 'react-slick';
-import { useRef } from 'react';
+import { Box, Typography, Paper, Grid } from '@material-ui/core';
 
-// material
-import { useTheme } from '@material-ui/core/styles';
-import { Box, Stack, Typography, Paper, CardHeader } from '@material-ui/core';
-// utils
-import mockData from '../../../utils/mock-data';
-//
 import Label from '../../Label';
-import { CarouselControlsArrowsBasic1 } from '../../carousel';
+import { Favorite, FavoriteBorder } from '@material-ui/icons';
+import { LoadingButton } from '@material-ui/lab';
+import { changeBookMarkState } from '../../../redux/slices/realEstate.thunks';
+import useAuth from '../../../hooks/useAuth';
+import { useDispatch } from '../../../redux/store';
+import useToggle from '../../../hooks/useToggle';
+import FavoriteAskLogin from '../FavoriteAskLogin';
+import { useMemo, useState } from 'react';
+import { PATH_PAGE } from '../../../routes/paths';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-// ----------------------------------------------------------------------
-
-export const MOCK_BOOKINGS = [...Array(5)].map((_, index) => ({
-  id: mockData.id(index),
-  name: mockData.name.fullName(index),
-  avatar: mockData.image.avatar(index),
-  bookdAt: mockData.time(index),
-  roomNumber: 'A-21',
-  roomType: (index === 1 && 'double') || (index === 3 && 'king') || 'single',
-  person: '3-5',
-  cover: `/static/mock-images/rooms/room-${index + 1}.jpg`
-}));
-
-// ----------------------------------------------------------------------
-
-RealEstateItem.propTypes = {
-  item: PropTypes.shape({
-    avatar: PropTypes.string,
-    bookdAt: PropTypes.instanceOf(Date),
-    cover: PropTypes.string,
-    name: PropTypes.string,
-    person: PropTypes.string,
-    roomNumber: PropTypes.string,
-    roomType: PropTypes.string
-  })
-};
 
 export function RealEstateItem({ item }) {
-  const { name,  cover,type,  cost,paymentRhythm } = item;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isMyPosts = useMemo(() => location.pathname === PATH_PAGE.myPosts, [location.pathname]);
+
+  console.log(location);
+  console.log(isMyPosts);
+
+  const dispatch = useDispatch();
+  const { isAuthenticated, user: { id } } = useAuth();
+  const { handleOpen, open, handleClose } = useToggle();
+  const [loading, setLoading] = useState(false);
+  const isFavorite = useMemo(() => {
+    return item?.bookmarkedByIds?.includes(id) || false;
+  }, [item?.bookmarkedByIds, id]);
+
+  const { name, cover, type, cost } = item;
+
+  const handleFavorite = () => {
+    if (!isAuthenticated) {
+      handleOpen();
+    } else {
+      setLoading(true);
+      dispatch(changeBookMarkState({ id: item?.id, state: !isFavorite }, () => {
+        setLoading(false);
+      }));
+    }
+  };
+
+
+  const goTo = (id) => {
+    navigate(PATH_PAGE.detail.replace(':id', id));
+  };
+
 
   return (
-    <Paper sx={{ mx: 1.5, borderRadius: 2, bgcolor: 'background.neutral' }}>
-      <Stack spacing={2.5} sx={{ p: 3, pb: 2.5 }}>
-        <Stack direction={'column'} alignItems="center" spacing={1}>
-          <Typography variant="subtitle2">
-            {name}
-          </Typography>
-          <Typography variant="body1">
-            {type}
-          </Typography>
-        </Stack>
+    <>
+      <Paper sx={{ mx: 1.5, borderRadius: 2, bgcolor: 'background.neutral' }}>
+        <Box sx={{ p: 1, position: 'relative' }}>
 
-      </Stack>
+          <LoadingButton
+            loading={loading} variant={'text'}
+            color={isFavorite ? 'error' : 'primary'}
+            sx={{ position: 'absolute', bottom: 110, right: 5 }}
+            onClick={handleFavorite}
+          >
+            {isFavorite ? <Favorite /> : <FavoriteBorder />}
+          </LoadingButton>
 
-      <Box sx={{ p: 1, position: 'relative' }}>
-        <Label
-          variant="filled"
-          color={'info'}
-          sx={{ position: 'absolute', bottom: 16, right: 16, textTransform: 'capitalize' }}
-        >
-          <Typography variant="body1">
-            {`${cost} CFA ${paymentRhythm}`}
-          </Typography>
-        </Label>
-        <Box component="img" src={cover} sx={{ borderRadius: 1.5, width: 1 }} />
-      </Box>
-    </Paper>
-  );
-}
+          <Label
+            variant='filled'
+            color={'info'}
+            sx={{ position: 'absolute', bottom: 16, right: 16, textTransform: 'capitalize' }}
+          >
+            <Typography variant='body1'>
+              {`${cost} CFA`}
+            </Typography>
+          </Label>
 
-export default function BookingCustomerReviews() {
-  const theme = useTheme();
-  const carouselRef = useRef(null);
+          <Box component='img' src={cover} sx={{ borderRadius: 1.5, width: 1 }} onClick={() => goTo(item?.id)} />
+        </Box>
 
-  const settings = {
-    dots: false,
-    arrows: false,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    rtl: Boolean(theme.direction === 'rtl'),
-    responsive: [
-      {
-        breakpoint: theme.breakpoints.values.lg,
-        settings: {
-          slidesToShow: 3
-        }
-      },
-      {
-        breakpoint: theme.breakpoints.values.md,
-        settings: {
-          slidesToShow: 2
-        }
-      },
-      {
-        breakpoint: theme.breakpoints.values.sm,
-        settings: {
-          slidesToShow: 1
-        }
-      }
-    ]
-  };
+        <Grid container spacing={2} sx={{ p: 3, pt: 1, pb: 2.5 }} onClick={() => goTo(item?.id)}>
 
-  const handlePrevious = () => {
-    carouselRef.current?.slickPrev();
-  };
+          <Grid item xs={12}>
+            <Typography variant='subtitle2' sx={{ overflow: 'hidden', textOverflow: 'clip', height: 50 }}>
+              {name}
+            </Typography>
+          </Grid>
 
-  const handleNext = () => {
-    carouselRef.current?.slickNext();
-  };
+          <Grid item xs={12}>
+            <Typography variant='subtitle2'>
+              {type}
+            </Typography>
+          </Grid>
 
-  return (
-    <Box sx={{ py: 2 }}>
-      <CardHeader
-        title="Newest Booking"
-        subheader="12 Booking"
-        action={
-          <CarouselControlsArrowsBasic1
-            arrowLine
-            onNext={handleNext}
-            onPrevious={handlePrevious}
-            sx={{
-              position: 'static',
-              '& button': { color: 'text.primary' }
-            }}
-          />
-        }
-        sx={{
-          p: 0,
-          mb: 3,
-          '& .MuiCardHeader-action': { alignSelf: 'center' }
-        }}
-      />
+        </Grid>
 
-      <Slider ref={carouselRef} {...settings}>
-        {MOCK_BOOKINGS.map((item) => (
-          <RealEstateItem key={item.id} item={item} />
-        ))}
-      </Slider>
-    </Box>
+      </Paper>
+      <FavoriteAskLogin open={open} onClose={handleClose} />
+
+    </>
   );
 }

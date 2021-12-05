@@ -40,12 +40,15 @@ const createLinks = [
 
 export default function PublishPage() {
 
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const { id } = useParams();
   const dispatch = useDispatch();
   const { loading, error, selected } = useSelector(selectRealEstate);
   const isEdit = useMemo(() => Boolean(id && selected), [id, selected]);
+  const canAccess = useMemo(() => {
+    return user?.isAdmin || selected?.owner?.id === user?.id;
+  }, [selected?.owner, user?.id, user?.isAdmin]);
 
   useEffect(() => {
     if (id && !loading && !Boolean(selected) && !Boolean(error)) {
@@ -54,17 +57,22 @@ export default function PublishPage() {
   }, [id, loading, dispatch, selected, error]);
 
   useEffect(() => {
-    return () => {
-      dispatch(gotSelectedRealEstate(null));
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
     if (id && !loading && !Boolean(selected) && Boolean(error)) {
       navigate('/404');
     }
   }, [id, loading, navigate, selected, error]);
 
+  useEffect(() => {
+    if (Boolean(selected) && !canAccess) {
+      navigate('/404');
+    }
+  }, [navigate, selected, canAccess]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(gotSelectedRealEstate(null));
+    };
+  }, [dispatch]);
 
   return (
     <RootStyle title='upHouse' id='move_top'>
@@ -73,7 +81,7 @@ export default function PublishPage() {
         {
           loading
             ? (
-              <LoadingScreen />
+              <LoadingScreen sx={{ height: '90vh' }} />
             )
             : (
               <>
