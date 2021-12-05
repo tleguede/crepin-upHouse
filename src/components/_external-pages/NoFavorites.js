@@ -20,7 +20,7 @@ export default function NoFavorites() {
 
         <Stack direction={'row'} justifyContent={'center'}>
           <Typography sx={{ color: 'text.secondary',width:200,right:90,my:2,position:'relative' }}>
-            Vous n'avez aucun favoris!
+            Il n'y a rien a voir ici!
           </Typography>
         </Stack>
 

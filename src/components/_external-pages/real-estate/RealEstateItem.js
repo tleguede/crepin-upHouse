@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, Grid } from '@material-ui/core';
+import { Box, Typography, Paper, Grid, Tooltip, IconButton } from '@material-ui/core';
 
 import Label from '../../Label';
 import { Favorite, FavoriteBorder } from '@material-ui/icons';
@@ -11,15 +11,17 @@ import FavoriteAskLogin from '../FavoriteAskLogin';
 import { useMemo, useState } from 'react';
 import { PATH_PAGE } from '../../../routes/paths';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import { REAL_ESTATE_STATE } from '../../../constant';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import BlockIcon from '@material-ui/icons/Block';
 
 export function RealEstateItem({ item }) {
   const navigate = useNavigate();
   const location = useLocation();
   const isMyPosts = useMemo(() => location.pathname === PATH_PAGE.myPosts, [location.pathname]);
+  const isInValidation = useMemo(() => item?.state === REAL_ESTATE_STATE.WAITING_FOR_VALIDATION, [item?.state]);
+  const isBanned = useMemo(() => item?.state === REAL_ESTATE_STATE.REJECTED, [item?.state]);
 
-  console.log(location);
-  console.log(isMyPosts);
 
   const dispatch = useDispatch();
   const { isAuthenticated, user: { id } } = useAuth();
@@ -53,14 +55,33 @@ export function RealEstateItem({ item }) {
       <Paper sx={{ mx: 1.5, borderRadius: 2, bgcolor: 'background.neutral' }}>
         <Box sx={{ p: 1, position: 'relative' }}>
 
-          <LoadingButton
-            loading={loading} variant={'text'}
-            color={isFavorite ? 'error' : 'primary'}
-            sx={{ position: 'absolute', bottom: 110, right: 5 }}
-            onClick={handleFavorite}
-          >
-            {isFavorite ? <Favorite /> : <FavoriteBorder />}
-          </LoadingButton>
+          <Box sx={{ position: 'absolute', bottom: 110, right: 5 }}>
+            {
+              !isMyPosts && (
+                <LoadingButton
+                  loading={loading} variant={'text'}
+                  color={isFavorite ? 'error' : 'primary'}
+
+                  onClick={handleFavorite}
+                >
+                  {isFavorite ? <Favorite /> : <FavoriteBorder />}
+                </LoadingButton>
+              )
+            }
+
+            {
+              isMyPosts &&(
+                <Tooltip title={item?.state}>
+                  <IconButton color={(isInValidation && 'success') || (isBanned && 'error')} sx={{mr:2}}>
+                    {isInValidation && (<AccessTimeIcon />)}
+                    {isBanned && (<BlockIcon />)}
+                  </IconButton>
+                </Tooltip>
+              )
+            }
+
+          </Box>
+
 
           <Label
             variant='filled'

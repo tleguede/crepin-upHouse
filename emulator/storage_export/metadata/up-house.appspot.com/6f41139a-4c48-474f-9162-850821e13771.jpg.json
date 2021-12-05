@@ -1,0 +1,19 @@
+{
+  "name": "6f41139a-4c48-474f-9162-850821e13771.jpg",
+  "bucket": "up-house.appspot.com",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1638026754149,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "d0252e03-7d18-4189-a257-4e1a154f7800"
+  ],
+  "timeCreated": "2021-11-27T15:25:54.148Z",
+  "updated": "2021-11-27T15:25:54.152Z",
+  "size": 86695,
+  "md5Hash": "dye8JIi8V+GxeswA1a5sFQ==",
+  "crc32c": "3174320925"
+}
