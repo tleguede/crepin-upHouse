@@ -127,6 +127,29 @@ export default function AccountPopover() {
           </MenuItem>
         ))}
 
+        {
+          user?.isAdmin &&(
+            <MenuItem
+              to={PATH_DASHBOARD.root}
+              component={RouterLink}
+              onClick={handleClose}
+              sx={{ typography: 'body2', py: 1, px: 2.5 }}
+            >
+              <Box
+                component={Icon}
+                icon={settings2Fill}
+                sx={{
+                  mr: 2,
+                  width: 24,
+                  height: 24
+                }}
+              />
+
+              Admin
+            </MenuItem>
+          )
+        }
+
         <Box sx={{ p: 2, pt: 1.5 }}>
           <Button fullWidth color="inherit" variant="outlined" onClick={handleLogout}>
             Logout

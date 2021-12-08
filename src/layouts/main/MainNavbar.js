@@ -1,7 +1,7 @@
 import { NavLink as RouterLink, useLocation } from 'react-router-dom';
 // material
 import { styled } from '@material-ui/core/styles';
-import { Box, AppBar, Toolbar, Container } from '@material-ui/core';
+import { Box, AppBar, Toolbar, Container, ButtonGroup, Button } from '@material-ui/core';
 // hooks
 import useOffSetTop from '../../hooks/useOffSetTop';
 // components
@@ -11,7 +11,10 @@ import { MHidden } from '../../components/@material-extend';
 //
 import MenuDesktop from './MenuDesktop';
 import MenuMobile from './MenuMobile';
-import navConfig from './MenuConfig';
+import navConfig, { loggedConfig } from './MenuConfig';
+import useAuth from '../../hooks/useAuth';
+import AccountPopover from '../dashboard/AccountPopover';
+import { useMemo } from 'react';
 
 // ----------------------------------------------------------------------
 
@@ -45,9 +48,11 @@ const ToolbarShadowStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function MainNavbar() {
+  const { isAuthenticated } = useAuth();
   const isOffset = useOffSetTop(100);
   const { pathname } = useLocation();
   const isHome = pathname === '/';
+  const navConf= useMemo(() => isAuthenticated ? loggedConfig : navConfig, [isAuthenticated]);
 
   return (
     <AppBar sx={{ boxShadow: 0, bgcolor: 'transparent' }}>
@@ -61,27 +66,49 @@ export default function MainNavbar() {
         }}
       >
         <Container
-          maxWidth="lg"
+          maxWidth='lg'
           sx={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between'
           }}
         >
-          <RouterLink to="/">
+          <RouterLink to='/'>
             <Logo />
           </RouterLink>
-          <Label color="info" sx={{ ml: 1 }}>
+          <Label color='info' sx={{ ml: 1 }}>
             v2.5.0
           </Label>
           <Box sx={{ flexGrow: 1 }} />
 
-          <MHidden width="mdDown">
-            <MenuDesktop isOffset={isOffset} isHome={isHome} navConfig={navConfig} />
+          <MHidden width='mdDown'>
+            <MenuDesktop isOffset={isOffset} isHome={isHome} navConfig={navConf} />
+
+            {
+              !isAuthenticated && (
+                <ButtonGroup>
+                  <Button variant={'contained'} href={'/auth/register'}>
+                    Creer un compte
+                  </Button>
+
+                  <Button variant={'outlined'} href={'/auth/login'}>
+                    Se connecter
+                  </Button>
+                </ButtonGroup>
+              )
+            }
+
+            {
+              isAuthenticated &&(
+                <AccountPopover/>
+              )
+            }
+
+
           </MHidden>
 
-          <MHidden width="mdUp">
-            <MenuMobile isOffset={isOffset} isHome={isHome} navConfig={navConfig} />
+          <MHidden width='mdUp'>
+            <MenuMobile isOffset={isOffset} isHome={isHome} navConfig={navConf} />
           </MHidden>
         </Container>
       </ToolbarStyle>

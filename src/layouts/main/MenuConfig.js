@@ -1,5 +1,4 @@
 import { Icon } from '@iconify/react';
-import homeFill from '@iconify/icons-eva/home-fill';
 import fileFill from '@iconify/icons-eva/file-fill';
 
 import favoriteFilled from '@iconify/icons-carbon/favorite-filled';
@@ -16,11 +15,6 @@ const ICON_SIZE = {
 };
 
 const menuConfig = [
-  {
-    title: 'Acceuil',
-    icon: <Icon icon={homeFill} {...ICON_SIZE} />,
-    path: '/'
-  },
 
   {
     title: 'Publier',
@@ -28,6 +22,17 @@ const menuConfig = [
     path: PATH_PAGE.publish
   },
 
+
+  // {
+  //   title: 'Admin',
+  //   icon: <Icon icon={fileFill} {...ICON_SIZE} />,
+  //   path: PATH_DASHBOARD.root
+  // },
+
+];
+
+export const loggedConfig =[
+  ...menuConfig,
   {
     title: 'Mes favoris',
     icon: <Icon icon={favoriteFilled} {...ICON_SIZE} />,
@@ -39,13 +44,11 @@ const menuConfig = [
     icon: <Icon icon={buildingIcon} {...ICON_SIZE} />,
     path: PATH_PAGE.myPosts
   },
+]
 
-  {
-    title: 'Admin',
-    icon: <Icon icon={fileFill} {...ICON_SIZE} />,
-    path: PATH_DASHBOARD.root
-  },
+export const mobileConfig =[
+  ...loggedConfig,
 
-];
+]
 
 export default menuConfig;
