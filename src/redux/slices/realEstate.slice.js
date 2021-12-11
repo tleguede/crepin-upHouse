@@ -3,13 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 const slice = createSlice({
   name: 'realEstate',
   initialState: {
+    init: false,
     loading: false,
     error: null,
     selected: null,
-    list:[],
-    cursor:null,
-    filter:null,
-    hasMore:false,
+    list: [],
+    cursor: null,
+    filter: null,
+    hasMore: false
   },
   reducers: {
     startLoading: state => {
@@ -29,18 +30,19 @@ const slice = createSlice({
     },
 
     gotList: (state, action) => {
+      state.init = true;
       state.error = null;
       state.loading = false;
       state.filter = action.payload?.filter;
       state.list = action.payload?.list;
       state.cursor = action.payload?.cursor;
       state.hasMore = action.payload?.hasMore;
-    },
+    }
 
   }
 });
 
-export const { hasError, startLoading, gotSelectedRealEstate,gotList } = slice.actions;
+export const { hasError, startLoading, gotSelectedRealEstate, gotList } = slice.actions;
 
 const realEstateReducer = slice.reducer;
 

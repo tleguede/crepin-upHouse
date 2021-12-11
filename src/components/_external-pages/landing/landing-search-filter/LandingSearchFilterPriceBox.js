@@ -61,7 +61,7 @@ export default function LandingSearchFilterPriceBox({ range, onChange }) {
               <TextField
                 fullWidth
                 type={'number'}
-                label={'Minimum'}
+                label={'Maximun'}
                 value={range.max}
                 onChange={({target:{value}})=> {
                   handleChange({ ...range, max: value });

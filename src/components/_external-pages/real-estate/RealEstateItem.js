@@ -35,7 +35,8 @@ export function RealEstateItem({ item }) {
     return item?.bookmarkedByIds?.includes(id) || false;
   }, [item?.bookmarkedByIds, id]);
 
-  const { name, cover, type, cost } = item;
+  const { name, type, images,cost } = item;
+  const [cover] = images
 
   const handleFavorite = () => {
     if (!isAuthenticated) {
@@ -116,7 +117,7 @@ export function RealEstateItem({ item }) {
             </Typography>
           </Label>
 
-          <Box component='img' src={cover} sx={{ borderRadius: 1.5, width: 1,height:150 }} onClick={() => goTo(item?.id)} />
+          <Box component='img' src={cover?.url} sx={{ borderRadius: 1.5, width: 1,height:150 }} onClick={() => goTo(item?.id)} />
         </Box>
 
         <Grid container spacing={2} sx={{ p: 3, pt: 1, pb: 2.5 }} onClick={() => goTo(item?.id)}>

@@ -65,7 +65,7 @@ export default function LandingSearchFilter() {
       area:  0,
       areaUnit:  AREA_UNIT.MC,
 
-      areaRange:{ min: 1, max: 3 },
+      areaRange:{ min: 0, max: 0 },
 
       //residential
       _numberOfRoom: '',

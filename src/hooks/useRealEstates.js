@@ -1,29 +1,24 @@
-import {useEffect, useMemo, useState} from "react";
-import {useDispatch, useSelector} from "../redux/store";
-import {isEmpty, isLoaded, useFirestoreConnect} from "react-redux-firebase";
-import { REAL_ESTATE_STATE } from '../constant';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from '../redux/store';
 
-const useRealEstates= () => {
+import { selectRealEstate } from '../redux/selectors';
+import { searchRealEstate } from '../redux/slices/realEstate.thunks';
+
+export default function useRealEstates (){
   const dispatch = useDispatch();
+  const { list=[], loading, init } = useSelector(selectRealEstate);
 
-  const [loading, setLoading] = useState(true);
-  const getData = useSelector(state => state.firestore.ordered.realEstates)
-  const realEstates = useMemo(() => {
-    return isEmpty(getData) ? [] : getData.map(one => ({ ...one, cover: one?.images[0]?.url }));
-  }, [getData])
 
-  useFirestoreConnect(() => [
-    {
-      collection: "realEstate",
-      where:[['state','==',REAL_ESTATE_STATE.VALIDATED]],
-      orderBy:[['createdAt','desc']],
-      storeAs: 'realEstates'
+  useEffect(() => {
+
+    if (!init && !loading) {
+      console.log('--init--');
+      dispatch(searchRealEstate({}));
     }
-  ]);
 
-  useEffect(() => setLoading(!isLoaded(getData)), [getData, realEstates, dispatch]);
+    // eslint-disable-next-line
+  }, []);
 
-  return {realEstates, loading};
-}
+  return { realEstates: list, loading };
+};
 
-export default useRealEstates

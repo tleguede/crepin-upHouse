@@ -1,0 +1,15 @@
+[debug] [2021-12-11T20:18:42.128Z] ----------------------------------------------------------------------
+[debug] [2021-12-11T20:18:42.130Z] Command:       /usr/local/bin/node /home/tleguede/WebstormProjects/crepin-upHouse/node_modules/.bin/firebase login
+[debug] [2021-12-11T20:18:42.131Z] CLI Version:   9.22.0
+[debug] [2021-12-11T20:18:42.131Z] Platform:      linux
+[debug] [2021-12-11T20:18:42.131Z] Node Version:  v14.18.2
+[debug] [2021-12-11T20:18:42.131Z] Time:          Sat Dec 11 2021 20:18:42 GMT+0000 (Coordinated Universal Time)
+[debug] [2021-12-11T20:18:42.132Z] ----------------------------------------------------------------------
+[debug] 
+[info] i  Firebase optionally collects CLI usage and error reporting information to help improve our products. Data is collected in accordance with Google's privacy policy (https://policies.google.com/privacy) and is not used to identify you.
+ 
+[info] 
+[info] Visit this URL on this device to log in:
+[info] https://accounts.google.com/o/oauth2/auth?client_id=563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com&scope=email%20openid%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloudplatformprojects.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Ffirebase%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform&response_type=code&state=862282590&redirect_uri=http%3A%2F%2Flocalhost%3A9005
+[info] 
+[info] Waiting for authentication...
