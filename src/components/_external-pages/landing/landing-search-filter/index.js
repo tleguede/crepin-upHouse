@@ -22,6 +22,8 @@ import {
 } from '../../../../constant';
 
 import {  values as _values } from 'lodash';
+import { useDispatch } from 'react-redux';
+import { searchRealEstate } from '../../../../redux/slices/realEstate.thunks';
 
 // ----------------------------------------------------------------------
 
@@ -49,10 +51,12 @@ const TABS = [
 
 export default function LandingSearchFilter() {
 
+  const dispatch=useDispatch();
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-
+      zone:'',
       category: REAL_ESTATE_CATEGORY.RESIDENTIAL,
       type: [],
       transactionType: TRANSACTION_TYPE.RENT,
@@ -61,12 +65,13 @@ export default function LandingSearchFilter() {
       area:  0,
       areaUnit:  AREA_UNIT.MC,
 
+      areaRange:{ min: 1, max: 3 },
 
       //residential
-      _numberOfRoom: null,
-      _numberOfBathRoom: null,
-      _numberOfParking: null,
-      _numberOfHangar: null,
+      _numberOfRoom: '',
+      _numberOfBathRoom: '',
+      _numberOfParking: '',
+      _numberOfHangar: '',
       _residentialOtherFeature:  [],
       _building:  [],
       _plexType:  null,
@@ -115,7 +120,7 @@ export default function LandingSearchFilter() {
     const searchHelper = [
       _numberOfRoom, _numberOfBathRoom, _numberOfParking, _numberOfHangar,
       ..._residentialOtherFeature, ..._building, _plexType, ..._residentialOtherCriterion,
-      _featureType, ..._buildingOtherCriterion
+      _featureType, ..._buildingOtherCriterion,values?.type
     ].filter(one => one !== null && one !== '' && one !== undefined);
 
     const data = {
@@ -137,6 +142,8 @@ export default function LandingSearchFilter() {
 
 
     console.log(data);
+
+    dispatch(searchRealEstate(data))
 
 
   }
@@ -174,6 +181,9 @@ export default function LandingSearchFilter() {
               <TextField
                 fullWidth
                 label={'Rechercher par ville, quartier ...'}
+                error={Boolean(touched.zone && errors.zone)}
+                helperText={touched.zone && errors.zone}
+                {...getFieldProps('zone')}
               />
             </Grid>
 

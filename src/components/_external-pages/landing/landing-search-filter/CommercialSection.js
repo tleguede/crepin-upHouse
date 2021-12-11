@@ -8,7 +8,6 @@ import {
   BUSINESS_TYPE, COMMERCIAL_BUILDING_OTHER, COMMERCIAL_TYPE, LAND_TYPE,
   OTHER_CRITERION
 } from 'src/constant';
-import { equalsEither } from 'src/utils/type_check';
 import { useMemo } from 'react';
 import { SectionAccordion } from '../../../SectionAccordion';
 
@@ -23,28 +22,27 @@ export default function CommercialSection({ formik, handleListChange }) {
   } = formik;
 
   const openFeatureBox = useMemo(() => {
-    return equalsEither(values.type, [
-      COMMERCIAL_TYPE.BUSINESS,
-      COMMERCIAL_TYPE.ACCOMMODATION,
-      COMMERCIAL_TYPE.LAND,
-      COMMERCIAL_TYPE.AGRICULTURAL
-    ]);
+
+    return values.type.includes(COMMERCIAL_TYPE.BUSINESS)
+      || values.type.includes(COMMERCIAL_TYPE.ACCOMMODATION)
+      || values.type.includes(COMMERCIAL_TYPE.LAND)
+      || values.type.includes(COMMERCIAL_TYPE.AGRICULTURAL)
+
   }, [values.type]);
 
   const openBuildingBox = useMemo(() => {
-    return !equalsEither(values.type, [
-      COMMERCIAL_TYPE.BUSINESS,
-      COMMERCIAL_TYPE.LAND
-    ]);
+    return values.type.includes(COMMERCIAL_TYPE.BUSINESS)
+      || values.type.includes(COMMERCIAL_TYPE.LAND);
+
   }, [values.type]);
 
 
   const openCriterionAreaBox = useMemo(() => {
-    return equalsEither(values.type, [
-      COMMERCIAL_TYPE.MULTI_FAMILIAL,
-      COMMERCIAL_TYPE.ACCOMMODATION,
-      COMMERCIAL_TYPE.BUSINESS
-    ]);
+
+    return values.type.includes(COMMERCIAL_TYPE.MULTI_FAMILIAL)
+      || values.type.includes(COMMERCIAL_TYPE.ACCOMMODATION)
+      || values.type.includes(COMMERCIAL_TYPE.BUSINESS)
+
   }, [values.type]);
 
   return (
@@ -159,7 +157,7 @@ export default function CommercialSection({ formik, handleListChange }) {
 
 
       <Collapse in={openBuildingBox}>
-        <SectionAccordion defaultExpanded={false}  hideShadow title={'Bâtiment'}>
+        <SectionAccordion defaultExpanded={false} hideShadow title={'Bâtiment'}>
           <Stack direction={'column'} spacing={1}>
             <Grid container spacing={1}>
               {
@@ -184,7 +182,7 @@ export default function CommercialSection({ formik, handleListChange }) {
         </SectionAccordion>
       </Collapse>
 
-      <SectionAccordion defaultExpanded={false}  hideShadow title={' Autres critères'}>
+      <SectionAccordion defaultExpanded={false} hideShadow title={' Autres critères'}>
         <Grid container spacing={2}>
 
           <Collapse in={openCriterionAreaBox}>

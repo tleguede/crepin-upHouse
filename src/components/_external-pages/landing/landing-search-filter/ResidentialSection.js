@@ -4,7 +4,6 @@ import {
 } from '@material-ui/core';
 import { values as _values } from 'lodash';
 import {
-  AREA_UNIT,
   BUILDING_TYPE,
   NUMBER_OF_BATHROOM,
   NUMBER_OF_HANGAR,
@@ -179,7 +178,7 @@ export default function ResidentialSection({ formik, handleListChange }) {
       </SectionAccordion>
 
 
-      <Collapse in={values.type === RESIDENCE_TYPE.PLEX}>
+      <Collapse in={values.type.includes(RESIDENCE_TYPE.PLEX)}>
         <SectionAccordion defaultExpanded={false}  hideShadow title={'Plex'}>
           <Grid container spacing={1}>
             {
@@ -218,31 +217,25 @@ export default function ResidentialSection({ formik, handleListChange }) {
               <Grid item xs={6}>
                 <TextField
                   fullWidth
-                  label={'digit'}
+                  label={'min'}
                   type={'number'}
-                  error={Boolean(touched.area && errors.area)}
-                  helperText={touched.area && errors.area}
-                  {...getFieldProps('area')}
+                  error={Boolean(touched.areaRange?.min && errors.areaRange?.min)}
+                  helperText={touched.areaRange?.min && errors.areaRange?.min}
+                  {...getFieldProps('areaRange.min')}
                 />
               </Grid>
 
               <Grid item xs={6}>
+
                 <TextField
                   fullWidth
-                  select
-                  label={'unit'}
-                  error={Boolean(touched.areaUnit && errors.areaUnit)}
-                  helperText={touched.areaUnit && errors.areaUnit}
-                  {...getFieldProps('areaUnit')}
-                >
-                  {
-                    _values(AREA_UNIT).map(one => (
-                      <MenuItem key={one} value={one}>
-                        {one}
-                      </MenuItem>
-                    ))
-                  }
-                </TextField>
+                  label={'max'}
+                  type={'number'}
+                  error={Boolean(touched.areaRange?.max && errors.areaRange?.max)}
+                  helperText={touched.areaRange?.max && errors.areaRange?.max}
+                  {...getFieldProps('areaRange.max')}
+                />
+
               </Grid>
 
             </Grid>

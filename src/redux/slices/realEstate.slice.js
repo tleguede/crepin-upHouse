@@ -5,7 +5,11 @@ const slice = createSlice({
   initialState: {
     loading: false,
     error: null,
-    selected: null
+    selected: null,
+    list:[],
+    cursor:null,
+    filter:null,
+    hasMore:false,
   },
   reducers: {
     startLoading: state => {
@@ -22,11 +26,21 @@ const slice = createSlice({
       state.error = null;
       state.loading = false;
       state.selected = action.payload;
-    }
+    },
+
+    gotList: (state, action) => {
+      state.error = null;
+      state.loading = false;
+      state.filter = action.payload?.filter;
+      state.list = action.payload?.list;
+      state.cursor = action.payload?.cursor;
+      state.hasMore = action.payload?.hasMore;
+    },
+
   }
 });
 
-export const { hasError, startLoading, gotSelectedRealEstate } = slice.actions;
+export const { hasError, startLoading, gotSelectedRealEstate,gotList } = slice.actions;
 
 const realEstateReducer = slice.reducer;
 

@@ -110,7 +110,7 @@ export default function Publish({ selected }) {
       const searchHelper = [
         _numberOfRoom, _numberOfBathRoom, _numberOfParking, _numberOfHangar,
         ..._residentialOtherFeature, ..._building, _plexType, ..._residentialOtherCriterion,
-        _featureType, ..._buildingOtherCriterion
+        _featureType, ..._buildingOtherCriterion,values?.type
       ].filter(one => one !== null && one !== '' && one !== undefined);
 
       const residential = {
