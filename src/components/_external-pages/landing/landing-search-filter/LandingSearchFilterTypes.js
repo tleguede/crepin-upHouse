@@ -1,19 +1,22 @@
-import { useRef } from 'react';
-import { Button, Checkbox, Grid, IconButton, MenuItem, Popover, Stack, TextField, Typography } from '@material-ui/core';
+import { useMemo, useRef } from 'react';
+import {
+  Button,
+  Collapse,
+  IconButton,
+  Popover,
+  Stack,
+
+} from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import useToggle from '../../../../hooks/useToggle';
-import {  values } from 'lodash';
-import { SectionAccordion } from '../../../SectionAccordion';
 import {
-  BUILDING_TYPE,
-  NUMBER_OF_BATHROOM,
-  NUMBER_OF_HANGAR,
-  NUMBER_OF_PARKING,
-  NUMBER_OF_ROOM, OTHER_CRITERION, OTHER_FEATURES, PLEX_TYPE,
-  RESIDENCE_TYPE
+  REAL_ESTATE_CATEGORY,
 } from '../../../../constant';
 import { Close } from '@material-ui/icons';
+import ResidentialSection from './ResidentialSection';
+import CommercialSection from './CommercialSection';
+
 
 
 const RootStyle = styled('div')(() => ({
@@ -21,9 +24,26 @@ const RootStyle = styled('div')(() => ({
   width:450
 }));
 
-export default function LandingSearchFilterTypes({ range, onChange }) {
+export default function LandingSearchFilterTypes({ formik, onChange }) {
   const ref = useRef();
   const { open, handleOpen, handleClose } = useToggle();
+  const {
+    values,
+
+    setFieldValue,
+  } = formik;
+
+
+  const handleListChange = (key, value, shouldAdd) => {
+    if (shouldAdd)
+      setFieldValue(key, [...values[key], value]);
+    else
+      setFieldValue(key, values[key].filter(one => one !== value));
+  };
+
+  const openResidentialFeature = useMemo(() => {
+    return values.category === REAL_ESTATE_CATEGORY.RESIDENTIAL;
+  }, [values.category]);
 
 
   return (
@@ -56,206 +76,14 @@ export default function LandingSearchFilterTypes({ range, onChange }) {
             </IconButton>
           </Stack>
 
-          <SectionAccordion title={'Type de propriete'} hideShadow defaultExpanded={false}>
-
-            <Grid container spacing={1}>
-              {
-                values(RESIDENCE_TYPE).map(one => (
-                  <Grid item xs={6} key={one}>
-                    <Stack direction={'row'} spacing={2}>
-                      <Checkbox />
-                      <Typography variant={'body1'} style={{ marginTop: 10 }}>
-                        {one}
-                      </Typography>
-                    </Stack>
-                  </Grid>
-                ))
-              }
-            </Grid>
-
-          </SectionAccordion>
-
-          <SectionAccordion title={'Caracteristiques'} hideShadow defaultExpanded={false}>
-
-            <Grid container spacing={1}>
-
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  select
-                  label={'Nombre de chambres'}
-                >
-                  {
-                    values(NUMBER_OF_ROOM).map(one => (
-                      <MenuItem key={one} value={one}>
-                        {one}
-                      </MenuItem>
-                    ))
-                  }
-                </TextField>
-              </Grid>
-
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  select
-                  label={'Nombre de salles de bain/d\'eau'}
-                >
-                  {
-                    values(NUMBER_OF_BATHROOM).map(one => (
-                      <MenuItem key={one} value={one}>
-                        {one}
-                      </MenuItem>
-                    ))
-                  }
-                </TextField>
-              </Grid>
-
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  select
-                  label={'Nombre de stationnement'}
-                >
-                  {
-                    values(NUMBER_OF_PARKING).map(one => (
-                      <MenuItem key={one} value={one}>
-                        {one}
-                      </MenuItem>
-                    ))
-                  }
-                </TextField>
-              </Grid>
-
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
-                  select
-                  label={'Nombre de garages'}
-                >
-                  {
-                    values(NUMBER_OF_HANGAR).map(one => (
-                      <MenuItem key={one} value={one}>
-                        {one}
-                      </MenuItem>
-                    ))
-                  }
-                </TextField>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Grid container spacing={1}>
-                  {
-                    values(OTHER_FEATURES).map(one => (
-                      <Grid item xs={6} key={one}>
-                        <Stack direction={'row'} spacing={2}>
-                          <Checkbox />
-                          <Typography variant={'body1'} style={{ marginTop: 10 }}>
-                            {one}
-                          </Typography>
-                        </Stack>
-                      </Grid>
-                    ))
-                  }
-                </Grid>
-              </Grid>
+          <Collapse in={openResidentialFeature}>
+            <ResidentialSection formik={formik} handleListChange={handleListChange} />
+          </Collapse>
 
 
-            </Grid>
-
-          </SectionAccordion>
-
-          <SectionAccordion title={'Bâtiment'} hideShadow defaultExpanded={false}>
-            <Grid container spacing={1}>
-              {
-                values(BUILDING_TYPE).map(one => (
-                  <Grid item xs={6} key={one}>
-                    <Stack direction={'row'} spacing={2}>
-                      <Checkbox />
-                      <Typography variant={'body1'} style={{ marginTop: 10 }}>
-                        {one}
-                      </Typography>
-                    </Stack>
-                  </Grid>
-                ))
-              }
-            </Grid>
-          </SectionAccordion>
-
-          <SectionAccordion title={'Plex'} hideShadow defaultExpanded={false}>
-            <Grid container spacing={1}>
-              {
-                values(PLEX_TYPE).map(one => (
-                  <Grid item xs={6} key={one}>
-                    <Stack direction={'row'} spacing={2}>
-                      <Checkbox />
-                      <Typography variant={'body1'} style={{ marginTop: 10 }}>
-                        {one}
-                      </Typography>
-                    </Stack>
-                  </Grid>
-                ))
-              }
-            </Grid>
-          </SectionAccordion>
-
-          <SectionAccordion title={'Autres critères'} hideShadow defaultExpanded={false}>
-
-            <Grid container spacing={2}>
-
-              <Grid item xs={12}>
-                <Grid container spacing={1}>
-
-                  <Grid item xs={12}>
-                    <Typography variant={'subtitle2'}>
-                      Superficie du terrain
-                    </Typography>
-                  </Grid>
-
-                  <Grid item xs={6}>
-                    <TextField
-                      fullWidth
-                      label={'Min'}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      fullWidth
-                      label={'Max'}
-                    />
-                  </Grid>
-                </Grid>
-              </Grid>
-
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  type={'date'}
-                  label={'Nouveau depuis'}
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <Grid container spacing={1}>
-                  {
-                    values(OTHER_CRITERION).map(one => (
-                      <Grid item xs={6} key={one}>
-                        <Stack direction={'row'} spacing={2}>
-                          <Checkbox />
-                          <Typography variant={'body1'} style={{ marginTop: 10 }}>
-                            {one}
-                          </Typography>
-                        </Stack>
-                      </Grid>
-                    ))
-                  }
-                </Grid>
-              </Grid>
-
-            </Grid>
-
-
-          </SectionAccordion>
+          <Collapse in={!openResidentialFeature}>
+            <CommercialSection formik={formik} handleListChange={handleListChange} />
+          </Collapse>
 
           <Button variant={'contained'}>
             Réinitialiser

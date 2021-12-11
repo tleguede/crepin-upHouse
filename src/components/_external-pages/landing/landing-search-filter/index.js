@@ -10,11 +10,18 @@ import {
   MenuItem, Button
 } from '@material-ui/core';
 //
-import { useState } from 'react';
 import { Apartment, Home } from '@material-ui/icons';
 import LandingSearchFilterPriceBox from './LandingSearchFilterPriceBox';
 import SearchIcon from '@material-ui/icons/Search';
 import LandingSearchFilterTypes from './LandingSearchFilterTypes';
+import { useFormik } from 'formik';
+import {
+  AREA_UNIT,
+  REAL_ESTATE_CATEGORY,
+  TRANSACTION_TYPE
+} from '../../../../constant';
+
+import {  values as _values } from 'lodash';
 
 // ----------------------------------------------------------------------
 
@@ -32,32 +39,105 @@ const RootStyle = styled('div')(({ theme }) => ({
 const TABS = [
   {
     icon: <Home />,
-    value: 'Residentiel'
+    value: REAL_ESTATE_CATEGORY.RESIDENTIAL
   },
   {
     icon: <Apartment />,
-    value: 'Commercial'
+    value: REAL_ESTATE_CATEGORY.COMMERCIAL
   }
 ];
 
 export default function LandingSearchFilter() {
-  // const theme = useTheme();
-  // const isLight = theme.palette.mode === 'light';
-  // const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 0 });
 
-  const [firsTab] = TABS;
-  const [currentTab, setCurrentTab] = useState(firsTab.value);
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
 
-  const handleTabsChange = (change) => {
-    setCurrentTab(change);
-  };
+      category: REAL_ESTATE_CATEGORY.RESIDENTIAL,
+      type: [],
+      transactionType: TRANSACTION_TYPE.RENT,
+      cost:  0,
+      costRange:{ min: 0, max: 0 },
+      area:  0,
+      areaUnit:  AREA_UNIT.MC,
 
-  const handlePriceRangeChange = (change) => {
-    setPriceRange(change);
-  };
+
+      //residential
+      _numberOfRoom: null,
+      _numberOfBathRoom: null,
+      _numberOfParking: null,
+      _numberOfHangar: null,
+      _residentialOtherFeature:  [],
+      _building:  [],
+      _plexType:  null,
+      _residentialOtherCriterion:  [],
+
+
+      //commercial
+      _featureType: null,
+      _buildingOtherCriterion:  []
+
+
+    },
+  });
+
+  const {
+    values,touched, errors,getFieldProps,
+    setFieldValue,
+  } = formik;
+
 
   const handleApply = () => {
+
+    const {
+      files,
+      _areaMax,
+      _areaMin,
+
+      _numberOfRoom,
+      _numberOfBathRoom,
+      _numberOfParking,
+      _numberOfHangar,
+      _residentialOtherFeature,
+      _building,
+      _plexType,
+      _residentialOtherCriterion,
+
+      _featureType,
+      _commercialAreaMax,
+      _commercialAreaMin,
+      _buildingOtherCriterion,
+
+      ...rest
+    } = values;
+
+
+    const searchHelper = [
+      _numberOfRoom, _numberOfBathRoom, _numberOfParking, _numberOfHangar,
+      ..._residentialOtherFeature, ..._building, _plexType, ..._residentialOtherCriterion,
+      _featureType, ..._buildingOtherCriterion
+    ].filter(one => one !== null && one !== '' && one !== undefined);
+
+    const data = {
+      ...rest,
+      searchHelper,
+      features: {
+        numberOfRoom: _numberOfRoom === '' ? null : _numberOfRoom,
+        numberOfBathRoom: _numberOfBathRoom === '' ? null : _numberOfBathRoom,
+        numberOfHangar: _numberOfHangar === '' ? null : _numberOfHangar,
+        numberOfParking: _numberOfParking === '' ? null : _numberOfParking,
+        otherFeature: _residentialOtherFeature,
+        building: _building,
+        plexType: _plexType === '' ? null : _plexType,
+        otherCriterion: _residentialOtherCriterion,
+        featureType: _featureType === '' ? null : _featureType,
+        buildingOtherCriterion: _buildingOtherCriterion,
+      }
+    };
+
+
+    console.log(data);
+
 
   }
 
@@ -69,12 +149,12 @@ export default function LandingSearchFilter() {
         <Stack direction={'column'} spacing={1}>
 
           <Tabs
-            value={currentTab}
+            value={values.category}
             scrollButtons='auto'
             variant='scrollable'
             allowScrollButtonsMobile
             style={{marginLeft:20}}
-            onChange={(_, tabName) => handleTabsChange(tabName)}
+            onChange={(_, tabName) => setFieldValue('category',tabName)}
           >
             {
               TABS.map(tab => (
@@ -99,32 +179,32 @@ export default function LandingSearchFilter() {
 
             <Grid item xs={2}>
               <TextField
-                fullWidth
                 select
-                defaultValue={'sell'}
+                fullWidth
+                error={Boolean(touched.transactionType && errors.transactionType)}
+                helperText={touched.transactionType && errors.transactionType}
+                {...getFieldProps('transactionType')}
               >
-
-                <MenuItem value={'sell'}>
-                  A vendre
-                </MenuItem>
-
-                <MenuItem value={'rent'}>
-                  A Louer
-                </MenuItem>
-
+                {
+                  _values(TRANSACTION_TYPE).map(one => (
+                    <MenuItem key={one} value={one}>
+                      {one}
+                    </MenuItem>
+                  ))
+                }
               </TextField>
             </Grid>
 
             <Grid item xs={2}>
               <LandingSearchFilterPriceBox
-                range={priceRange}
-                onChange={handlePriceRangeChange}
+                range={values.costRange}
+                onChange={change=>setFieldValue('costRange',change)}
               />
             </Grid>
 
             <Grid item xs={2}>
               <LandingSearchFilterTypes
-
+                formik={formik}
               />
             </Grid>
 

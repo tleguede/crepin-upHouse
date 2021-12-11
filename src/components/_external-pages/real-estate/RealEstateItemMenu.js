@@ -1,4 +1,4 @@
-import {  List, MenuItem, Popover } from '@material-ui/core';
+import { List, MenuItem, Popover } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import useToggle from '../../../hooks/useToggle';
 import { useRef, useState } from 'react';
@@ -42,7 +42,7 @@ export default function RealEstateItemMenu({ item, isMyPosts, isAdminValidator, 
 
   const handleStateChange = state => {
     setLoading(true);
-    dispatch(editRealEstate({id:item?.id,state}, () => {
+    dispatch(editRealEstate({ id: item?.id, state }, () => {
       enqueueSnackbar('La modification a été bien faite', { variant: 'success' });
       setLoading(false);
       handleClose();
@@ -67,7 +67,7 @@ export default function RealEstateItemMenu({ item, isMyPosts, isAdminValidator, 
           </MenuItem>
 
           {
-            isMyPosts && !isInValidation && (
+            isMyPosts && (item?.state === REAL_ESTATE_STATE.REJECTED) && (
               <MenuItem onClick={() => handleStateChange(REAL_ESTATE_STATE.WAITING_FOR_VALIDATION)}>
                 Demande de validation
               </MenuItem>
@@ -108,7 +108,7 @@ export default function RealEstateItemMenu({ item, isMyPosts, isAdminValidator, 
           }
 
           {
-            isMyPosts && (
+            (isMyPosts || isAdminValidator) && (
               <MenuItem onClick={handleEdit}>
                 Editer
               </MenuItem>

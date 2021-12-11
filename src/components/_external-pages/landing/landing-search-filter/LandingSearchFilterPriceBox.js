@@ -3,21 +3,13 @@ import { Button, Grid, Popover, TextField } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import useToggle from '../../../../hooks/useToggle';
-import PropTypes from 'prop-types';
 import { isFunction } from 'lodash';
 
 
 const RootStyle = styled('div')(() => ({
-  margin: 20
+  margin: 20,
+  width:400
 }));
-
-LandingSearchFilterPriceBox.propTypes = {
-  range: PropTypes.shape({
-    min: PropTypes.number.isRequired,
-    max: PropTypes.number.isRequired
-  }).isRequired,
-  onChange: PropTypes.func
-};
 
 export default function LandingSearchFilterPriceBox({ range, onChange }) {
   const ref = useRef();
@@ -25,7 +17,7 @@ export default function LandingSearchFilterPriceBox({ range, onChange }) {
 
   const handleChange = (change) =>
     (change.min >= 0 || change.max >= 0)
-    && isFunction(onChange) && onChange(change);
+    && isFunction(onChange) && onChange({min: Number(change.min), max:Number(change.max)});
 
   return (
     <>
@@ -75,6 +67,12 @@ export default function LandingSearchFilterPriceBox({ range, onChange }) {
                   handleChange({ ...range, max: value });
                 }}
               />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Button variant={'contained'} style={{width:200}} onClick={()=>handleChange({min:0,max:0})}>
+                Réinitialiser
+              </Button>
             </Grid>
 
           </Grid>

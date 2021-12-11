@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, Grid, Tooltip, IconButton, useMediaQuery } from '@material-ui/core';
+import { Box, Typography, Paper, Grid, Tooltip, IconButton } from '@material-ui/core';
 
 import Label from '../../Label';
 import { Favorite, FavoriteBorder } from '@material-ui/icons';
@@ -15,14 +15,12 @@ import { REAL_ESTATE_STATE } from '../../../constant';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import BlockIcon from '@material-ui/icons/Block';
 import RealEstateItemMenu from './RealEstateItemMenu';
-import { useTheme } from '@material-ui/core/styles';
 
 export function RealEstateItem({ item }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const isHome = useMemo(() => location.pathname === '/', [location.pathname]);
   const isMyPosts = useMemo(() => location.pathname === PATH_PAGE.myPosts, [location.pathname]);
   const isAdminValidator = useMemo(() => location.pathname === PATH_DASHBOARD.admin.validation, [location.pathname]);
   const isInValidation = useMemo(() => item?.state === REAL_ESTATE_STATE.WAITING_FOR_VALIDATION, [item?.state]);
@@ -55,7 +53,6 @@ export function RealEstateItem({ item }) {
     navigate(PATH_PAGE.detail.replace(':id', id));
   };
 
-
   return (
     <>
       <Paper sx={{ mx: 1.5, borderRadius: 2, bgcolor: 'background.neutral' }}>
@@ -63,9 +60,9 @@ export function RealEstateItem({ item }) {
 
           <Box sx={{
             position: 'absolute',
-            bottom: isMobile ? 170 : 110,
+            bottom:  110,
             right: 5,
-            bgcolor: 'white',
+            bgcolor: isHome? 'transparent':'white',
             borderRadius: 20,
             mr: 2
           }}>
@@ -83,7 +80,7 @@ export function RealEstateItem({ item }) {
             }
 
             {
-              isMyPosts && (
+              isMyPosts&& (item?.state !== REAL_ESTATE_STATE.VALIDATED) && (
                 <Tooltip title={item?.state}>
                   <IconButton color={(isInValidation && 'success') || (isBanned && 'error') || 'default'}>
                     {isInValidation && (<AccessTimeIcon />)}
@@ -119,7 +116,7 @@ export function RealEstateItem({ item }) {
             </Typography>
           </Label>
 
-          <Box component='img' src={cover} sx={{ borderRadius: 1.5, width: 1 }} onClick={() => goTo(item?.id)} />
+          <Box component='img' src={cover} sx={{ borderRadius: 1.5, width: 1,height:150 }} onClick={() => goTo(item?.id)} />
         </Box>
 
         <Grid container spacing={2} sx={{ p: 3, pt: 1, pb: 2.5 }} onClick={() => goTo(item?.id)}>

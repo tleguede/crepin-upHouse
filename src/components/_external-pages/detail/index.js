@@ -67,6 +67,13 @@ export default function Detail({ selected }) {
     return selected?.bookmarkedByIds?.includes(id) || false;
   }, [selected?.bookmarkedByIds, id]);
 
+  const isOwner = useMemo(() => {
+    console.log()
+    return selected?.owner?.id===id || false;
+  }, [selected?.owner?.id, id]);
+
+  console.log(id,selected?.owner?.id,isOwner)
+
   const handleFavorite = () => {
     if (!isAuthenticated) {
       handleOpenFavorite();
@@ -98,6 +105,7 @@ export default function Detail({ selected }) {
     return list.filter(one => isString(one));
   }, [selected?.features]);
 
+
   return (
     <>
       <Stack direction={'column'} spacing={3}>
@@ -112,11 +120,18 @@ export default function Detail({ selected }) {
                            onClick={handleFavorite}>
               {isFavorite ? <Favorite /> : <FavoriteBorder />}
             </LoadingButton>
-            <Button variant={'outlined'} color={'error'} onClick={handleOpen}
-                    disabled={selected?.state !== REAL_ESTATE_STATE.VALIDATED}
-            >
-              Je suis interesse
-            </Button>
+
+            {
+              !isOwner &&(
+                <Button variant={'outlined'} color={'error'} onClick={handleOpen}
+
+                        disabled={selected?.state !== REAL_ESTATE_STATE.VALIDATED}
+                >
+                  Je suis interesse
+                </Button>
+              )
+            }
+
 
             {
               isAdmin && (

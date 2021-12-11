@@ -18,11 +18,21 @@ const storage = firebase.storage();
 const firestore = firebase.firestore();
 const realtimeDb = firebase.database();
 
-if (window.location.hostname === 'localhost') {
+if (window.location.hostname === 'localhost' ) {
   auth.useEmulator('http://localhost:9099/');
   storage.useEmulator('localhost', 9199);
   firestore.useEmulator('localhost', 8080);
   realtimeDb.useEmulator('localhost', 9000);
+}else{
+
+  firebase.firestore().settings({
+    cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
+  });
+
+  firebase.firestore().enablePersistence().catch((err)=> { console.log(err) });
+
+  // auth.pe.enablePersistence().catch((err)=> { console.log(err) });
+
 }
 
 const initialState = {

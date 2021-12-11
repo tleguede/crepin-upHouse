@@ -11,10 +11,13 @@ import { MHidden } from '../../components/@material-extend';
 //
 import MenuDesktop from './MenuDesktop';
 import MenuMobile from './MenuMobile';
-import navConfig, { loggedConfig } from './MenuConfig';
+import navConfig, { ICON_SIZE, loggedConfig, mobileGuestConfig, mobileLoggedConfig } from './MenuConfig';
 import useAuth from '../../hooks/useAuth';
 import AccountPopover from '../dashboard/AccountPopover';
 import { useMemo } from 'react';
+import { Icon } from '@iconify/react';
+import {  PATH_DASHBOARD } from '../../routes/paths';
+import settings2Fill from '@iconify/icons-eva/settings-2-fill';
 
 // ----------------------------------------------------------------------
 
@@ -48,11 +51,24 @@ const ToolbarShadowStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function MainNavbar() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated,user:{isAdmin=false} } = useAuth();
   const isOffset = useOffSetTop(100);
   const { pathname } = useLocation();
   const isHome = pathname === '/';
   const navConf= useMemo(() => isAuthenticated ? loggedConfig : navConfig, [isAuthenticated]);
+  const mobileNavConf= useMemo(() => isAuthenticated ? mobileLoggedConfig : mobileGuestConfig, [isAuthenticated]);
+  const mobileConfig = useMemo(() => {
+
+    return isAdmin ? [
+      ...mobileNavConf,
+      {
+        title: "Admin",
+        icon: <Icon icon={settings2Fill} {...ICON_SIZE} />,
+        path: PATH_DASHBOARD.admin.validation
+      }
+    ] :mobileNavConf
+
+  }, [mobileNavConf,isAdmin]);
 
   return (
     <AppBar sx={{ boxShadow: 0, bgcolor: 'transparent' }}>
@@ -108,7 +124,7 @@ export default function MainNavbar() {
           </MHidden>
 
           <MHidden width='mdUp'>
-            <MenuMobile isOffset={isOffset} isHome={isHome} navConfig={navConf} />
+            <MenuMobile isOffset={isOffset} isHome={isHome} navConfig={mobileConfig} />
           </MHidden>
         </Container>
       </ToolbarStyle>
