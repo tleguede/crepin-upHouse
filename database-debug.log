@@ -3,5 +3,12 @@ WARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (fil
 WARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil
 WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
 WARNING: All illegal access operations will be denied in a future release
-13:40:44.266 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
-13:40:44.562 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
+14:11:12.865 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+14:11:13.150 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
+14:11:53.123 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
+14:11:53.136 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.Terminator$Terminator - 2 actors left to terminate: up-house-default-rtdb, up-house
+14:11:53.147 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.NamespaceActor - Stopping namespace actor for up-house
+14:11:53.149 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.NamespaceActor - Gauges removed for up-house
+14:11:53.152 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO com.firebase.core.namespace.NamespaceActor - Stopping namespace actor for up-house-default-rtdb
+14:11:53.152 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO com.firebase.core.namespace.NamespaceActor - Gauges removed for up-house-default-rtdb
+14:11:53.158 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.
