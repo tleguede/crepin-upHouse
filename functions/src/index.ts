@@ -11,26 +11,30 @@ const admin = fb.initializeApp({
 });
 const auth = admin.auth();
 const firestore = admin.firestore();
+// const messaging = admin.messaging();
+
 const userCollection = firestore.collection('users');
+
+//#region users
 
 export const createUser = functions.https.onRequest(async (req, resp) => {
   try {
+
     const { uid, disabled, displayName, email, photoURL, phoneNumber } = await auth.createUser(req.body);
 
     const user = {
-      id: uid,
-      disabled,
-      displayName,
-      email,
-      photoURL,
-      phoneNumber
+      disabled: disabled || false,
+      displayName: displayName || null,
+      email: email || null,
+      photoURL: photoURL || null,
+      phoneNumber: phoneNumber || null
     };
 
     await userCollection.doc(uid).set(user, { merge: true });
 
     resp.status(200).json(user);
   } catch (error) {
-    functions.logger.info(error, { structuredData: true });
+    functions.logger.error(error, { structuredData: true });
     resp.status(400).json(error);
   }
 });
@@ -39,26 +43,29 @@ export const updateUserProfile = functions.https.onRequest(async (req, resp) => 
   try {
     const { id, password, ...rest } = req.body;
 
-    functions.logger.info(req.method);
-
     await auth.updateUser(id, rest);
 
     await userCollection.doc(id).set(rest, { merge: true });
 
-    resp.status(200).json(req.body);
+    const result = await userCollection.doc(id).get();
+
+    resp.status(200).json({ id: result.id, ...result.data() });
   } catch (error) {
-    functions.logger.info(error, { structuredData: true });
+    functions.logger.error(error, { structuredData: true });
     resp.status(400).json(error);
   }
 });
 
+//#endregion
 
-// export const updateUserPassword = functions.https.onRequest((req, resp) => {
-//   try {
-//
-//   }catch (error) {
-//     functions.logger.info(error, { structuredData: true });
-//     resp.status(400).json(error);
-//   }
-// });
 
+export const notify = functions.https.onRequest((req, resp) => {
+  try {
+
+    // const result = await userCollection.where('')
+
+  }catch (error) {
+    functions.logger.error(error, { structuredData: true });
+    resp.status(400).json(error);
+  }
+})
