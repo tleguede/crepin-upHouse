@@ -27,14 +27,18 @@ export const createUser = functions.https.onRequest(async (req, resp) => {
       displayName: displayName || null,
       email: email || null,
       photoURL: photoURL || null,
-      phoneNumber: phoneNumber || null
+      phoneNumber: phoneNumber || null,
+      createdAt: new Date()
     };
 
     await userCollection.doc(uid).set(user, { merge: true });
 
-    resp.status(200).json(user);
+    resp.status(200).json({ ...user, id: uid });
   } catch (error) {
-    functions.logger.error(error, { structuredData: true });
+    functions.logger.error({
+      req: req.body,
+      error
+    }, { structuredData: true });
     resp.status(400).json(error);
   }
 });
@@ -51,7 +55,10 @@ export const updateUserProfile = functions.https.onRequest(async (req, resp) => 
 
     resp.status(200).json({ id: result.id, ...result.data() });
   } catch (error) {
-    functions.logger.error(error, { structuredData: true });
+    functions.logger.error({
+      req: req.body,
+      error
+    }, { structuredData: true });
     resp.status(400).json(error);
   }
 });
@@ -64,8 +71,8 @@ export const notify = functions.https.onRequest((req, resp) => {
 
     // const result = await userCollection.where('')
 
-  }catch (error) {
+  } catch (error) {
     functions.logger.error(error, { structuredData: true });
     resp.status(400).json(error);
   }
-})
+});
