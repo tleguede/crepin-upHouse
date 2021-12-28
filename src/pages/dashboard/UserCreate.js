@@ -18,10 +18,10 @@ import useUsers from '../../hooks/useUsers';
 export default function UserCreate() {
   const { themeStretch } = useSettings();
   const { pathname } = useLocation();
-  const { name } = useParams();
+  const { id } = useParams();
   const {users:userList} = useUsers();
   const isEdit = pathname.includes('edit');
-  const currentUser = userList.find((user) => user.id === name);
+  const currentUser = userList.find((user) => user.id === id);
 
 
   return (
@@ -32,7 +32,7 @@ export default function UserCreate() {
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             { name: 'User', href: PATH_DASHBOARD.user.root },
-            { name: !isEdit ? 'New user' : name }
+            { name: !isEdit ? 'New user' : currentUser?.displayName }
           ]}
         />
 

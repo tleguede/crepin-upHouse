@@ -11,21 +11,22 @@ import {
   Card,
   Grid,
   Stack,
-  Switch,
+  // Switch,
   TextField,
   Typography,
   FormHelperText,
-  FormControlLabel
+  // FormControlLabel
 } from '@material-ui/core';
 // utils
 import { fData } from '../../../utils/formatNumber';
-import fakeRequest from '../../../utils/fakeRequest';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 //
 import Label from '../../Label';
 import { UploadAvatar } from '../../upload';
 import countries from './countries';
+import { useDispatch } from '../../../redux/store';
+import { createUser, updateUser } from '../../../redux/slices/user.thunk';
 
 // ----------------------------------------------------------------------
 
@@ -36,6 +37,7 @@ UserNewForm.propTypes = {
 
 export default function UserNewForm({ isEdit, currentUser }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
   const NewUserSchema = Yup.object().shape({
@@ -71,11 +73,19 @@ export default function UserNewForm({ isEdit, currentUser }) {
     validationSchema: NewUserSchema,
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
       try {
-        await fakeRequest(500);
-        resetForm();
-        setSubmitting(false);
-        enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
-        navigate(PATH_DASHBOARD.user.list);
+
+        const callback = () => {
+          resetForm();
+          setSubmitting(false);
+          enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
+          navigate(PATH_DASHBOARD.user.list);
+        };
+
+
+        isEdit
+          ? dispatch(updateUser({ ...currentUser, ...values }, callback))
+          : dispatch(createUser(values, callback));
+
       } catch (error) {
         console.error(error);
         setSubmitting(false);
@@ -101,7 +111,7 @@ export default function UserNewForm({ isEdit, currentUser }) {
 
   return (
     <FormikProvider value={formik}>
-      <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
+      <Form noValidate autoComplete='off' onSubmit={handleSubmit}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
             <Card sx={{ py: 10, px: 3 }}>
@@ -116,14 +126,14 @@ export default function UserNewForm({ isEdit, currentUser }) {
 
               <Box sx={{ mb: 5 }}>
                 <UploadAvatar
-                  accept="image/*"
+                  accept='image/*'
                   file={values.avatarUrl}
                   maxSize={3145728}
                   onDrop={handleDrop}
                   error={Boolean(touched.photoURL && errors.photoURL)}
                   caption={
                     <Typography
-                      variant="caption"
+                      variant='caption'
                       sx={{
                         mt: 2,
                         mx: 'auto',
@@ -142,44 +152,44 @@ export default function UserNewForm({ isEdit, currentUser }) {
                 </FormHelperText>
               </Box>
 
-              {isEdit && (
-                <FormControlLabel
-                  labelPlacement="start"
-                  control={
-                    <Switch
-                      onChange={(event) => setFieldValue('status', event.target.checked ? 'banned' : 'active')}
-                      checked={values.status !== 'active'}
-                    />
-                  }
-                  label={
-                    <>
-                      <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                        Banned
-                      </Typography>
-                      <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                        Apply disable account
-                      </Typography>
-                    </>
-                  }
-                  sx={{ mx: 0, mb: 3, width: 1, justifyContent: 'space-between' }}
-                />
-              )}
+              {/*{isEdit && (*/}
+              {/*  <FormControlLabel*/}
+              {/*    labelPlacement='start'*/}
+              {/*    control={*/}
+              {/*      <Switch*/}
+              {/*        onChange={(event) => setFieldValue('status', event.target.checked ? 'banned' : 'active')}*/}
+              {/*        checked={values.status !== 'active'}*/}
+              {/*      />*/}
+              {/*    }*/}
+              {/*    label={*/}
+              {/*      <>*/}
+              {/*        <Typography variant='subtitle2' sx={{ mb: 0.5 }}>*/}
+              {/*          Banni*/}
+              {/*        </Typography>*/}
+              {/*        <Typography variant='body2' sx={{ color: 'text.secondary' }}>*/}
+              {/*          Apply disable account*/}
+              {/*        </Typography>*/}
+              {/*      </>*/}
+              {/*    }*/}
+              {/*    sx={{ mx: 0, mb: 3, width: 1, justifyContent: 'space-between' }}*/}
+              {/*  />*/}
+              {/*)}*/}
 
-              <FormControlLabel
-                labelPlacement="start"
-                control={<Switch {...getFieldProps('isVerified')} checked={values.isVerified} />}
-                label={
-                  <>
-                    <Typography variant="subtitle2" sx={{ mb: 0.5 }}>
-                      Email Verified
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                      Disabling this will automatically send the user a verification email
-                    </Typography>
-                  </>
-                }
-                sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}
-              />
+              {/*<FormControlLabel*/}
+              {/*  labelPlacement='start'*/}
+              {/*  control={<Switch {...getFieldProps('isVerified')} checked={values.isVerified} />}*/}
+              {/*  label={*/}
+              {/*    <>*/}
+              {/*      <Typography variant='subtitle2' sx={{ mb: 0.5 }}>*/}
+              {/*        Email Verified*/}
+              {/*      </Typography>*/}
+              {/*      <Typography variant='body2' sx={{ color: 'text.secondary' }}>*/}
+              {/*        Disabling this will automatically send the user a verification email*/}
+              {/*      </Typography>*/}
+              {/*    </>*/}
+              {/*  }*/}
+              {/*  sx={{ mx: 0, width: 1, justifyContent: 'space-between' }}*/}
+              {/*/>*/}
             </Card>
           </Grid>
 
@@ -189,14 +199,14 @@ export default function UserNewForm({ isEdit, currentUser }) {
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   <TextField
                     fullWidth
-                    label="Full Name"
+                    label='Full Name'
                     {...getFieldProps('displayName')}
                     error={Boolean(touched.displayName && errors.displayName)}
                     helperText={touched.displayName && errors.displayName}
                   />
                   <TextField
                     fullWidth
-                    label="Email Address"
+                    label='Email Address'
                     {...getFieldProps('email')}
                     error={Boolean(touched.email && errors.email)}
                     helperText={touched.email && errors.email}
@@ -206,7 +216,7 @@ export default function UserNewForm({ isEdit, currentUser }) {
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   <TextField
                     fullWidth
-                    label="Phone Number"
+                    label='Phone Number'
                     {...getFieldProps('phoneNumber')}
                     error={Boolean(touched.phoneNumber && errors.phoneNumber)}
                     helperText={touched.phoneNumber && errors.phoneNumber}
@@ -214,14 +224,14 @@ export default function UserNewForm({ isEdit, currentUser }) {
                   <TextField
                     select
                     fullWidth
-                    label="Country"
-                    placeholder="Country"
+                    label='Country'
+                    placeholder='Country'
                     {...getFieldProps('country')}
                     SelectProps={{ native: true }}
                     error={Boolean(touched.country && errors.country)}
                     helperText={touched.country && errors.country}
                   >
-                    <option value="" />
+                    <option value='' />
                     {countries.map((option) => (
                       <option key={option.code} value={option.label}>
                         {option.label}
@@ -233,14 +243,14 @@ export default function UserNewForm({ isEdit, currentUser }) {
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   <TextField
                     fullWidth
-                    label="State/Region"
+                    label='State/Region'
                     {...getFieldProps('state')}
                     error={Boolean(touched.state && errors.state)}
                     helperText={touched.state && errors.state}
                   />
                   <TextField
                     fullWidth
-                    label="City"
+                    label='City'
                     {...getFieldProps('city')}
                     error={Boolean(touched.city && errors.city)}
                     helperText={touched.city && errors.city}
@@ -250,25 +260,25 @@ export default function UserNewForm({ isEdit, currentUser }) {
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   <TextField
                     fullWidth
-                    label="Address"
+                    label='Address'
                     {...getFieldProps('address')}
                     error={Boolean(touched.address && errors.address)}
                     helperText={touched.address && errors.address}
                   />
-                  <TextField fullWidth label="Zip/Code" {...getFieldProps('zipCode')} />
+                  <TextField fullWidth label='Zip/Code' {...getFieldProps('zipCode')} />
                 </Stack>
 
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   <TextField
                     fullWidth
-                    label="Company"
+                    label='Company'
                     {...getFieldProps('company')}
                     error={Boolean(touched.company && errors.company)}
                     helperText={touched.company && errors.company}
                   />
                   <TextField
                     fullWidth
-                    label="Role"
+                    label='Role'
                     {...getFieldProps('role')}
                     error={Boolean(touched.role && errors.role)}
                     helperText={touched.role && errors.role}
@@ -276,7 +286,7 @@ export default function UserNewForm({ isEdit, currentUser }) {
                 </Stack>
 
                 <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
-                  <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                  <LoadingButton type='submit' variant='contained' loading={isSubmitting}>
                     {!isEdit ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Box>

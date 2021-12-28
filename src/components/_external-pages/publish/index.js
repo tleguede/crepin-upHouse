@@ -4,7 +4,7 @@ import {
 } from '@material-ui/core';
 import { UploadMultiFile } from '../../upload';
 import { LoadingButton } from '@material-ui/lab';
-import { values as _values, uniqBy, isEqual } from 'lodash';
+import { values as _values, uniqBy, isEqual,isEmpty } from 'lodash';
 import {
   AREA_UNIT,
   COMMERCIAL_TYPE, PAYMENT_RHYTHM,
@@ -27,6 +27,7 @@ import { useNavigate } from 'react-router-dom';
 import { PATH_PAGE } from '../../../routes/paths';
 import useAuth from '../../../hooks/useAuth';
 import ErrorHelper from '../../ErrorHelper';
+import { updateUser } from '../../../redux/slices/user.thunk';
 
 export default function Publish({ selected }) {
   const { user } = useAuth();
@@ -37,25 +38,26 @@ export default function Publish({ selected }) {
   const { enqueueSnackbar } = useSnackbar();
 
 
-
-
   const schema = Yup.object().shape({
+    phoneNumber: Yup.string().required('Le numero est requis'),
     name: Yup.string().required('Le nom est requis'),
     description: Yup.string().required('La description est requise'),
     cost: Yup.number().required('Le prix est requis'),
-    files: Yup.array().min(1, 'Ajouter au moins une image'),
+    files: Yup.array().min(1, 'Ajouter au moins une image')
   });
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
 
+      phoneNumber: user?.phoneNumber || '',
+
       name: selected?.name || '',
       description: selected?.description || '',
       category: selected?.category || REAL_ESTATE_CATEGORY.RESIDENTIAL,
       type: selected?.type || RESIDENCE_TYPE.SINGLE_FAMILY_HOME,
       files: selected?.images?.map(one => ({ ...one, preview: one?.url })) || [],
-      transactionType: selected?.transactionType||TRANSACTION_TYPE.RENT,
+      transactionType: selected?.transactionType || TRANSACTION_TYPE.RENT,
       cost: selected?.cost || 0,
       paymentRhythm: selected?.paymentRhythm || PAYMENT_RHYTHM.PER_MONTH,
 
@@ -85,6 +87,7 @@ export default function Publish({ selected }) {
     onSubmit: async (values, { setErrors, setSubmitting, resetForm }) => {
 
       const {
+        phoneNumber,
         files,
         _areaMax,
         _areaMin,
@@ -110,7 +113,7 @@ export default function Publish({ selected }) {
       const searchHelper = [
         _numberOfRoom, _numberOfBathRoom, _numberOfParking, _numberOfHangar,
         ..._residentialOtherFeature, ..._building, _plexType, ..._residentialOtherCriterion,
-        _featureType, ..._buildingOtherCriterion,values?.type
+        _featureType, ..._buildingOtherCriterion, values?.type
       ].filter(one => one !== null && one !== '' && one !== undefined);
 
       const residential = {
@@ -133,7 +136,7 @@ export default function Publish({ selected }) {
         searchHelper,
         features: {
           featureType: _featureType === '' ? null : _featureType,
-          buildingOtherCriterion: _buildingOtherCriterion,
+          buildingOtherCriterion: _buildingOtherCriterion
         }
       };
 
@@ -190,6 +193,11 @@ export default function Publish({ selected }) {
           ? dispatch(editRealEstate(finalData, callback))
           : dispatch(createRealEstate(finalData, callback));
 
+
+        dispatch(updateUser({
+          id: user?.id,
+          phoneNumber
+        }));
 
       });
 
@@ -399,7 +407,6 @@ export default function Publish({ selected }) {
             />
 
 
-
             <UploadMultiFile
               files={values.files}
               accept='image/*'
@@ -413,11 +420,22 @@ export default function Publish({ selected }) {
             />
 
 
-            <ErrorHelper error={touched.files && errors.files}/>
+            <ErrorHelper error={touched.files && errors.files} />
 
+
+            {
+              isEmpty(values.phoneNumber) && (
+                <TextField
+                  label={'Numero de telephone'}
+                  error={Boolean(touched.phoneNumber && errors.phoneNumber)}
+                  helperText={touched.phoneNumber && errors.phoneNumber}
+                  {...getFieldProps('phoneNumber')}
+                />
+              )
+            }
 
             <LoadingButton type={'submit'} variant={'contained'} style={{ width: 200 }} loading={isSubmitting}>
-              {isEdit? 'Editer':'Créer'}
+              {isEdit ? 'Editer' : 'Créer'}
             </LoadingButton>
 
           </Stack>
