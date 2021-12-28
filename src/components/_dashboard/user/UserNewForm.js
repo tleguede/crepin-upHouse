@@ -39,14 +39,14 @@ export default function UserNewForm({ isEdit, currentUser }) {
   const { enqueueSnackbar } = useSnackbar();
 
   const NewUserSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
+    displayName: Yup.string().required('Name is required'),
     email: Yup.string().required('Email is required').email(),
     phoneNumber: Yup.string().required('Phone number is required'),
-    address: Yup.string().required('Address is required'),
-    country: Yup.string().required('country is required'),
-    company: Yup.string().required('Company is required'),
-    state: Yup.string().required('State is required'),
-    city: Yup.string().required('City is required'),
+    // address: Yup.string().required('Address is required'),
+    // country: Yup.string().required('country is required'),
+    // company: Yup.string().required('Company is required'),
+    // state: Yup.string().required('State is required'),
+    // city: Yup.string().required('City is required'),
     role: Yup.string().required('Role Number is required'),
     avatarUrl: Yup.mixed().required('Avatar is required')
   });
@@ -54,7 +54,7 @@ export default function UserNewForm({ isEdit, currentUser }) {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: currentUser?.name || '',
+      displayName: currentUser?.displayName || '',
       email: currentUser?.email || '',
       phoneNumber: currentUser?.phoneNumber || '',
       address: currentUser?.address || '',
@@ -62,7 +62,7 @@ export default function UserNewForm({ isEdit, currentUser }) {
       state: currentUser?.state || '',
       city: currentUser?.city || '',
       zipCode: currentUser?.zipCode || '',
-      avatarUrl: currentUser?.avatarUrl || null,
+      photoURL: currentUser?.photoURL || null,
       isVerified: currentUser?.isVerified || true,
       status: currentUser?.status,
       company: currentUser?.company || '',
@@ -120,7 +120,7 @@ export default function UserNewForm({ isEdit, currentUser }) {
                   file={values.avatarUrl}
                   maxSize={3145728}
                   onDrop={handleDrop}
-                  error={Boolean(touched.avatarUrl && errors.avatarUrl)}
+                  error={Boolean(touched.photoURL && errors.photoURL)}
                   caption={
                     <Typography
                       variant="caption"
@@ -138,7 +138,7 @@ export default function UserNewForm({ isEdit, currentUser }) {
                   }
                 />
                 <FormHelperText error sx={{ px: 2, textAlign: 'center' }}>
-                  {touched.avatarUrl && errors.avatarUrl}
+                  {touched.photoURL && errors.photoURL}
                 </FormHelperText>
               </Box>
 
@@ -190,9 +190,9 @@ export default function UserNewForm({ isEdit, currentUser }) {
                   <TextField
                     fullWidth
                     label="Full Name"
-                    {...getFieldProps('name')}
-                    error={Boolean(touched.name && errors.name)}
-                    helperText={touched.name && errors.name}
+                    {...getFieldProps('displayName')}
+                    error={Boolean(touched.displayName && errors.displayName)}
+                    helperText={touched.displayName && errors.displayName}
                   />
                   <TextField
                     fullWidth

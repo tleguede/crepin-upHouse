@@ -18,18 +18,20 @@ const storage = firebase.storage();
 const firestore = firebase.firestore();
 const realtimeDb = firebase.database();
 
-if (window.location.hostname === 'localhost' ) {
+if (window.location.hostname === 'localhost') {
   auth.useEmulator('http://localhost:9099/');
   storage.useEmulator('localhost', 9199);
   firestore.useEmulator('localhost', 8080);
   realtimeDb.useEmulator('localhost', 9000);
-}else{
+} else {
 
   firebase.firestore().settings({
     cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
   });
 
-  firebase.firestore().enablePersistence().catch((err)=> { console.log(err) });
+  firebase.firestore().enablePersistence().catch((err) => {
+    console.log(err);
+  });
 
   // auth.pe.enablePersistence().catch((err)=> { console.log(err) });
 
@@ -115,7 +117,7 @@ function AuthProvider({ children }) {
     [dispatch]
   );
 
-  const logUserProfile = ({ email, uid, displayName, photoURL,firstName,lastName }) => {
+  const logUserProfile = ({ email, uid, displayName, photoURL, firstName, lastName }) => {
     firebase
       .firestore()
       .collection('users')
@@ -125,7 +127,7 @@ function AuthProvider({ children }) {
         email,
         photoURL: photoURL || null,
         displayName: displayName || `${firstName} ${lastName}`
-      }).catch(error=>console.log(error))
+      }, { merge: true }).catch(error => console.log(error));
   };
 
   const login = (email, password) => {
@@ -136,45 +138,48 @@ function AuthProvider({ children }) {
     const provider = new firebase.auth.GoogleAuthProvider();
     return new Promise((resolve, reject) => {
       firebase.auth().signInWithPopup(provider)
-        .then(result=> {
+        .then(result => {
           logUserProfile({ ...result.user });
-          resolve(result)
+          resolve(result);
         })
-        .catch(reason => reject(reason))
-    })  };
+        .catch(reason => reject(reason));
+    });
+  };
 
   const loginWithFaceBook = () => {
     const provider = new firebase.auth.FacebookAuthProvider();
     return new Promise((resolve, reject) => {
       firebase.auth().signInWithPopup(provider)
-        .then(result=> {
+        .then(result => {
           logUserProfile({ ...result.user });
-          resolve(result)
+          resolve(result);
         })
-        .catch(reason => reject(reason))
-    })  };
+        .catch(reason => reject(reason));
+    });
+  };
 
   const loginWithTwitter = () => {
     const provider = new firebase.auth.TwitterAuthProvider();
     return new Promise((resolve, reject) => {
       firebase.auth().signInWithPopup(provider)
-        .then(result=> {
+        .then(result => {
           logUserProfile({ ...result.user });
-          resolve(result)
+          resolve(result);
         })
-        .catch(reason => reject(reason))
-    })  };
+        .catch(reason => reject(reason));
+    });
+  };
 
   const loginWithPhone = () => {
     const provider = new firebase.auth.PhoneAuthProvider();
     return new Promise((resolve, reject) => {
       firebase.auth().signInWithPopup(provider)
-        .then(result=> {
+        .then(result => {
           logUserProfile({ ...result.user });
-          resolve(result)
+          resolve(result);
         })
-        .catch(reason => reject(reason))
-    })
+        .catch(reason => reject(reason));
+    });
   };
 
   const register = (email, password, firstName, lastName) =>
@@ -187,7 +192,7 @@ function AuthProvider({ children }) {
           ...res.user,
           firstName,
           lastName
-        })
+        });
 
       });
 
@@ -212,7 +217,7 @@ function AuthProvider({ children }) {
           email: auth.email,
           photoURL: auth.photoURL || profile?.photoURL,
           displayName: auth.displayName || profile?.displayName,
-          role: profile?.isAdmin  ? 'admin' : 'user',
+          role: profile?.isAdmin ? 'admin' : 'user',
           isAdmin: profile?.isAdmin || false,
           phoneNumber: auth.phoneNumber || profile?.phoneNumber || '',
           country: profile?.country || '',

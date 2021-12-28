@@ -1,11 +1,8 @@
-import { useEffect } from 'react';
-import { paramCase } from 'change-case';
+
 import { useParams, useLocation } from 'react-router-dom';
 // material
 import { Container } from '@material-ui/core';
 // redux
-import { useDispatch, useSelector } from '../../redux/store';
-import { getUserList } from '../../redux/slices/user';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
@@ -14,21 +11,18 @@ import useSettings from '../../hooks/useSettings';
 import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import UserNewForm from '../../components/_dashboard/user/UserNewForm';
+import useUsers from '../../hooks/useUsers';
 
 // ----------------------------------------------------------------------
 
 export default function UserCreate() {
   const { themeStretch } = useSettings();
-  const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { name } = useParams();
-  const { userList } = useSelector((state) => state.user);
+  const {users:userList} = useUsers();
   const isEdit = pathname.includes('edit');
-  const currentUser = userList.find((user) => paramCase(user.name) === name);
+  const currentUser = userList.find((user) => user.id === name);
 
-  useEffect(() => {
-    dispatch(getUserList());
-  }, [dispatch]);
 
   return (
     <Page title="User: Create a new user | Minimal-UI">

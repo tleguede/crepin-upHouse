@@ -2,6 +2,7 @@ import { map, filter } from 'lodash';
 import { createSlice } from '@reduxjs/toolkit';
 // utils
 import axios from '../../utils/axios';
+import { userCollection } from '../../constant/firestore';
 
 // ----------------------------------------------------------------------
 
@@ -209,8 +210,21 @@ export function getUserList() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/api/user/manage-users');
-      dispatch(slice.actions.getUserListSuccess(response.data.users));
+      const result = await userCollection.get();
+
+      if(!result.empty){
+        dispatch(slice.actions.getUserListSuccess(
+          result.docs.map(one=>({id:one?.id,...one?.data()})).map(one=>({
+            ...one,
+            name:one?.displayName,
+            avatarUrl:one?.photoURL,
+          }))
+        ));
+
+      }
+
+      // const response = await axios.get('/api/user/manage-users');
+      // dispatch(slice.actions.getUserListSuccess(response.data.users));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
