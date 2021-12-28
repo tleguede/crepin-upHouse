@@ -3,14 +3,5 @@ WARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (fil
 WARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil
 WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
 WARNING: All illegal access operations will be denied in a future release
-19:36:25.518 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
-19:36:25.796 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
-20:18:02.950 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
-20:18:03.020 [NamespaceSystem-akka.actor.default-dispatcher-7] INFO com.firebase.core.namespace.Terminator$Terminator - 3 actors left to terminate: okydookk-default-rtdb, up-house-default-rtdb, up-house
-20:18:03.088 [NamespaceSystem-akka.actor.default-dispatcher-10] INFO com.firebase.core.namespace.NamespaceActor - Stopping namespace actor for okydookk-default-rtdb
-20:18:03.087 [NamespaceSystem-akka.actor.default-dispatcher-7] INFO com.firebase.core.namespace.NamespaceActor - Stopping namespace actor for up-house-default-rtdb
-20:18:03.088 [NamespaceSystem-akka.actor.default-dispatcher-12] INFO com.firebase.core.namespace.NamespaceActor - Stopping namespace actor for up-house
-20:18:03.092 [NamespaceSystem-akka.actor.default-dispatcher-12] INFO com.firebase.core.namespace.NamespaceActor - Gauges removed for up-house
-20:18:03.092 [NamespaceSystem-akka.actor.default-dispatcher-7] INFO com.firebase.core.namespace.NamespaceActor - Gauges removed for up-house-default-rtdb
-20:18:03.093 [NamespaceSystem-akka.actor.default-dispatcher-10] INFO com.firebase.core.namespace.NamespaceActor - Gauges removed for okydookk-default-rtdb
-20:18:03.114 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.
+09:27:51.573 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+09:27:51.868 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
