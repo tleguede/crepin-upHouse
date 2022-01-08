@@ -1,0 +1,19 @@
+{
+  "name": "Screenshot from 2022-01-04 18.41.03.png",
+  "bucket": "up-house.appspot.com",
+  "contentType": "image/png",
+  "metageneration": 1,
+  "generation": 1641654805480,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "4be9bba3-736b-4764-92e4-0060f8c8da3f"
+  ],
+  "timeCreated": "2022-01-08T15:13:25.479Z",
+  "updated": "2022-01-08T15:13:25.489Z",
+  "size": 190296,
+  "md5Hash": "MVRw53DD03AOc/AZFUvAVQ==",
+  "crc32c": "1365472079"
+}
