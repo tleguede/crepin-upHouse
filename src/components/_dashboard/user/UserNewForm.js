@@ -93,10 +93,9 @@ export default function UserNewForm({ isEdit, currentUser }) {
         const { password,phoneNumber, status, avatarUrl, ...rest } = values;
         const data = {
           ...rest,
-          ...(isEmpty(phoneNumber) ? null : phoneNumber),
-          ...(isEmpty(password) ? null : password),
-          // phoneNumber: isEmpty(phoneNumber) ? null : phoneNumber,
-          // password: isEmpty(password) ? null : password,
+          ...(isEmpty(phoneNumber) ? null : { phoneNumber }),
+          ...(isEmpty(password) ? null : { password }),
+
         };
 
         console.log(data);
