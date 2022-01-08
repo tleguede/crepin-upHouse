@@ -4,7 +4,7 @@ import {
 } from '@material-ui/core';
 import { UploadMultiFile } from '../../upload';
 import { LoadingButton } from '@material-ui/lab';
-import { values as _values, uniqBy, isEqual,isEmpty } from 'lodash';
+import { values as _values, uniqBy, isEqual } from 'lodash';
 import {
   AREA_UNIT,
   COMMERCIAL_TYPE, PAYMENT_RHYTHM,
@@ -29,6 +29,9 @@ import useAuth from '../../../hooks/useAuth';
 import ErrorHelper from '../../ErrorHelper';
 import { updateUser } from '../../../redux/slices/user.thunk';
 
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+
 export default function Publish({ selected }) {
   const { user } = useAuth();
 
@@ -37,9 +40,10 @@ export default function Publish({ selected }) {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
+  // const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
   const schema = Yup.object().shape({
-    phoneNumber: Yup.string().required('Le numero est requis'),
+    phoneNumber: Yup.string().required('Cet numero est invalid'),
     name: Yup.string().required('Le nom est requis'),
     description: Yup.string().required('La description est requise'),
     cost: Yup.number().required('Le prix est requis'),
@@ -193,12 +197,13 @@ export default function Publish({ selected }) {
           ? dispatch(editRealEstate(finalData, callback))
           : dispatch(createRealEstate(finalData, callback));
 
+        if (user?.phoneNumber !== phoneNumber) {
 
-        dispatch(updateUser({
-          id: user?.id,
-          phoneNumber
-        }));
-
+          dispatch(updateUser({
+            id: user?.id,
+            phoneNumber
+          }));
+        }
       });
 
 
@@ -422,17 +427,26 @@ export default function Publish({ selected }) {
 
             <ErrorHelper error={touched.files && errors.files} />
 
+            <PhoneInput
+              country={'tg'}
+              // value={this.state.phone}
+              // onChange={phone => console.log(phone)}
+              inputProps={{
+                name: 'phone',
+                required: true,
+                autoFocus: true
 
-            {
-              isEmpty(values.phoneNumber) && (
-                <TextField
-                  label={'Numero de telephone'}
-                  error={Boolean(touched.phoneNumber && errors.phoneNumber)}
-                  helperText={touched.phoneNumber && errors.phoneNumber}
-                  {...getFieldProps('phoneNumber')}
-                />
-              )
-            }
+              }}
+              inputStyle={{
+                width: '100%',
+                height: 56
+              }}
+              {...getFieldProps('phoneNumber')}
+            />
+
+            <ErrorHelper
+              error={touched.phoneNumber && errors.phoneNumber}
+            />
 
             <LoadingButton type={'submit'} variant={'contained'} style={{ width: 200 }} loading={isSubmitting}>
               {isEdit ? 'Editer' : 'Créer'}

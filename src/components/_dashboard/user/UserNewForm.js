@@ -11,10 +11,10 @@ import {
   Card,
   Grid,
   Stack,
-  // Switch,
+  Switch,
   TextField,
   Typography,
-  FormHelperText,
+  FormHelperText, FormControlLabel
   // FormControlLabel
 } from '@material-ui/core';
 // utils
@@ -27,6 +27,10 @@ import { UploadAvatar } from '../../upload';
 import countries from './countries';
 import { useDispatch } from '../../../redux/store';
 import { createUser, updateUser } from '../../../redux/slices/user.thunk';
+import PhoneInput from 'react-phone-input-2';
+import ErrorHelper from '../../ErrorHelper';
+import 'react-phone-input-2/lib/style.css';
+import { isEmpty } from 'lodash';
 
 // ----------------------------------------------------------------------
 
@@ -41,16 +45,16 @@ export default function UserNewForm({ isEdit, currentUser }) {
   const { enqueueSnackbar } = useSnackbar();
 
   const NewUserSchema = Yup.object().shape({
-    displayName: Yup.string().required('Name is required'),
-    email: Yup.string().required('Email is required').email(),
-    phoneNumber: Yup.string().required('Phone number is required'),
+    displayName: Yup.string().required('Le nom est requis'),
+    email: Yup.string().required('L\'Email est requis').email()
+    // phoneNumber: Yup.string().required('Le numero de tel est requis'),
     // address: Yup.string().required('Address is required'),
     // country: Yup.string().required('country is required'),
     // company: Yup.string().required('Company is required'),
     // state: Yup.string().required('State is required'),
     // city: Yup.string().required('City is required'),
-    role: Yup.string().required('Role Number is required'),
-    avatarUrl: Yup.mixed().required('Avatar is required')
+    // role: Yup.string().required('Role Number is required'),
+    // avatarUrl: Yup.mixed().required('Avatar is required')
   });
 
   const formik = useFormik({
@@ -68,7 +72,12 @@ export default function UserNewForm({ isEdit, currentUser }) {
       isVerified: currentUser?.isVerified || true,
       status: currentUser?.status,
       company: currentUser?.company || '',
-      role: currentUser?.role || ''
+      role: currentUser?.role || '',
+
+      isAdmin: currentUser?.isAdmin || false,
+      disabled: currentUser?.disabled || false,
+
+      password: ''
     },
     validationSchema: NewUserSchema,
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
@@ -81,10 +90,20 @@ export default function UserNewForm({ isEdit, currentUser }) {
           navigate(PATH_DASHBOARD.user.list);
         };
 
+        const { password,phoneNumber, status, avatarUrl, ...rest } = values;
+        const data = {
+          ...rest,
+          ...(isEmpty(phoneNumber) ? null : phoneNumber),
+          ...(isEmpty(password) ? null : password),
+          // phoneNumber: isEmpty(phoneNumber) ? null : phoneNumber,
+          // password: isEmpty(password) ? null : password,
+        };
+
+        console.log(data);
 
         isEdit
-          ? dispatch(updateUser({ ...currentUser, ...values }, callback))
-          : dispatch(createUser(values, callback));
+          ? dispatch(updateUser({ ...currentUser, ...data, updatedAt: new Date() }, callback))
+          : dispatch(createUser(data, callback));
 
       } catch (error) {
         console.error(error);
@@ -100,10 +119,9 @@ export default function UserNewForm({ isEdit, currentUser }) {
     (acceptedFiles) => {
       const file = acceptedFiles[0];
       if (file) {
-        setFieldValue('avatarUrl', {
-          ...file,
+        setFieldValue('avatarUrl', Object.assign(file, {
           preview: URL.createObjectURL(file)
-        });
+        }));
       }
     },
     [setFieldValue]
@@ -152,28 +170,37 @@ export default function UserNewForm({ isEdit, currentUser }) {
                 </FormHelperText>
               </Box>
 
-              {/*{isEdit && (*/}
-              {/*  <FormControlLabel*/}
-              {/*    labelPlacement='start'*/}
-              {/*    control={*/}
-              {/*      <Switch*/}
-              {/*        onChange={(event) => setFieldValue('status', event.target.checked ? 'banned' : 'active')}*/}
-              {/*        checked={values.status !== 'active'}*/}
-              {/*      />*/}
-              {/*    }*/}
-              {/*    label={*/}
-              {/*      <>*/}
-              {/*        <Typography variant='subtitle2' sx={{ mb: 0.5 }}>*/}
-              {/*          Banni*/}
-              {/*        </Typography>*/}
-              {/*        <Typography variant='body2' sx={{ color: 'text.secondary' }}>*/}
-              {/*          Apply disable account*/}
-              {/*        </Typography>*/}
-              {/*      </>*/}
-              {/*    }*/}
-              {/*    sx={{ mx: 0, mb: 3, width: 1, justifyContent: 'space-between' }}*/}
-              {/*  />*/}
-              {/*)}*/}
+              <FormControlLabel
+                labelPlacement='start'
+                control={
+                  <Switch
+                    onChange={(event) => setFieldValue('disabled', event.target.checked)}
+                    checked={!values.disabled}
+                  />
+                }
+                label={
+                  <Typography variant='subtitle2' sx={{ mb: 0.5 }}>
+                    Est Actif?
+                  </Typography>
+                }
+                sx={{ mx: 0, mb: 3, width: 1, justifyContent: 'space-between' }}
+              />
+
+              <FormControlLabel
+                labelPlacement='start'
+                control={
+                  <Switch
+                    onChange={(event) => setFieldValue('isAdmin', event.target.checked)}
+                    checked={values.isAdmin}
+                  />
+                }
+                label={
+                  <Typography variant='subtitle2' sx={{ mb: 0.5 }}>
+                    Est Admin?
+                  </Typography>
+                }
+                sx={{ mx: 0, mb: 3, width: 1, justifyContent: 'space-between' }}
+              />
 
               {/*<FormControlLabel*/}
               {/*  labelPlacement='start'*/}
@@ -199,13 +226,14 @@ export default function UserNewForm({ isEdit, currentUser }) {
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   <TextField
                     fullWidth
-                    label='Full Name'
+                    label='Nom complet'
                     {...getFieldProps('displayName')}
                     error={Boolean(touched.displayName && errors.displayName)}
                     helperText={touched.displayName && errors.displayName}
                   />
                   <TextField
                     fullWidth
+                    disabled={isEdit}
                     label='Email Address'
                     {...getFieldProps('email')}
                     error={Boolean(touched.email && errors.email)}
@@ -214,17 +242,32 @@ export default function UserNewForm({ isEdit, currentUser }) {
                 </Stack>
 
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
-                  <TextField
-                    fullWidth
-                    label='Phone Number'
-                    {...getFieldProps('phoneNumber')}
-                    error={Boolean(touched.phoneNumber && errors.phoneNumber)}
-                    helperText={touched.phoneNumber && errors.phoneNumber}
-                  />
+                  <Stack direction={'column'}>
+                    <PhoneInput
+                      country={'tg'}
+                      // value={this.state.phone}
+                      // onChange={phone => console.log(phone)}
+                      inputProps={{
+                        name: 'phone',
+                        required: true,
+                        autoFocus: true
+
+                      }}
+                      inputStyle={{
+                        width: '19vw',
+                        height: 56
+                      }}
+                      {...getFieldProps('phoneNumber')}
+                    />
+                    <ErrorHelper
+                      error={touched.phoneNumber && errors.phoneNumber}
+                    />
+                  </Stack>
+
                   <TextField
                     select
                     fullWidth
-                    label='Country'
+                    label='Pays'
                     placeholder='Country'
                     {...getFieldProps('country')}
                     SelectProps={{ native: true }}
@@ -285,9 +328,17 @@ export default function UserNewForm({ isEdit, currentUser }) {
                   />
                 </Stack>
 
+                <TextField
+                  fullWidth
+                  label='Mot de passe'
+                  {...getFieldProps('password')}
+                  error={Boolean(touched.password && errors.password)}
+                  helperText={touched.password && errors.password}
+                />
+
                 <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
                   <LoadingButton type='submit' variant='contained' loading={isSubmitting}>
-                    {!isEdit ? 'Create User' : 'Save Changes'}
+                    {!isEdit ? 'Créer l\'utilisateur' : 'Sauvegarder les modifications'}
                   </LoadingButton>
                 </Box>
               </Stack>

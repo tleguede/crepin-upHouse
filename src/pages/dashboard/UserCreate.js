@@ -28,11 +28,11 @@ export default function UserCreate() {
     <Page title="User: Create a new user | Minimal-UI">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading={!isEdit ? 'Create a new user' : 'Edit user'}
+          heading={!isEdit ? 'Créer un nouvel utilisateur' : 'Modifier l\'utilisateur'}
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             { name: 'User', href: PATH_DASHBOARD.user.root },
-            { name: !isEdit ? 'New user' : currentUser?.displayName }
+            { name: !isEdit ? 'Nouvel utilisateur' : currentUser?.displayName }
           ]}
         />
 

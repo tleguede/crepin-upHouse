@@ -25,6 +25,10 @@ if (window.location.hostname === 'localhost') {
   realtimeDb.useEmulator('localhost', 9000);
 } else {
 
+  if (firebase.messaging.isSupported()) {
+    firebase.messaging();
+  }
+
   firebase.firestore().settings({
     cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
   });

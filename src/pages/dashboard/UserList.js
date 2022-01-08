@@ -41,7 +41,7 @@ const columns = [
     render: (state, { id, handleChange }) => (
       <Checkbox
         checked={!state || true}
-        onChange={(event, checked) => handleChange({ id, disabled: checked })}
+        onChange={(event, checked) => handleChange({ id, disabled: !checked })}
       />
     )
   },
@@ -96,11 +96,11 @@ export default function UserList() {
     <Page title='User: List | Minimal-UI'>
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading='User List'
+          heading='Liste des utilisateurs'
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'User', href: PATH_DASHBOARD.user.root },
-            { name: 'List' }
+            { name: 'Utilisateurs', href: PATH_DASHBOARD.user.root },
+            { name: 'Liste' }
           ]}
           action={
             <Button

@@ -112,7 +112,7 @@ export const getRealEstate = (id, callback = null) => {
 export const searchRealEstate = (filter, limit = 20, callback) => {
   return async (dispatch, getState) => {
     try {
-      console.log(filter);
+      // console.log(filter);
       dispatch(startLoading());
       const { filter: prevFilter, cursor: prevCursor } = selectRealEstate(getState());
       const loadMore = isEqual(filter, prevFilter);
