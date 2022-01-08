@@ -123,7 +123,8 @@ export default function Router() {
         { path: '/my_favorites', element: <MyFavorites /> },
         { path: '/my_posts', element: <MyPosts /> },
         { path: '/my_posts/edit/:id', element: <Publish /> },
-        { path: '/publish', element: <Publish /> }
+        { path: '/publish', element: <Publish /> },
+        { path: '/profile', element: <UserAccount /> },
 
       ]
     },

@@ -31,6 +31,8 @@ import PhoneInput from 'react-phone-input-2';
 import ErrorHelper from '../../ErrorHelper';
 import 'react-phone-input-2/lib/style.css';
 import { isEmpty } from 'lodash';
+import { multipleFilesSave } from '../../../utils/document';
+import { isFile } from '../../../utils/type_check';
 
 // ----------------------------------------------------------------------
 
@@ -46,7 +48,8 @@ export default function UserNewForm({ isEdit, currentUser }) {
 
   const NewUserSchema = Yup.object().shape({
     displayName: Yup.string().required('Le nom est requis'),
-    email: Yup.string().required('L\'Email est requis').email()
+    email: Yup.string().required('L\'Email est requis').email(),
+    ...(!isEdit ? { password: Yup.string().required('Le mot de passe est requis') } : null)
     // phoneNumber: Yup.string().required('Le numero de tel est requis'),
     // address: Yup.string().required('Address is required'),
     // country: Yup.string().required('country is required'),
@@ -90,19 +93,26 @@ export default function UserNewForm({ isEdit, currentUser }) {
           navigate(PATH_DASHBOARD.user.list);
         };
 
-        const { password,phoneNumber, status, avatarUrl, ...rest } = values;
-        const data = {
-          ...rest,
-          ...(isEmpty(phoneNumber) ? null : { phoneNumber }),
-          ...(isEmpty(password) ? null : { password }),
+        const { password, phoneNumber, photoURL, status, avatarUrl, ...rest } = values;
 
-        };
 
-        console.log(data);
+        await multipleFilesSave([avatarUrl].filter(one => isFile(one)), (list = []) => {
+          const [avatar] = list;
 
-        isEdit
-          ? dispatch(updateUser({ ...currentUser, ...data, updatedAt: new Date() }, callback))
-          : dispatch(createUser(data, callback));
+          const data = {
+            ...rest,
+            ...(isEmpty(phoneNumber) ? null : { phoneNumber }),
+            ...(isEmpty(password) ? null : { password }),
+            ...(isEmpty(photoURL) ? null : { photoURL }),
+            ...(avatar ? { photoURL: avatar?.url || null } : null)
+          };
+          console.log(data);
+
+          isEdit
+            ? dispatch(updateUser({ ...currentUser, ...data, updatedAt: new Date() }, callback))
+            : dispatch(createUser(data, callback));
+        });
+
 
       } catch (error) {
         console.error(error);

@@ -1,10 +1,8 @@
 import { Icon } from '@iconify/react';
 import { capitalCase } from 'change-case';
 import { useState, useEffect } from 'react';
-import bellFill from '@iconify/icons-eva/bell-fill';
-import shareFill from '@iconify/icons-eva/share-fill';
+
 import roundVpnKey from '@iconify/icons-ic/round-vpn-key';
-import roundReceipt from '@iconify/icons-ic/round-receipt';
 import roundAccountBox from '@iconify/icons-ic/round-account-box';
 // material
 import { Container, Tab, Box, Tabs, Stack } from '@material-ui/core';
@@ -12,7 +10,6 @@ import { Container, Tab, Box, Tabs, Stack } from '@material-ui/core';
 import { useDispatch } from '../../redux/store';
 import { getCards, getProfile, getInvoices, getAddressBook, getNotifications } from '../../redux/slices/user';
 // routes
-import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
 import useSettings from '../../hooks/useSettings';
 // components
@@ -20,9 +17,6 @@ import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import {
   AccountGeneral,
-  AccountBilling,
-  AccountSocialLinks,
-  AccountNotifications,
   AccountChangePassword
 } from '../../components/_dashboard/user/account';
 
@@ -47,23 +41,23 @@ export default function UserAccount() {
       icon: <Icon icon={roundAccountBox} width={20} height={20} />,
       component: <AccountGeneral />
     },
+    // {
+    //   value: 'billing',
+    //   icon: <Icon icon={roundReceipt} width={20} height={20} />,
+    //   component: <AccountBilling />
+    // },
+    // {
+    //   value: 'notifications',
+    //   icon: <Icon icon={bellFill} width={20} height={20} />,
+    //   component: <AccountNotifications />
+    // },
+    // {
+    //   value: 'social_links',
+    //   icon: <Icon icon={shareFill} width={20} height={20} />,
+    //   component: <AccountSocialLinks />
+    // },
     {
-      value: 'billing',
-      icon: <Icon icon={roundReceipt} width={20} height={20} />,
-      component: <AccountBilling />
-    },
-    {
-      value: 'notifications',
-      icon: <Icon icon={bellFill} width={20} height={20} />,
-      component: <AccountNotifications />
-    },
-    {
-      value: 'social_links',
-      icon: <Icon icon={shareFill} width={20} height={20} />,
-      component: <AccountSocialLinks />
-    },
-    {
-      value: 'change_password',
+      value: 'changer_mot_de_passe',
       icon: <Icon icon={roundVpnKey} width={20} height={20} />,
       component: <AccountChangePassword />
     }
@@ -74,22 +68,21 @@ export default function UserAccount() {
   };
 
   return (
-    <Page title="User: Account Settings | Minimal-UI">
-      <Container maxWidth={themeStretch ? false : 'lg'}>
+    <Page title='User: Account Settings | Minimal-UI'>
+      <Container maxWidth={themeStretch ? false : 'lg'} sx={{ my: 10 }}>
         <HeaderBreadcrumbs
-          heading="Account"
+          heading='Profile'
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'User', href: PATH_DASHBOARD.user.root },
-            { name: 'Account Settings' }
+            { name: 'Acceuil', href: '/' },
+            { name: 'Profile' }
           ]}
         />
 
         <Stack spacing={5}>
           <Tabs
             value={currentTab}
-            scrollButtons="auto"
-            variant="scrollable"
+            scrollButtons='auto'
+            variant='scrollable'
             allowScrollButtonsMobile
             onChange={handleChangeTab}
           >
