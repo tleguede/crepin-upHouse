@@ -19,6 +19,9 @@ import {
   AccountGeneral,
   AccountChangePassword
 } from '../../components/_dashboard/user/account';
+import useAuth from '../../hooks/useAuth';
+import { PATH_AUTH } from '../../routes/paths';
+import { useNavigate } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +29,8 @@ export default function UserAccount() {
   const { themeStretch } = useSettings();
   const [currentTab, setCurrentTab] = useState('general');
   const dispatch = useDispatch();
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getCards());
@@ -34,6 +39,10 @@ export default function UserAccount() {
     dispatch(getNotifications());
     dispatch(getProfile());
   }, [dispatch]);
+
+  useEffect(() => {
+    !isAuthenticated && navigate(PATH_AUTH.login);
+  }, [isAuthenticated,navigate]);
 
   const ACCOUNT_TABS = [
     {

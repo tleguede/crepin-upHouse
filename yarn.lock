@@ -2051,15 +2051,70 @@
   resolved "https://registry.yarnpkg.com/@iconify/icons-cil/-/icons-cil-1.1.0.tgz#13af33e678dd1bcea8b639af6477f82f10ae21be"
   integrity sha512-MAQHF+8WTpK+51i7buQqdsG20t6A5gwQ/NtpEKreJdMbqHp86H+6i1mG9qlzb5GBzb4lT7/TLjaGpLN1mXbj5g==
 
+"@iconify/icons-dashicons@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-dashicons/-/icons-dashicons-1.1.0.tgz#2bfa1f805a39d6ecef9fc03c1229a4415bf441ae"
+  integrity sha512-Neljkz+P3sQPzpzBHN1oqWfdX5arhO+UCsVqvegVoKQsnwkEE6XmNmrwxOciJBIAgSuo5ZmJit1kFwgR8TjhsA==
+
 "@iconify/icons-eva@^1.1.0":
   version "1.1.0"
   resolved "https://registry.npmjs.org/@iconify/icons-eva/-/icons-eva-1.1.0.tgz"
   integrity sha512-a2wCJw+6UebrsoJ2WhpHUcdr4PJljwk0tdu1GfpjzwVyiJBC7y6sc2h7as1npJPLwgMIc/q8YFJf5iFl7Ik3NA==
 
+"@iconify/icons-fa-solid@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-fa-solid/-/icons-fa-solid-1.1.1.tgz#1488a133cff834bc78d599a23904c6cc350c8fbf"
+  integrity sha512-jRdH5i99NUli+HD/uVjkNvj++LqnJC7x7t+FOUVhXcLzs35C0yIrJzEsu6CWUSBsYIgEE3Rd1cuhyG03VZ5zhw==
+
+"@iconify/icons-fluent@^1.1.37":
+  version "1.1.37"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-fluent/-/icons-fluent-1.1.37.tgz#cdb1405168dc0ebea126ba0bc7fecf1180952039"
+  integrity sha512-gco7okDjGqmwt6k3fNOgtj4lPM1PAo0zpY0TkH9Tp5mlrBdU0zQyoLeo3WNfcV/OEX/BoUxo0V+Wv7TpBtn8XQ==
+
+"@iconify/icons-healthicons@^1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-healthicons/-/icons-healthicons-1.1.6.tgz#589e31ef8dd19b84eed5390e90d8f2d80f205681"
+  integrity sha512-9ulHvxU+COhxeVrEsN9MyEMNAYYCw3NSxJ8WYXp3YTaX9TMqmvKLKgSCpqcYj5Xk295wRq8Xq1X4NOfZxhI3iA==
+
 "@iconify/icons-ic@^1.1.9":
   version "1.1.9"
   resolved "https://registry.npmjs.org/@iconify/icons-ic/-/icons-ic-1.1.9.tgz"
   integrity sha512-nuFTK+nqHpEyzICkNiqqCrDjunVqbO7ptgqznXRwi+i1H8FsxIyVGJUkLjL+/f4pKQHY5Zpvzq4PH1cLUctyJQ==
+
+"@iconify/icons-icon-park-outline@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-icon-park-outline/-/icons-icon-park-outline-1.1.1.tgz#6a126f2ebb8f3b71b3984fc7c9f4e3d90b7e8958"
+  integrity sha512-32u6jLblffap8d3A831Jm3bfgffeBn+JWjnSjnVGT8aBd8wzNOJbRXZkpRt8Sw0W3U6aurnkx9tFZJ1Ce9+fjA==
+
+"@iconify/icons-iconoir@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-iconoir/-/icons-iconoir-1.1.5.tgz#873579bc1e91cb37550cbeefad2dae888b58c40b"
+  integrity sha512-mEklTiw0vOtqlDIUGu4R8kYA/LA0xDReyxW06vKMeF1YskBAbLoUYcUtO03VWY808tK5PkjtDyJvRKLD8QDcSw==
+
+"@iconify/icons-iwwa@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-iwwa/-/icons-iwwa-1.1.0.tgz#c8bd273e0724d19d7395396e6784d3c61c1c115e"
+  integrity sha512-NPf+hyv15Px7//8YNYUXQHHu5U8nG443mg+yDv431l0C83f6nRA7C/WSmfjkIu63h+8kgfgSE3N7AByex7HsNw==
+
+"@iconify/icons-maki@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-maki/-/icons-maki-1.1.2.tgz#92604df0245e1e2d3042bb723b79cbbb86c8669f"
+  integrity sha512-kVu1FNmjlPDI22tsjq0dX857qxkHcXK2od33jJBQrEG8chIZ271YfykHpFiUqFWohQHNCzSCnItok1VtpBe3bg==
+
+"@iconify/icons-mdi@^1.1.46":
+  version "1.1.46"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-mdi/-/icons-mdi-1.1.46.tgz#217337abd2c9111b2a4ff8e9afbe93b54ea68951"
+  integrity sha512-J6O1KO/CKFEcCJ3lfYO5PNPj1n8AljOzsQTnGvaNXnHkppdOmDagYRD6xWgurNADfdmXtR6N8bceEOhN9yPRKA==
+
+"@iconify/icons-medical-icon@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-medical-icon/-/icons-medical-icon-1.1.0.tgz#1da6fda16939c57f2c5ca40a2be137d0eb756dba"
+  integrity sha512-K6V9TUa3wvdB4IljLESpaDePyN4RRNijwOmraOnMcQVNcirxZHrYqSypYqTKx3dGNG58wWBigkduZ5avckuAuw==
+
+"@iconify/icons-ps@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-ps/-/icons-ps-1.1.0.tgz#ab7e08334b24f389a48ebce87c3718a285f267c7"
+  integrity sha512-oD5lqBKCIkxJgcrGQQrPRFx/GzSUS7rDdCKfSjfMXXxEmQXXRJuIEdG1neLUE/o/ucSivYBMtQDCh2QloId/EA==
 
 "@iconify/react@^3.0.1":
   version "3.0.1"

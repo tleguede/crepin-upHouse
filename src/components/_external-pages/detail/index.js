@@ -25,11 +25,11 @@ import outlineBedroomParent from '@iconify/icons-ic/outline-bedroom-parent';
 import bathroomIcon from '@iconify/icons-cil/bathroom';
 import bxsParking from '@iconify/icons-bx/bxs-parking';
 import areaCustom from '@iconify/icons-carbon/area-custom';
-import { REAL_ESTATE_STATE } from '../../../constant';
+import { FEATURE_ICON, REAL_ESTATE_STATE } from '../../../constant';
 import DetailIAmInteressed from './DetailIAmInteressed';
 import DetailStateSwitcher from './DetailStateSwitcher';
 
-const SIZE = { height: 50, width: 50 };
+const SIZE = { height: 30, width: 30 };
 
 const Item = ({ icon, label }) => {
   return (
@@ -40,7 +40,7 @@ const Item = ({ icon, label }) => {
       borderColor: '#dcdcdc'
 
     }}>
-      <Stack direction={'row'} justifyContent={'space-between'}>
+      <Stack direction={'row'}  spacing={1}>
 
         <Icon icon={icon} {...SIZE} />
 
@@ -68,11 +68,9 @@ export default function Detail({ selected }) {
   }, [selected?.bookmarkedByIds, id]);
 
   const isOwner = useMemo(() => {
-    console.log()
-    return selected?.owner?.id===id || false;
+    return selected?.owner?.id === id || false;
   }, [selected?.owner?.id, id]);
 
-  console.log(id,selected?.owner?.id,isOwner)
 
   const handleFavorite = () => {
     if (!isAuthenticated) {
@@ -122,7 +120,7 @@ export default function Detail({ selected }) {
             </LoadingButton>
 
             {
-              !isOwner &&(
+              !isOwner && (
                 <Button variant={'outlined'} color={'error'} onClick={handleOpen}
 
                         disabled={selected?.state !== REAL_ESTATE_STATE.VALIDATED}
@@ -185,7 +183,7 @@ export default function Detail({ selected }) {
 
           {
             (selected?.features?.numberOfRoom) && (
-              <Grid item sm={12} md={3}>
+              <Grid item >
                 <Item
                   icon={outlineBedroomParent}
                   label={selected?.features?.numberOfRoom}
@@ -197,7 +195,7 @@ export default function Detail({ selected }) {
 
           {
             (selected?.features?.numberOfBathRoom) && (
-              <Grid item sm={12} md={3}>
+              <Grid item >
                 <Item
                   icon={bathroomIcon}
                   label={selected?.features?.numberOfBathRoom}
@@ -209,7 +207,7 @@ export default function Detail({ selected }) {
 
           {
             (selected?.features?.numberOfParking) && (
-              <Grid item sm={12} md={3}>
+              <Grid item >
                 <Item
                   icon={bxsParking}
                   label={selected?.features?.numberOfParking}
@@ -220,7 +218,7 @@ export default function Detail({ selected }) {
 
           {
             (selected?.area) && selected?.area !== 0 && (
-              <Grid item sm={12} md={3}>
+              <Grid item >
                 <Item
                   icon={areaCustom}
                   label={`${selected?.area} ${selected?.areaUnit}`}
@@ -232,14 +230,27 @@ export default function Detail({ selected }) {
 
         </Grid>
 
-        <Grid container spacing={2}>
-          {otherFeatures.map(one => (
-            <Grid item key={one}>
-              <Typography variant={'body'}>
-                {`# ${one}`}
-              </Typography>
-            </Grid>
-          ))}
+        <Grid container spacing={3}>
+          {otherFeatures.map(one => {
+            const icon = FEATURE_ICON[one];
+            return (
+              <Grid item key={one}>
+                <Stack direction={'row'} spacing={1}>
+
+                  <>
+                    {icon ? <Icon icon={icon} {...SIZE} /> : '#'}
+                  </>
+
+                  <Stack justifyContent={'center'}>
+                    <Typography variant={'body'}>
+                      {one}
+                    </Typography>
+                  </Stack>
+
+                </Stack>
+              </Grid>
+            );
+          })}
         </Grid>
 
         <Divider />
@@ -268,12 +279,18 @@ export default function Detail({ selected }) {
           <Typography variant={'body1'}>
             {`${selected?.transactionType}  -  ${fNumber(selected?.cost)} CFA`}
           </Typography>
-          <Button variant={'outlined'} color={'error'} onClick={handleOpen}
-                  disabled={selected?.state !== REAL_ESTATE_STATE.VALIDATED}
 
-          >
-            Je suis interesse
-          </Button>
+          {
+            !isOwner && (
+              <Button variant={'outlined'} color={'error'} onClick={handleOpen}
+                      disabled={selected?.state !== REAL_ESTATE_STATE.VALIDATED}
+
+              >
+                Je suis interesse
+              </Button>
+            )
+          }
+
         </Stack>
 
       </Stack>

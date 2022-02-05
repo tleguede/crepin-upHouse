@@ -1,0 +1,10 @@
+[debug] [2022-02-05T11:23:34.718Z] ----------------------------------------------------------------------
+[debug] [2022-02-05T11:23:34.721Z] Command:       /usr/local/bin/node /home/tleguede/WebstormProjects/crepin/upHouse/node_modules/.bin/firebase login
+[debug] [2022-02-05T11:23:34.721Z] CLI Version:   9.22.0
+[debug] [2022-02-05T11:23:34.722Z] Platform:      linux
+[debug] [2022-02-05T11:23:34.722Z] Node Version:  v14.18.2
+[debug] [2022-02-05T11:23:34.722Z] Time:          Sat Feb 05 2022 11:23:34 GMT+0000 (Coordinated Universal Time)
+[debug] [2022-02-05T11:23:34.722Z] ----------------------------------------------------------------------
+[debug] 
+[info] i  Firebase optionally collects CLI usage and error reporting information to help improve our products. Data is collected in accordance with Google's privacy policy (https://policies.google.com/privacy) and is not used to identify you.
+ 
