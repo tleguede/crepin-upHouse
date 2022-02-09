@@ -8,9 +8,7 @@ import {
   Grid,
   Card,
   Stack,
-  Switch,
   TextField,
-  FormControlLabel,
   Typography,
   FormHelperText
 } from '@material-ui/core';
@@ -23,6 +21,7 @@ import { UploadAvatar } from '../../../upload';
 import { fData } from '../../../../utils/formatNumber';
 //
 import countries from '../countries';
+import { multipleFilesSave } from '../../../../utils/document';
 
 // ----------------------------------------------------------------------
 
@@ -32,7 +31,8 @@ export default function AccountGeneral() {
   const { user, updateProfile } = useAuth();
 
   const UpdateUserSchema = Yup.object().shape({
-    displayName: Yup.string().required('Name is required')
+    displayName: Yup.string().required('Le nom est requis'),
+    phoneNumber: Yup.string().required('Le numero de tel est requis')
   });
 
   const formik = useFormik({
@@ -54,15 +54,25 @@ export default function AccountGeneral() {
     validationSchema: UpdateUserSchema,
     onSubmit: async (values, { setErrors, setSubmitting }) => {
       try {
-        await updateProfile({ ...values });
-        enqueueSnackbar('Update success', { variant: 'success' });
+
+        const { photoURL, ...rest } = values;
+        const file = photoURL instanceof File ? [photoURL] : [];
+
+        await multipleFilesSave(file, async ([file]) => {
+          await updateProfile({ ...rest, photoURL: file?.url || photoURL });
+          enqueueSnackbar('Update success', { variant: 'success' });
+        });
+
         if (isMountedRef.current) {
           setSubmitting(false);
         }
+
       } catch (error) {
         if (isMountedRef.current) {
           setErrors({ afterSubmit: error.code });
           setSubmitting(false);
+          enqueueSnackbar('Une erreur s\'est produite', { variant: 'error' });
+
         }
       }
     }
@@ -74,10 +84,9 @@ export default function AccountGeneral() {
     (acceptedFiles) => {
       const file = acceptedFiles[0];
       if (file) {
-        setFieldValue('photoURL', {
-          ...file,
+        setFieldValue('photoURL', Object.assign(file, {
           preview: URL.createObjectURL(file)
-        });
+        }));
       }
     },
     [setFieldValue]
@@ -85,19 +94,19 @@ export default function AccountGeneral() {
 
   return (
     <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <Form autoComplete='off' noValidate onSubmit={handleSubmit}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
             <Card sx={{ py: 10, px: 3, textAlign: 'center' }}>
               <UploadAvatar
-                accept="image/*"
+                accept='image/*'
                 file={values.photoURL}
                 maxSize={3145728}
                 onDrop={handleDrop}
                 error={Boolean(touched.photoURL && errors.photoURL)}
                 caption={
                   <Typography
-                    variant="caption"
+                    variant='caption'
                     sx={{
                       mt: 2,
                       mx: 'auto',
@@ -116,12 +125,6 @@ export default function AccountGeneral() {
                 {touched.photoURL && errors.photoURL}
               </FormHelperText>
 
-              <FormControlLabel
-                control={<Switch {...getFieldProps('isPublic')} color="primary" />}
-                labelPlacement="start"
-                label="Public Profile"
-                sx={{ mt: 5 }}
-              />
             </Card>
           </Grid>
 
@@ -129,47 +132,57 @@ export default function AccountGeneral() {
             <Card sx={{ p: 3 }}>
               <Stack spacing={{ xs: 2, md: 3 }}>
                 <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-                  <TextField fullWidth label="Name" {...getFieldProps('displayName')} />
-                  <TextField fullWidth disabled label="Email Address" {...getFieldProps('email')} />
+                  <TextField
+                    fullWidth label='Nom'
+                    {...getFieldProps('displayName')}
+                    error={Boolean(touched.displayName && errors.displayName)}
+                    helperText={touched.displayName && errors.displayName}
+                  />
+                  <TextField fullWidth disabled label='Email ' {...getFieldProps('email')} />
                 </Stack>
 
                 <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-                  <TextField fullWidth label="Phone Number" {...getFieldProps('phoneNumber')} />
-                  <TextField fullWidth label="Address" {...getFieldProps('address')} />
+                  <TextField
+                    fullWidth label='Numero de telephone'
+                    {...getFieldProps('phoneNumber')}
+                    error={Boolean(touched.phoneNumber && errors.phoneNumber)}
+                    helperText={touched.phoneNumber && errors.phoneNumber}
+                  />
+                  <TextField fullWidth label='Address' {...getFieldProps('address')} />
                 </Stack>
 
                 <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
                   <TextField
                     select
                     fullWidth
-                    label="Country"
-                    placeholder="Country"
+                    label='Pays'
+                    placeholder='Country'
                     {...getFieldProps('country')}
                     SelectProps={{ native: true }}
                     error={Boolean(touched.country && errors.country)}
                     helperText={touched.country && errors.country}
                   >
-                    <option value="" />
+                    <option value='' />
                     {countries.map((option) => (
                       <option key={option.code} value={option.label}>
                         {option.label}
                       </option>
                     ))}
                   </TextField>
-                  <TextField fullWidth label="State/Region" {...getFieldProps('state')} />
+                  <TextField fullWidth label='Region' {...getFieldProps('state')} />
                 </Stack>
 
                 <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-                  <TextField fullWidth label="City" {...getFieldProps('city')} />
-                  <TextField fullWidth label="Zip/Code" {...getFieldProps('zipCode')} />
+                  <TextField fullWidth label='Ville' {...getFieldProps('city')} />
+                  <TextField fullWidth label='Zip/Code' {...getFieldProps('zipCode')} />
                 </Stack>
 
-                <TextField {...getFieldProps('about')} fullWidth multiline minRows={4} maxRows={4} label="About" />
+                <TextField {...getFieldProps('about')} fullWidth multiline minRows={4} maxRows={4} label='A propos de moi' />
               </Stack>
 
               <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
-                <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                  Save Changes
+                <LoadingButton type='submit' variant='contained' loading={isSubmitting}>
+                  Valider
                 </LoadingButton>
               </Box>
             </Card>

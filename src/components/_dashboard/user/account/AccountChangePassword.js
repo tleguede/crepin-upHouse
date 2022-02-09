@@ -5,17 +5,18 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import { Stack, Card, TextField } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
 // utils
-import fakeRequest from '../../../../utils/fakeRequest';
+import useAuth from '../../../../hooks/useAuth';
 
 // ----------------------------------------------------------------------
 
 export default function AccountChangePassword() {
   const { enqueueSnackbar } = useSnackbar();
+  const { updatePassword } = useAuth();
 
   const ChangePassWordSchema = Yup.object().shape({
-    oldPassword: Yup.string().required('Old Password is required'),
-    newPassword: Yup.string().min(6, 'Password must be at least 6 characters').required('New Password is required'),
-    confirmNewPassword: Yup.string().oneOf([Yup.ref('newPassword'), null], 'Passwords must match')
+    oldPassword: Yup.string().required('Ancien mot de passe requis'),
+    newPassword: Yup.string().min(6, 'Le mot de passe doit être composé au minimum de 6 caractères alpha numérique').required('Un nouveau mot de passe est requis'),
+    confirmNewPassword: Yup.string().oneOf([Yup.ref('newPassword'), null], 'Les mots de passe doivent correspondre')
   });
 
   const formik = useFormik({
@@ -25,11 +26,21 @@ export default function AccountChangePassword() {
       confirmNewPassword: ''
     },
     validationSchema: ChangePassWordSchema,
-    onSubmit: async (values, { setSubmitting }) => {
-      await fakeRequest(500);
-      setSubmitting(false);
-      alert(JSON.stringify(values, null, 2));
-      enqueueSnackbar('Save success', { variant: 'success' });
+    onSubmit: async (values, { setErrors, setSubmitting, resetForm }) => {
+
+      try {
+        await updatePassword(values.oldPassword, values.newPassword);
+        setSubmitting(false);
+        enqueueSnackbar('Mot de passe mise à jour avec succès', { variant: 'success' });
+        resetForm();
+      } catch (error) {
+        setSubmitting(false);
+        setErrors({afterSubmit: error});
+        console.log(error);
+        const message = error.code === "auth/wrong-password" ? "L'Ancien mot de passe ne correspond pas": "Une erreur s'est produite"
+        enqueueSnackbar(message, { variant: 'error' });
+      }
+
     }
   });
 
@@ -45,7 +56,7 @@ export default function AccountChangePassword() {
               fullWidth
               autoComplete="on"
               type="password"
-              label="Old Password"
+              label="Ancien mot de passe"
               error={Boolean(touched.oldPassword && errors.oldPassword)}
               helperText={touched.oldPassword && errors.oldPassword}
             />
@@ -55,9 +66,9 @@ export default function AccountChangePassword() {
               fullWidth
               autoComplete="on"
               type="password"
-              label="New Password"
+              label="Nouveau mot de passe"
               error={Boolean(touched.newPassword && errors.newPassword)}
-              helperText={(touched.newPassword && errors.newPassword) || 'Password must be minimum 6+'}
+              helperText={(touched.newPassword && errors.newPassword) || 'Le mot de passe doit être composé au minimum de 6 caractères alpha numérique'}
             />
 
             <TextField
@@ -65,13 +76,13 @@ export default function AccountChangePassword() {
               fullWidth
               autoComplete="on"
               type="password"
-              label="Confirm New Password"
+              label="Confirmer le mot de passe"
               error={Boolean(touched.confirmNewPassword && errors.confirmNewPassword)}
               helperText={touched.confirmNewPassword && errors.confirmNewPassword}
             />
 
             <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-              Save Changes
+              Valider
             </LoadingButton>
           </Stack>
         </Form>

@@ -9,6 +9,8 @@ import { firebaseConfig } from '../config';
 import { useDispatch } from '../redux/store';
 import { createFirestoreInstance } from 'redux-firestore';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
+import axios from 'axios';
+import { functionsPath } from '../constant/firestore';
 // ----------------------------------------------------------------------
 
 firebase.initializeApp(firebaseConfig);
@@ -208,6 +210,24 @@ function AuthProvider({ children }) {
     await firebase.auth().sendPasswordResetEmail(email);
   };
 
+  const updateProfile = async (data) => {
+    await axios.post(functionsPath('updateUserProfile'), { ...data, id: auth.uid });
+  };
+
+  const updatePassword = async (oldPass, newPass) => {
+
+    return new Promise(async (res, rej) => {
+      try {
+        const cred = firebase.auth.EmailAuthProvider.credential(auth.email, oldPass);
+        await firebase.auth().currentUser.reauthenticateWithCredential(cred);
+        res(await firebase.auth().currentUser.updatePassword(newPass));
+      } catch (error) {
+        rej(error);
+      }
+    });
+
+  };
+
   const auth = { ...state.user };
 
 
@@ -239,7 +259,9 @@ function AuthProvider({ children }) {
         loginWithTwitter,
         loginWithPhone,
         logout,
-        resetPassword
+        resetPassword,
+        updateProfile,
+        updatePassword
       }}
     >
       <ReactReduxFirebaseProvider {...rrfProps}>
