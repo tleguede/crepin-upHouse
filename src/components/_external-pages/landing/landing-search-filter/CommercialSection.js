@@ -58,7 +58,7 @@ export default function CommercialSection({ formik, handleListChange }) {
                   <Grid container spacing={1}>
                     {
                       _values(ACCOMMODATION_TYPE).map(one => (
-                        <Grid item xs={6} key={one}>
+                        <Grid item md={6} sm={12} key={one}>
                           <Stack direction={'row'} spacing={2}>
                             <Radio
                               checked={values._featureType === one}
@@ -162,7 +162,7 @@ export default function CommercialSection({ formik, handleListChange }) {
             <Grid container spacing={1}>
               {
                 _values(COMMERCIAL_BUILDING_OTHER).map(one => (
-                  <Grid item xs={6} key={one}>
+                  <Grid item md={6} sm={12} key={one}>
                     <Stack direction={'row'} spacing={2}>
                       <Checkbox
                         checked={values._buildingOtherCriterion.includes(one)}
@@ -182,12 +182,12 @@ export default function CommercialSection({ formik, handleListChange }) {
         </SectionAccordion>
       </Collapse>
 
-      <SectionAccordion defaultExpanded={false} hideShadow title={' Autres critères'}>
-        <Grid container spacing={2}>
+      <SectionAccordion defaultExpanded={false} hideShadow title={'Autres critères'}>
+        <Grid container spacing={1} >
 
           <Collapse in={openCriterionAreaBox}>
             <Grid item xs={12}>
-              <Grid container spacing={1}>
+              <Grid container spacing={1} sx={{mx:1}}>
 
                 <Grid item xs={12}>
                   <Typography variant={'body1'}>
@@ -235,7 +235,7 @@ export default function CommercialSection({ formik, handleListChange }) {
             <Grid container spacing={1}>
               {
                 _values(OTHER_CRITERION).map(one => (
-                  <Grid item xs={6} key={one}>
+                  <Grid item md={6} sm={12} key={one}>
                     <Stack direction={'row'} spacing={2}>
                       <Checkbox
                         checked={values._residentialOtherCriterion.includes(one)}

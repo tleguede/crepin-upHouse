@@ -45,7 +45,7 @@ const HeroOverlayStyle = styled(motion.img)({
   height: '100%',
   objectFit: 'cover',
   position: 'absolute',
-  filter:'brightness(40%)'
+  filter: 'brightness(40%)'
 });
 
 // const HeroImgStyle = styled(motion.img)(({ theme }) => ({
@@ -74,7 +74,7 @@ export default function LandingHero() {
 
   const handleCarousel = useCallback(() => {
     const newIndex = index + 1;
-    setIndex(newIndex > (images.length-1) ? 0 : newIndex);
+    setIndex(newIndex > (images.length - 1) ? 0 : newIndex);
   }, [index]);
 
 
@@ -82,6 +82,14 @@ export default function LandingHero() {
     const timer = setInterval(handleCarousel, 5000);
     return () => clearInterval(timer);
   }, [handleCarousel]);
+
+  const handleScrolling = () => {
+    const main = document.getElementById('list');
+    window.scrollTo({
+      top: main.offsetTop - 70,
+      behavior: 'smooth'
+    });
+  };
 
   return (
     <>
@@ -109,11 +117,13 @@ export default function LandingHero() {
 
 
             <motion.div variants={varFadeInRight}>
+
               <Button
                 size='large'
                 variant='contained'
-                href={'#list'}
+                onClick={handleScrolling}
                 startIcon={<Icon icon={flashFill} width={20} height={20} />}
+
               >
                 Allons y !
               </Button>

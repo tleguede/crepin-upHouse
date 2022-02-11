@@ -39,7 +39,24 @@ if (window.location.hostname === 'localhost') {
     console.log(err);
   });
 
-  // auth.pe.enablePersistence().catch((err)=> { console.log(err) });
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then((res) => {
+    // if (!auth.currentUser) {
+    //   auth.signInAnonymously().catch((error)=> {
+    //     // Handle Errors here.
+    //     let errorCode = error.code;
+    //     let errorMessage = error.message;
+    //
+    //     if (errorCode === 'auth/operation-not-allowed') {
+    //       alert('You must enable Anonymous auth in the Firebase Console.');
+    //     } else {
+    //       console.error(error);
+    //     }
+    //   })
+    // }
+
+  }).catch((err) => {
+    console.log(err);
+  });
 
 }
 

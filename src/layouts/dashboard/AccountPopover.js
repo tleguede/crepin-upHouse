@@ -31,11 +31,7 @@ const MENU_OPTIONS = [
     icon: personFill,
     linkTo: '/profile'
   },
-  {
-    label: 'Settings',
-    icon: settings2Fill,
-    linkTo: PATH_DASHBOARD.user.account
-  }
+
 ];
 
 // ----------------------------------------------------------------------
@@ -64,7 +60,7 @@ export default function AccountPopover() {
       }
     } catch (error) {
       console.error(error);
-      enqueueSnackbar('Unable to logout', { variant: 'error' });
+      enqueueSnackbar('Impossible de se déconnecter', { variant: 'error' });
     }
   };
 
@@ -152,7 +148,7 @@ export default function AccountPopover() {
 
         <Box sx={{ p: 2, pt: 1.5 }}>
           <Button fullWidth color="inherit" variant="outlined" onClick={handleLogout}>
-            Logout
+            Déconnexion
           </Button>
         </Box>
       </MenuPopover>

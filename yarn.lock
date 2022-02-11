@@ -2056,6 +2056,11 @@
   resolved "https://registry.yarnpkg.com/@iconify/icons-dashicons/-/icons-dashicons-1.1.0.tgz#2bfa1f805a39d6ecef9fc03c1229a4415bf441ae"
   integrity sha512-Neljkz+P3sQPzpzBHN1oqWfdX5arhO+UCsVqvegVoKQsnwkEE6XmNmrwxOciJBIAgSuo5ZmJit1kFwgR8TjhsA==
 
+"@iconify/icons-entypo@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-entypo/-/icons-entypo-1.1.0.tgz#e3af25d52118db9b70b1abed63d5cf61397f69be"
+  integrity sha512-onN1zei21NtVw6TZbMxFQ9DP/O6B0ya46s37KS2BuUV7nU805xm5pMOWenwK6IN2gMIp6HqwukUcJPfDgghNMg==
+
 "@iconify/icons-eva@^1.1.0":
   version "1.1.0"
   resolved "https://registry.npmjs.org/@iconify/icons-eva/-/icons-eva-1.1.0.tgz"

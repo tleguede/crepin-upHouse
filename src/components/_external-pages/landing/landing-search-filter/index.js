@@ -21,7 +21,7 @@ import {
   TRANSACTION_TYPE
 } from '../../../../constant';
 
-import {  values as _values } from 'lodash';
+import { values as _values } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { searchRealEstate } from '../../../../redux/slices/realEstate.thunks';
 
@@ -51,45 +51,46 @@ const TABS = [
 
 export default function LandingSearchFilter() {
 
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      zone:'',
+      zone: '',
       category: REAL_ESTATE_CATEGORY.RESIDENTIAL,
       type: [],
       transactionType: TRANSACTION_TYPE.RENT,
-      cost:  0,
-      costRange:{ min: 0, max: 0 },
-      area:  0,
-      areaUnit:  AREA_UNIT.MC,
+      cost: 0,
+      costRange: { min: 0, max: 0 },
+      area: 0,
+      areaUnit: AREA_UNIT.MC,
 
-      areaRange:{ min: 0, max: 0 },
+      areaRange: { min: 0, max: 0 },
 
       //residential
       _numberOfRoom: '',
       _numberOfBathRoom: '',
       _numberOfParking: '',
       _numberOfHangar: '',
-      _residentialOtherFeature:  [],
-      _building:  [],
-      _plexType:  null,
-      _residentialOtherCriterion:  [],
+      _residentialOtherFeature: [],
+      _building: [],
+      _plexType: null,
+      _residentialOtherCriterion: [],
 
 
       //commercial
       _featureType: null,
-      _buildingOtherCriterion:  []
+      _buildingOtherCriterion: []
 
 
-    },
+    }
   });
 
   const {
-    values,touched, errors,getFieldProps,
-    setFieldValue,
+    values, touched, errors, getFieldProps,
+    setFieldValue
   } = formik;
+
 
 
   const handleApply = () => {
@@ -120,7 +121,7 @@ export default function LandingSearchFilter() {
     const searchHelper = [
       _numberOfRoom, _numberOfBathRoom, _numberOfParking, _numberOfHangar,
       ..._residentialOtherFeature, ..._building, _plexType, ..._residentialOtherCriterion,
-      _featureType, ..._buildingOtherCriterion,values?.type
+      _featureType, ..._buildingOtherCriterion, values?.type
     ].filter(one => one !== null && one !== '' && one !== undefined);
 
     const data = {
@@ -136,17 +137,17 @@ export default function LandingSearchFilter() {
         plexType: _plexType === '' ? null : _plexType,
         otherCriterion: _residentialOtherCriterion,
         featureType: _featureType === '' ? null : _featureType,
-        buildingOtherCriterion: _buildingOtherCriterion,
+        buildingOtherCriterion: _buildingOtherCriterion
       }
     };
 
 
     console.log(data);
 
-    dispatch(searchRealEstate(data))
+    dispatch(searchRealEstate(data));
 
 
-  }
+  };
 
   return (
     <RootStyle>
@@ -160,8 +161,8 @@ export default function LandingSearchFilter() {
             scrollButtons='auto'
             variant='scrollable'
             allowScrollButtonsMobile
-            style={{marginLeft:20}}
-            onChange={(_, tabName) => setFieldValue('category',tabName)}
+            style={{ marginLeft: 20 }}
+            onChange={(_, tabName) => setFieldValue('category', tabName)}
           >
             {
               TABS.map(tab => (
@@ -208,7 +209,7 @@ export default function LandingSearchFilter() {
             <Grid item xs={2}>
               <LandingSearchFilterPriceBox
                 range={values.costRange}
-                onChange={change=>setFieldValue('costRange',change)}
+                onChange={change => setFieldValue('costRange', change)}
               />
             </Grid>
 
@@ -233,7 +234,6 @@ export default function LandingSearchFilter() {
           </Grid>
 
         </Stack>
-
 
 
       </Container>

@@ -1,4 +1,4 @@
-import { Grid, Container, Skeleton } from '@material-ui/core';
+import { Grid, Container, Skeleton, Typography,Box } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 import Page from '../../Page';
 
@@ -43,6 +43,17 @@ export default function RealEstateList({ list, loading }) {
         {
           loading && (
             <Loading />
+          )
+        }
+
+        {
+          (list?.length === 0) && (
+            <Box sx={{m:5}}>
+              <Typography variant={'subtitle1'}>
+                Aucun résultat
+              </Typography>
+            </Box>
+
           )
         }
 

@@ -1,8 +1,8 @@
+import { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
-import { useState, useEffect } from 'react';
 import menu2Fill from '@iconify/icons-eva/menu-2-fill';
-import { NavLink as RouterLink, useLocation } from 'react-router-dom';
+import { NavLink as RouterLink, useLocation, useNavigate } from 'react-router-dom';
 import arrowIosForwardFill from '@iconify/icons-eva/arrow-ios-forward-fill';
 import arrowIosDownwardFill from '@iconify/icons-eva/arrow-ios-downward-fill';
 // material
@@ -14,9 +14,14 @@ import NavSection from '../../components/NavSection';
 import Scrollbar from '../../components/Scrollbar';
 import { MIconButton } from '../../components/@material-extend';
 //
-import menuConfig from './MenuConfig';
-
+import menuConfig, { loggedConfig, mobileGuestConfig } from './MenuConfig';
+import useAuth from 'src/hooks/useAuth';
+import settings2Fill from '@iconify/icons-eva/settings-2-fill';
+import { PATH_DASHBOARD } from '../../routes/paths';
 // ----------------------------------------------------------------------
+import logoutOutlined from '@iconify/icons-ant-design/logout-outlined';
+import useIsMountedRef from '../../hooks/useIsMountedRef';
+import { useSnackbar } from 'notistack5';
 
 const ICON_SIZE = 22;
 const ITEM_SIZE = 48;
@@ -40,7 +45,7 @@ MenuMobileItem.propTypes = {
   onOpen: PropTypes.func
 };
 
-function MenuMobileItem({ item, isOpen, isActive, onOpen }) {
+function MenuMobileItem({ item, isOpen, isActive, onOpen, onClick }) {
   const { title, path, icon, children } = item;
 
   if (children) {
@@ -56,7 +61,7 @@ function MenuMobileItem({ item, isOpen, isActive, onOpen }) {
           />
         </ListItemStyle>
 
-        <Collapse in={isOpen} timeout="auto" unmountOnExit>
+        <Collapse in={isOpen} timeout='auto' unmountOnExit>
           <Box sx={{ display: 'flex', flexDirection: 'column-reverse' }}>
             <NavSection
               navConfig={menuConfig[2].children}
@@ -79,7 +84,7 @@ function MenuMobileItem({ item, isOpen, isActive, onOpen }) {
                     mr: '22px',
                     width: 8,
                     height: 2,
-                    content: "''",
+                    content: '\'\'',
                     borderRadius: 2,
                     bgcolor: 'currentColor'
                   }
@@ -95,7 +100,7 @@ function MenuMobileItem({ item, isOpen, isActive, onOpen }) {
                   '&:before': {
                     width: 4,
                     height: 4,
-                    content: "''",
+                    content: '\'\'',
                     borderRadius: '50%',
                     bgcolor: 'currentColor'
                   }
@@ -112,7 +117,7 @@ function MenuMobileItem({ item, isOpen, isActive, onOpen }) {
     return (
       <ListItemStyle
         href={path}
-        target="_blank"
+        target='_blank'
         component={Link}
         sx={{
           ...(isActive && {
@@ -132,6 +137,7 @@ function MenuMobileItem({ item, isOpen, isActive, onOpen }) {
     <ListItemStyle
       to={path}
       component={RouterLink}
+      onClick={onClick}
       sx={{
         ...(isActive && {
           color: 'primary.main',
@@ -152,9 +158,36 @@ MenuMobile.propTypes = {
 };
 
 export default function MenuMobile({ isOffset, isHome }) {
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+  const isMountedRef = useIsMountedRef();
+  const { user, isAuthenticated, logout } = useAuth();
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const options = useMemo(() => {
+    let list = [...menuConfig];
+
+    if (isAuthenticated) {
+      list = [...list, ...loggedConfig];
+      if (user?.isAdmin) {
+        list = [...list, {
+          title: 'Admin',
+          icon: <Icon icon={settings2Fill} {...{
+            width: 22,
+            height: 22
+          }} />,
+          path: PATH_DASHBOARD.root
+        }];
+      }
+    } else {
+      list = [...list, ...mobileGuestConfig];
+    }
+
+    return list;
+
+  }, [isAuthenticated, user?.isAdmin]);
 
   useEffect(() => {
     if (mobileOpen) {
@@ -173,6 +206,19 @@ export default function MenuMobile({ isOffset, isHome }) {
 
   const handleOpen = () => {
     setOpen(!open);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+      if (isMountedRef.current) {
+        handleDrawerClose();
+      }
+    } catch (error) {
+      console.error(error);
+      enqueueSnackbar('Impossible de se déconnecter', { variant: 'error' });
+    }
   };
 
   return (
@@ -195,12 +241,12 @@ export default function MenuMobile({ isOffset, isHome }) {
         PaperProps={{ sx: { pb: 5, width: 260 } }}
       >
         <Scrollbar>
-          <Link component={RouterLink} to="/" sx={{ display: 'inline-flex' }}>
+          <Link component={RouterLink} to='/' sx={{ display: 'inline-flex' }}>
             <Logo sx={{ mx: PADDING, my: 3 }} />
           </Link>
 
           <List disablePadding>
-            {menuConfig.map((link) => (
+            {options.map((link) => (
               <MenuMobileItem
                 key={link.title}
                 item={link}
@@ -209,6 +255,22 @@ export default function MenuMobile({ isOffset, isHome }) {
                 isActive={pathname === link.path}
               />
             ))}
+
+            {
+              isAuthenticated && (
+                <MenuMobileItem
+                  item={{
+                    title: 'Déconnexion',
+                    icon: <Icon icon={logoutOutlined} {...{ width: 22, height: 22 }} />,
+                    path: '#'
+                  }}
+                  isOpen={false}
+                  onOpen={handleLogout}
+                  isActive={false}
+                  onClick={handleLogout}
+                />
+              )
+            }
           </List>
         </Scrollbar>
       </Drawer>

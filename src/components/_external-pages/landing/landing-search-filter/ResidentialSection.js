@@ -29,7 +29,7 @@ export default function ResidentialSection({ formik, handleListChange }) {
       <SectionAccordion defaultExpanded={false}  hideShadow title={'Caractéristiques'}>
         <Grid container spacing={1}>
 
-          <Grid item xs={6}>
+          <Grid item md={6} sm={12} xs={12}>
             <TextField
               fullWidth
               select
@@ -54,7 +54,7 @@ export default function ResidentialSection({ formik, handleListChange }) {
             </TextField>
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item md={6} sm={12} xs={12}>
             <TextField
               fullWidth
               select
@@ -79,7 +79,7 @@ export default function ResidentialSection({ formik, handleListChange }) {
             </TextField>
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item md={6} xs={12} sm={12}>
             <TextField
               fullWidth
               select
@@ -104,7 +104,7 @@ export default function ResidentialSection({ formik, handleListChange }) {
             </TextField>
           </Grid>
 
-          <Grid item xs={6}>
+          <Grid item md={6} xs={12} sm={12}>
             <TextField
               fullWidth
               select
@@ -133,7 +133,7 @@ export default function ResidentialSection({ formik, handleListChange }) {
             <Grid container spacing={1}>
               {
                 _values(OTHER_FEATURES).map(one => (
-                  <Grid item xs={6} key={one}>
+                  <Grid item md={6} sm={12} key={one}>
                     <Stack direction={'row'} spacing={2}>
                       <Checkbox
                         checked={values._residentialOtherFeature.includes(one)}
@@ -159,7 +159,7 @@ export default function ResidentialSection({ formik, handleListChange }) {
         <Grid container spacing={1}>
           {
             _values(BUILDING_TYPE).map(one => (
-              <Grid item xs={6} key={one}>
+              <Grid item md={6} sm={12} key={one}>
                 <Stack direction={'row'} spacing={2}>
                   <Checkbox
                     checked={values._building.includes(one)}
@@ -183,7 +183,7 @@ export default function ResidentialSection({ formik, handleListChange }) {
           <Grid container spacing={1}>
             {
               _values(PLEX_TYPE).map(one => (
-                <Grid item xs={6} key={one}>
+                <Grid item md={6} sm={12} key={one}>
                   <Stack direction={'row'} spacing={2}>
                     <Radio
                       checked={values._plexType === one}
@@ -246,7 +246,7 @@ export default function ResidentialSection({ formik, handleListChange }) {
             <Grid container spacing={1}>
               {
                 _values(OTHER_CRITERION).map(one => (
-                  <Grid item xs={6} key={one}>
+                  <Grid item md={6} sm={12} key={one}>
                     <Stack direction={'row'} spacing={2}>
                       <Checkbox
                         checked={values._residentialOtherCriterion.includes(one)}

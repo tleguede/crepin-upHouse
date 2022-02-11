@@ -6,6 +6,9 @@ import buildingIcon from '@iconify/icons-bi/building';
 
 // routes
 import { PATH_PAGE,  PATH_AUTH } from '../../routes/paths';
+import loginOutlined from '@iconify/icons-ant-design/login-outlined';
+import codeSigningService from '@iconify/icons-carbon/code-signing-service';
+import publishIcon from '@iconify/icons-entypo/publish';
 
 // ----------------------------------------------------------------------
 
@@ -23,7 +26,7 @@ const menuConfig = [
 
   {
     title: 'Publier',
-    icon: <Icon icon={buildingIcon} {...ICON_SIZE} />,
+    icon: <Icon icon={publishIcon} {...ICON_SIZE} />,
     path: PATH_PAGE.publish
   },
 
@@ -37,7 +40,6 @@ const menuConfig = [
 ];
 
 export const loggedConfig =[
-  ...menuConfig,
   {
     title: 'Mes favoris',
     icon: <Icon icon={favoriteFilled} {...ICON_SIZE} />,
@@ -52,16 +54,15 @@ export const loggedConfig =[
 ]
 
 export const mobileGuestConfig =[
-  ...menuConfig,
   {
     title: 'Se connecter',
-    icon: <Icon icon={buildingIcon} {...ICON_SIZE} />,
+    icon: <Icon icon={loginOutlined} {...ICON_SIZE} />,
     path: PATH_AUTH.login
   },
 
   {
     title: "S'inscrire",
-    icon: <Icon icon={buildingIcon} {...ICON_SIZE} />,
+    icon: <Icon icon={codeSigningService} {...ICON_SIZE} />,
     path: PATH_AUTH.register
   },
 ]
