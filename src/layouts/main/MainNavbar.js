@@ -18,6 +18,7 @@ import { useMemo } from 'react';
 import { Icon } from '@iconify/react';
 import {  PATH_DASHBOARD } from '../../routes/paths';
 import settings2Fill from '@iconify/icons-eva/settings-2-fill';
+import NotificationsPopover from '../dashboard/NotificationsPopover';
 
 // ----------------------------------------------------------------------
 
@@ -111,6 +112,13 @@ export default function MainNavbar() {
                     Se connecter
                   </Button>
                 </ButtonGroup>
+              )
+            }
+
+
+            {
+              isAuthenticated &&(
+                <NotificationsPopover />
               )
             }
 
