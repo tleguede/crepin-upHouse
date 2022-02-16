@@ -14,6 +14,7 @@ import GoogleAnalytics from './components/GoogleAnalytics';
 import NotistackProvider from './components/NotistackProvider';
 import ThemePrimaryColor from './components/ThemePrimaryColor';
 import ThemeLocalization from './components/ThemeLocalization';
+import NotificationProvider from './contexts/NotificationContext';
 
 // ----------------------------------------------------------------------
 
@@ -26,10 +27,12 @@ export default function App() {
         <ThemeLocalization>
           <RtlLayout>
             <NotistackProvider>
-              <Settings />
-              <ScrollToTop />
-              <GoogleAnalytics />
-              {isInitialized ? <Router /> : <LoadingScreen />}
+              <NotificationProvider>
+                <Settings />
+                <ScrollToTop />
+                <GoogleAnalytics />
+                {isInitialized ? <Router /> : <LoadingScreen />}
+              </NotificationProvider>
             </NotistackProvider>
           </RtlLayout>
         </ThemeLocalization>

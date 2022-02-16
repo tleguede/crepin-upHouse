@@ -22,6 +22,7 @@ import { fData } from '../../../../utils/formatNumber';
 //
 import countries from '../countries';
 import { multipleFilesSave } from '../../../../utils/document';
+import PhoneField from '../../../PhoneField';
 
 // ----------------------------------------------------------------------
 
@@ -34,6 +35,7 @@ export default function AccountGeneral() {
     displayName: Yup.string().required('Le nom est requis'),
     phoneNumber: Yup.string().required('Le numero de tel est requis')
   });
+
 
   const formik = useFormik({
     enableReinitialize: true,
@@ -142,11 +144,9 @@ export default function AccountGeneral() {
                 </Stack>
 
                 <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
-                  <TextField
-                    fullWidth label='Numero de telephone'
+                  <PhoneField
                     {...getFieldProps('phoneNumber')}
-                    error={Boolean(touched.phoneNumber && errors.phoneNumber)}
-                    helperText={touched.phoneNumber && errors.phoneNumber}
+                    error={touched.phoneNumber && errors.phoneNumber}
                   />
                   <TextField fullWidth label='Address' {...getFieldProps('address')} />
                 </Stack>

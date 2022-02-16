@@ -60,7 +60,7 @@ export default function AuthFirebaseSocials() {
 
       <Divider sx={{ my: 3 }}>
         <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-          OR
+          Ou
         </Typography>
       </Divider>
     </>

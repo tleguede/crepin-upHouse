@@ -40,6 +40,7 @@ const menuConfig = [
 ];
 
 export const loggedConfig =[
+  ...menuConfig,
   {
     title: 'Mes favoris',
     icon: <Icon icon={favoriteFilled} {...ICON_SIZE} />,

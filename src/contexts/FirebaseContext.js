@@ -5,6 +5,7 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
 import 'firebase/database';
+import 'firebase/messaging';
 import { firebaseConfig } from '../config';
 import { useDispatch } from '../redux/store';
 import { createFirestoreInstance } from 'redux-firestore';
@@ -19,6 +20,7 @@ const auth = firebase.auth();
 const storage = firebase.storage();
 const firestore = firebase.firestore();
 const realtimeDb = firebase.database();
+const messaging = firebase.messaging();
 
 if (window.location.hostname === 'localhost') {
   auth.useEmulator('http://localhost:9099/');
@@ -289,4 +291,4 @@ function AuthProvider({ children }) {
 }
 
 
-export { AuthContext, AuthProvider, storage, firestore, auth, realtimeDb };
+export { AuthContext, AuthProvider, storage, firestore, auth, realtimeDb, messaging, firebase };

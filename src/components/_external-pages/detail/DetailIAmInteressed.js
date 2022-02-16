@@ -5,6 +5,7 @@ import useAuth from '../../../hooks/useAuth';
 import { useDispatch } from '../../../redux/store';
 import { requestCall } from '../../../redux/slices/callRequest.thunks';
 import { useSnackbar } from 'notistack5';
+import PhoneField from '../../PhoneField';
 
 export default function DetailIAmInteressed({ selected, open, onclose }) {
   const dispatch=useDispatch();
@@ -35,6 +36,7 @@ export default function DetailIAmInteressed({ selected, open, onclose }) {
     dispatch(requestCall({
       ...state,
       realEstateId:selected?.id,
+      realEstateName:selected?.name
     },()=>{
       enqueueSnackbar('Votre demande a été bien reçue',{variant:'success'})
       onclose && onclose()
@@ -75,14 +77,13 @@ export default function DetailIAmInteressed({ selected, open, onclose }) {
             helperText={error.displayName && 'Le nom est requis'}
             label={'Mon nom complet'}
           />
-          <TextField
-            fullWidth
+
+          <PhoneField
             value={state.phoneNumber}
-            onChange={event => handleChange({ phoneNumber: event.target.value })}
-            error={error.phoneNumber}
-            helperText={error.phoneNumber && 'Le numero est requis'}
-            label={'Mon Numero de telephone'}
-          />
+            onChange={phoneNumber=>handleChange({phoneNumber})}
+            error={error.phoneNumber && 'Le numero est requis'}
+            />
+
         </Stack>
       </DialogContent>
 

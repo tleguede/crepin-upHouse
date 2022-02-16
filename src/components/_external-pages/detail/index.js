@@ -37,15 +37,17 @@ const Item = ({ icon, label }) => {
       borderRadius: 1,
       borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: '#dcdcdc'
-
+      borderColor: '#dcdcdc',
+      p: 2,
+      width:170,
+      height:135
     }}>
-      <Stack direction={'row'}  spacing={1}>
+      <Stack direction={'column'} spacing={2}>
 
         <Icon icon={icon} {...SIZE} />
 
         <Stack direction={'column'} justifyContent={'center'}>
-          <Typography variant={'body'} sx={{ pl: 1 }}>
+          <Typography variant={'body'}>
             {label}
           </Typography>
         </Stack>
@@ -183,7 +185,7 @@ export default function Detail({ selected }) {
 
           {
             (selected?.features?.numberOfRoom) && (
-              <Grid item >
+              <Grid item>
                 <Item
                   icon={outlineBedroomParent}
                   label={selected?.features?.numberOfRoom}
@@ -195,7 +197,7 @@ export default function Detail({ selected }) {
 
           {
             (selected?.features?.numberOfBathRoom) && (
-              <Grid item >
+              <Grid item>
                 <Item
                   icon={bathroomIcon}
                   label={selected?.features?.numberOfBathRoom}
@@ -207,7 +209,7 @@ export default function Detail({ selected }) {
 
           {
             (selected?.features?.numberOfParking) && (
-              <Grid item >
+              <Grid item>
                 <Item
                   icon={bxsParking}
                   label={selected?.features?.numberOfParking}
@@ -218,7 +220,7 @@ export default function Detail({ selected }) {
 
           {
             (selected?.area) && selected?.area !== 0 && (
-              <Grid item >
+              <Grid item>
                 <Item
                   icon={areaCustom}
                   label={`${selected?.area} ${selected?.areaUnit}`}

@@ -1,17 +1,29 @@
 import { realEstateCollection } from '../../constant/firestore';
-import { isFunction } from 'lodash';
+import { isFunction, keys } from 'lodash';
 import { auth, firestore } from '../../contexts/FirebaseContext';
 import { gotList, gotSelectedRealEstate, hasError, startLoading } from './realEstate.slice';
 import { selectRealEstate } from '../selectors';
 import { isEqual } from 'lodash';
-import { REAL_ESTATE_STATE } from '../../constant';
+import { NOTIFICATION_TYPES, REAL_ESTATE_STATE } from '../../constant';
 import { isNotEmpty } from '../../utils/type_check';
+import { createNotification } from './notifications';
 
 export const createRealEstate = (data, callback = null) => {
-  return async () => {
+  return async (dispatch) => {
     try {
 
-      await realEstateCollection.add(data);
+      const result = await realEstateCollection.add(data);
+
+      dispatch(createNotification({
+        data: {
+          title: 'Nouvelle demande de validation',
+          description: data?.name,
+          type: NOTIFICATION_TYPES.CALL_REQUEST,
+          action: {
+            id: result?.id
+          }
+        }
+      }));
 
       isFunction(callback) && callback();
 
@@ -22,12 +34,38 @@ export const createRealEstate = (data, callback = null) => {
 };
 
 export const editRealEstate = (data, callback = null) => {
-  return async () => {
+  return async (dispatch) => {
     try {
 
       const { id, ...rest } = data;
 
       await realEstateCollection.doc(id).update(rest);
+
+      if (keys(rest).length === 1 && 'state' in data) {
+        const doc = await realEstateCollection.doc(id).get();
+        const { state } = data;
+        let title = '';
+
+        if (state === REAL_ESTATE_STATE.VALIDATED) {
+          title = 'Votre publication a été approuvé';
+        } else if (state === REAL_ESTATE_STATE.REJECTED) {
+          title = 'Votre publication a été rejeté';
+        }
+
+        dispatch(createNotification({
+          data: {
+            title,
+            description: doc.data()?.name,
+            type: NOTIFICATION_TYPES.ESTATE_STATE_CHANGE,
+            action: {
+              id: doc?.id
+            },
+            canAccess:[doc?.data()?.owner?.id],
+          }
+        }));
+
+      }
+
 
       isFunction(callback) && callback();
 
@@ -125,7 +163,7 @@ export const searchRealEstate = (filter, limit = 20, callback) => {
         .limit(limit);
 
       //#region query builder
-      if (isNotEmpty(filter?.zone )) {
+      if (isNotEmpty(filter?.zone)) {
         query = query.where('zone', '==', filter?.zone);
       }
 
@@ -133,7 +171,7 @@ export const searchRealEstate = (filter, limit = 20, callback) => {
         query = query.where('category', '==', filter?.category);
       }
 
-      if (filter?.type?.length>0) {
+      if (filter?.type?.length > 0) {
         query = query.where('searchHelper', 'array-contains-any', filter?.type);
       }
 

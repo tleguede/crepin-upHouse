@@ -14,5 +14,6 @@ export const firestore = admin.firestore();
 export const messaging = admin.messaging();
 
 export const userCollection = firestore.collection('users');
+export const notificationCollection = firestore.collection('notifications');
 export const referenceCollection = firestore.collection('references');
 export const userIndexCollection = firestore.collection('user_indexes');

@@ -30,7 +30,7 @@ export default function ResetPassword() {
   const [sent, setSent] = useState(false);
 
   return (
-    <RootStyle title="Reset Password | Minimal UI">
+    <RootStyle title="Réinitialiser le mot de passe | upHouse">
       <LogoOnlyLayout />
 
       <Container>
@@ -38,17 +38,17 @@ export default function ResetPassword() {
           {!sent ? (
             <>
               <Typography variant="h3" paragraph>
-                Forgot your password?
+                Mot de passe oublié?
               </Typography>
               <Typography sx={{ color: 'text.secondary', mb: 5 }}>
-                Please enter the email address associated with your account and We will email you a link to reset your
-                password.
+                Veuillez saisir l'adresse e-mail associée à votre compte et nous vous enverrons par e-mail un lien pour réinitialiser votre
+                le mot de passe.
               </Typography>
 
               <ResetPasswordForm onSent={() => setSent(true)} onGetEmail={(value) => setEmail(value)} />
 
               <Button fullWidth size="large" component={RouterLink} to={PATH_AUTH.login} sx={{ mt: 1 }}>
-                Back
+                Retour
               </Button>
             </>
           ) : (
@@ -56,17 +56,17 @@ export default function ResetPassword() {
               <SentIcon sx={{ mb: 5, mx: 'auto', height: 160 }} />
 
               <Typography variant="h3" gutterBottom>
-                Request sent successfully
+                Demande envoyée avec succès
               </Typography>
               <Typography>
-                We have sent a confirmation email to &nbsp;
+                Nous avons envoyé un e-mail de confirmation à &nbsp;
                 <strong>{email}</strong>
                 <br />
-                Please check your email.
+                Merci de consulter vos emails.
               </Typography>
 
               <Button size="large" variant="contained" component={RouterLink} to={PATH_AUTH.login} sx={{ mt: 5 }}>
-                Back
+                Retour
               </Button>
             </Box>
           )}

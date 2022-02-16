@@ -12,14 +12,15 @@ import {
   RESIDENCE_TYPE, TRANSACTION_TYPE
 } from '../../../constant';
 import * as Yup from 'yup';
-import { useFormik, Form, FormikProvider } from 'formik';
+import "yup-phone";
 
+import { useFormik, Form, FormikProvider } from 'formik';
 import { useCallback, useMemo } from 'react';
 import ResidentialSection from './ResidentialSection';
 import CommercialSection from './CommercialSection';
 import { multipleFilesSave } from '../../../utils/document';
-import { isFile } from '../../../utils/type_check';
 
+import { isFile } from '../../../utils/type_check';
 import { useDispatch } from 'react-redux';
 import { createRealEstate, editRealEstate } from '../../../redux/slices/realEstate.thunks';
 import { useSnackbar } from 'notistack5';
@@ -27,10 +28,9 @@ import { useNavigate } from 'react-router-dom';
 import { PATH_PAGE } from '../../../routes/paths';
 import useAuth from '../../../hooks/useAuth';
 import ErrorHelper from '../../ErrorHelper';
-import { updateUser } from '../../../redux/slices/user.thunk';
-
-import PhoneInput from 'react-phone-input-2';
+import { updateUserPhone } from '../../../redux/slices/user.thunk';
 import 'react-phone-input-2/lib/style.css';
+import PhoneField from '../../PhoneField';
 
 export default function Publish({ selected }) {
   const { user } = useAuth();
@@ -43,7 +43,7 @@ export default function Publish({ selected }) {
   // const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
   const schema = Yup.object().shape({
-    phoneNumber: Yup.string().required('Cet numero est invalid'),
+    // phoneNumber: Yup.string().phone('TG').required('Cet numero est invalid'),
     name: Yup.string().required('Le nom est requis'),
     description: Yup.string().required('La description est requise'),
     cost: Yup.number().required('Le prix est requis'),
@@ -199,7 +199,7 @@ export default function Publish({ selected }) {
 
         if (user?.phoneNumber !== phoneNumber) {
 
-          dispatch(updateUser({
+          dispatch(updateUserPhone({
             id: user?.id,
             phoneNumber
           }));
@@ -412,6 +412,22 @@ export default function Publish({ selected }) {
             />
 
 
+            <Stack spacing={1}>
+
+              <Typography>
+                Votre numéro de téléphone
+              </Typography>
+
+
+              <PhoneField
+                {...getFieldProps('phoneNumber')}
+                error={touched.phoneNumber && errors.phoneNumber}
+              />
+
+            </Stack>
+
+
+
             <UploadMultiFile
               files={values.files}
               accept='image/*'
@@ -427,26 +443,9 @@ export default function Publish({ selected }) {
 
             <ErrorHelper error={touched.files && errors.files} />
 
-            <PhoneInput
-              country={'tg'}
-              // value={this.state.phone}
-              // onChange={phone => console.log(phone)}
-              inputProps={{
-                name: 'phone',
-                required: true,
-                autoFocus: true
 
-              }}
-              inputStyle={{
-                width: '100%',
-                height: 56
-              }}
-              {...getFieldProps('phoneNumber')}
-            />
 
-            <ErrorHelper
-              error={touched.phoneNumber && errors.phoneNumber}
-            />
+
 
             <LoadingButton type={'submit'} variant={'contained'} style={{ width: 200 }} loading={isSubmitting}>
               {isEdit ? 'Editer' : 'Créer'}

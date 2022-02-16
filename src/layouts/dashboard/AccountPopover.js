@@ -22,7 +22,7 @@ import MenuPopover from '../../components/MenuPopover';
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
+    label: 'Accueil',
     icon: homeFill,
     linkTo: '/'
   },

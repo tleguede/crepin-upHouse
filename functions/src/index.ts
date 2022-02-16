@@ -3,8 +3,9 @@
 
 import * as functions from 'firebase-functions';
 
-import { userCollection, auth, corsHandler } from './config';
+import { userCollection, auth, corsHandler, messaging, notificationCollection } from './config';
 import { updateUserIndex, registerUserIndex } from './userIndexes';
+import { isEmpty } from 'lodash';
 
 //#region users
 
@@ -92,14 +93,71 @@ export const updateUserProfile = functions.https.onRequest(async (req, resp) => 
 
 //#region triggers
 export const notify = functions.https.onRequest((req, resp) => {
-  try {
+  corsHandler(req, resp, async () => {
+    try {
 
-    // const result = await userCollection.where('')
+      const { id, canAccess, ...rest } = req.body;
+      let targets: any = [];
 
-  } catch (error) {
-    functions.logger.error(error, { structuredData: true });
-    resp.status(400).json(error);
-  }
+      if (isEmpty(canAccess)) {
+        const adminSnap = await userCollection.where('isAdmin', '==', true).get();
+
+        targets = adminSnap.docs
+          .map(doc => ({ id: doc.id, ...doc.data() }))
+          // @ts-ignore
+          ?.filter(({ token }) => token);
+
+        if (!isEmpty(targets))
+          await notificationCollection.doc(id).update({
+            canAccess: targets?.map((one: { id: string; }) => one?.id)
+          });
+
+      } else {
+
+        await Promise.all(canAccess?.map(async (id: string) => {
+          const snap = await userCollection.doc(id).get();
+          if (snap.exists && snap.data()?.token) {
+            targets = [...targets, { id: snap.id, ...snap.data() }];
+          }
+        }));
+
+      }
+
+      // functions.logger.info(req.body);
+
+
+      // @ts-ignore
+      const tokens = targets?.map(({ token }) => token);
+
+      // functions.logger.info(targets);
+      //
+      // functions.logger.info(tokens);
+
+
+      functions.logger.info(rest?.notification?.title);
+
+      const result = await messaging.sendToDevice(tokens, {
+        notification: {
+          body: rest?.notification?.description,
+          title: rest?.notification?.title
+
+        }
+        // data : rest
+      });
+
+
+      functions.logger.info(result, { structuredData: true });
+
+      resp.status(200).json({
+        ...result
+      });
+
+
+    } catch (error) {
+      functions.logger.error(error, { structuredData: true });
+      resp.status(400).json(error);
+    }
+  });
 });
 
 export const updateIndexes = functions.auth.user().onCreate(async record => {

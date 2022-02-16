@@ -288,3 +288,5 @@ export const FEATURE_ICON = {
 
 
 };
+
+export { NOTIFICATION_TYPES, NOTIFICATION_ICONS, NOTIFICATION_DEFAULT_ICON, getNotificationIcon } from './notification';

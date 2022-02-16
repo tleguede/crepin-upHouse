@@ -26,7 +26,7 @@ import Label from '../../Label';
 import { UploadAvatar } from '../../upload';
 import countries from './countries';
 import { useDispatch } from '../../../redux/store';
-import { createUser, updateUser } from '../../../redux/slices/user.thunk';
+import { createUser, updateUser, updateUserPhone } from '../../../redux/slices/user.thunk';
 import PhoneInput from 'react-phone-input-2';
 import ErrorHelper from '../../ErrorHelper';
 import 'react-phone-input-2/lib/style.css';
@@ -60,6 +60,8 @@ export default function UserNewForm({ isEdit, currentUser }) {
     // avatarUrl: Yup.mixed().required('Avatar is required')
   });
 
+  console.log(currentUser.photoURL);
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -72,6 +74,7 @@ export default function UserNewForm({ isEdit, currentUser }) {
       city: currentUser?.city || '',
       zipCode: currentUser?.zipCode || '',
       photoURL: currentUser?.photoURL || null,
+      avatarUrl: currentUser?.photoURL || null,
       isVerified: currentUser?.isVerified || true,
       status: currentUser?.status,
       company: currentUser?.company || '',
@@ -86,14 +89,15 @@ export default function UserNewForm({ isEdit, currentUser }) {
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
       try {
 
+        const { password, phoneNumber, photoURL, status, avatarUrl, ...rest } = values;
+
         const callback = () => {
           resetForm();
           setSubmitting(false);
           enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
           navigate(PATH_DASHBOARD.user.list);
+          isEdit && dispatch(updateUserPhone({ id: currentUser?.id, phoneNumber: phoneNumber || '' }));
         };
-
-        const { password, phoneNumber, photoURL, status, avatarUrl, ...rest } = values;
 
 
         await multipleFilesSave([avatarUrl].filter(one => isFile(one)), (list = []) => {
@@ -101,12 +105,11 @@ export default function UserNewForm({ isEdit, currentUser }) {
 
           const data = {
             ...rest,
-            ...(isEmpty(phoneNumber) ? null : { phoneNumber }),
+            // ...(isEmpty(phoneNumber) ? null : { phoneNumber }),
             ...(isEmpty(password) ? null : { password }),
             ...(isEmpty(photoURL) ? null : { photoURL }),
             ...(avatar ? { photoURL: avatar?.url || null } : null)
           };
-          console.log(data);
 
           isEdit
             ? dispatch(updateUser({ ...currentUser, ...data, updatedAt: new Date() }, callback))
