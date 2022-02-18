@@ -42,6 +42,7 @@ export const PATH_DASHBOARD = {
   admin: {
     validation: path(ROOTS_DASHBOARD, '/post_validation'),
     callRequest:path(ROOTS_DASHBOARD, '/call_request'),
+    zones:path(ROOTS_DASHBOARD, '/zones'),
   },
   general: {
     app: path(ROOTS_DASHBOARD, '/app'),

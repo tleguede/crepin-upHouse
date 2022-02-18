@@ -82,6 +82,7 @@ export default function Router() {
         { path: '/', element: <Navigate to='/dashboard/post_validation' replace /> },
         { path: '/post_validation', element: <AdminPostValidation /> },
         { path: '/call_request', element: <AdminCallRequest /> },
+        { path: '/zones', element: <Zones /> },
 
 
         {
@@ -159,6 +160,7 @@ const Publish = Loadable(lazy(() => import('../pages/PublishPage')));
 
 const AdminPostValidation = Loadable(lazy(() => import('../pages/AdminPostValidation')));
 const AdminCallRequest = Loadable(lazy(() => import('../pages/AdminCallRequest')));
+const Zones = Loadable(lazy(() => import('../pages/dashboard/ZoneList')));
 
 
 const ComingSoon = Loadable(lazy(() => import('../pages/ComingSoon')));

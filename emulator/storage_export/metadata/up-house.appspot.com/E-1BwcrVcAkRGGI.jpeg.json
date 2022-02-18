@@ -1,0 +1,19 @@
+{
+  "name": "E-1BwcrVcAkRGGI.jpeg",
+  "bucket": "up-house.appspot.com",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1645178952686,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "f8e845c0-6e75-499e-b593-7cf3aca0c373"
+  ],
+  "timeCreated": "2022-02-18T10:09:12.685Z",
+  "updated": "2022-02-18T10:09:12.692Z",
+  "size": 221602,
+  "md5Hash": "pfejF1KdOmrxpxquCcFI0g==",
+  "crc32c": "721976133"
+}

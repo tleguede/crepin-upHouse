@@ -2,8 +2,12 @@
 import { PATH_DASHBOARD } from '../../routes/paths';
 // components
 import SvgIconStyle from '../../components/SvgIconStyle';
+import { Icon } from '@iconify/react';
+import momentTimezone from '@iconify/icons-file-icons/moment-timezone';
+import phoneCall from '@iconify/icons-bx/phone-call';
 
 // ----------------------------------------------------------------------
+export const SIDEBAR_ICON_SIZE = { height: 50, width: 50 };
 
 const getIcon = (name) => (
   <SvgIconStyle src={`/static/icons/navbar/${name}.svg`} sx={{ width: '100%', height: '100%' }} />
@@ -28,7 +32,7 @@ const sidebarConfig = [
   // Admin
   // ----------------------------------------------------------------------
   {
-    subheader: 'admin',
+    subheader: 'management',
     items: [
       {
         title: 'Validation des posts',
@@ -38,27 +42,33 @@ const sidebarConfig = [
       {
         title: 'Demande d appel',
         path: PATH_DASHBOARD.admin.callRequest,
-        icon: ICONS.dashboard
+        icon: <Icon icon={phoneCall} {...SIDEBAR_ICON_SIZE} />
       },
-    ]
-  },
-
-
-  // MANAGEMENT
-  // ----------------------------------------------------------------------
-  {
-    subheader: 'management',
-    items: [
-      // MANAGEMENT : USER
+      {
+        title: 'Les zones géographiques',
+        path: PATH_DASHBOARD.admin.zones,
+        icon: <Icon icon={momentTimezone} {...SIDEBAR_ICON_SIZE} />
+      },
       {
         title: 'Utilisateurs',
         path: PATH_DASHBOARD.user.list,
-        icon: ICONS.user,
+        icon: ICONS.user
 
-      },
-
+      }
     ]
-  },
+  }
+
+  //
+  // // MANAGEMENT
+  // // ----------------------------------------------------------------------
+  // {
+  //   subheader: 'management',
+  //   items: [
+  //     // MANAGEMENT : USER
+  //
+  //
+  //   ]
+  // },
 
 ];
 

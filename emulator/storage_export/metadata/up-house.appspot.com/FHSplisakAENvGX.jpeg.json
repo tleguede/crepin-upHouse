@@ -1,0 +1,19 @@
+{
+  "name": "FHSplisakAENvGX.jpeg",
+  "bucket": "up-house.appspot.com",
+  "contentType": "image/jpeg",
+  "metageneration": 1,
+  "generation": 1645178952817,
+  "storageClass": "STANDARD",
+  "etag": "someETag",
+  "contentDisposition": "inline",
+  "contentEncoding": "identity",
+  "downloadTokens": [
+    "01173941-00fb-47fe-9cac-929713acf5ee"
+  ],
+  "timeCreated": "2022-02-18T10:09:12.816Z",
+  "updated": "2022-02-18T10:09:12.821Z",
+  "size": 359056,
+  "md5Hash": "tprSIVrHkBWlclHrcspFjw==",
+  "crc32c": "3631872333"
+}

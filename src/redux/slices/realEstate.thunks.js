@@ -18,7 +18,7 @@ export const createRealEstate = (data, callback = null) => {
         data: {
           title: 'Nouvelle demande de validation',
           description: data?.name,
-          type: NOTIFICATION_TYPES.CALL_REQUEST,
+          type: NOTIFICATION_TYPES.ESTATE_STATE_CHANGE,
           action: {
             id: result?.id
           }
