@@ -7,6 +7,7 @@ import { SectionAccordion } from '../../../../SectionAccordion';
 import ResidentialSection from '../../landing-search-filter/ResidentialSection';
 import CommercialSection from '../../landing-search-filter/CommercialSection';
 import { useMemo } from 'react';
+import ZonePicker from '../../../../_dashboard/zones/ZonePicker';
 
 const TABS = [
   {
@@ -52,7 +53,7 @@ export default function FilterContainer() {
   }, [values.category]);
 
   return (
-    <Stack direction={'column'} spacing={1} sx={{ width: {sm:'73vw',xs:'73vw', md: '28vw'},  }}>
+    <Stack direction={'column'} spacing={1} sx={{ width: { sm: '73vw', xs: '73vw', md: '28vw' } }}>
 
       <Tabs
         value={values.category}
@@ -76,7 +77,7 @@ export default function FilterContainer() {
 
 
       {/**/}
-      <Grid container spacing={1} >
+      <Grid container spacing={1}>
 
         <Grid item md={4} sm={12} xs={12}>
           <TextField
@@ -97,12 +98,10 @@ export default function FilterContainer() {
         </Grid>
 
         <Grid item md={6} sm={12} xs={12}>
-          <TextField
-            fullWidth
-            label={'Rechercher par ville, quartier ...'}
-            error={Boolean(touched.zone && errors.zone)}
-            helperText={touched.zone && errors.zone}
-            {...getFieldProps('zone')}
+          <ZonePicker
+            selected={values.zone}
+            onPick={zone => setFieldValue('zone', zone)}
+            error={touched.zone && errors.zone}
           />
         </Grid>
 

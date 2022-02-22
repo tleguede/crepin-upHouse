@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import useZones from '../../../hooks/useZones';
 import useToggle from '../../../hooks/useToggle';
 
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isFunction } from 'lodash';
 import { searchList, transformToTree } from 'src/utils/array';
 
 import { Stack, TextField } from '@material-ui/core';
@@ -10,12 +10,12 @@ import { LoadingButton } from '@material-ui/lab';
 import ZoneList from './ZoneList';
 import ZoneAddForm from './ZoneAddForm';
 
-export default function Zones({onSelect}) {
+export default function Zones({ onSelect }) {
   const { loading, zones } = useZones();
   const { open, handleClose, handleOpen } = useToggle();
 
   const [keyword, setKeyword] = useState('');
-  const list = useMemo(()=>searchList(zones,keyword),[zones,keyword])
+  const list = useMemo(() => searchList(zones, keyword), [zones, keyword]);
 
   const tree = useMemo(() => transformToTree(cloneDeep(list), {
     index: 'id',
@@ -30,16 +30,28 @@ export default function Zones({onSelect}) {
   // console.log(tree);
   // console.groupEnd();
 
+  const interceptSelection = () => {
+    if (isFunction(onSelect)) {
+      return (id) => {
+        const text = zones?.find(one => one?.id === id)?._meta?.replaceAll(',', ' ');
+        onSelect(id, text);
+        setKeyword(text);
+      };
+    } else {
+      return null;
+    }
+  };
+
   return (
     <Stack spacing={3}>
 
       <TextField
         fullWidth
         value={keyword}
-        onChange={env=>setKeyword(env.target.value)}
+        onChange={env => setKeyword(env.target.value)}
       />
 
-      <ZoneList list={tree} raw={zones} onSelect={onSelect}/>
+      <ZoneList list={tree} raw={zones} onSelect={interceptSelection()} />
 
       {
         !Boolean(onSelect) && (

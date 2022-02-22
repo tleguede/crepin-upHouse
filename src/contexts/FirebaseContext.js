@@ -22,12 +22,12 @@ const firestore = firebase.firestore();
 const realtimeDb = firebase.database();
 const messaging = firebase.messaging();
 
-if (window.location.hostname === 'localhost') {
-  auth.useEmulator('http://localhost:9099/');
-  storage.useEmulator('localhost', 9199);
-  firestore.useEmulator('localhost', 8080);
-  realtimeDb.useEmulator('localhost', 9000);
-} else {
+// if (window.location.hostname === 'localhost') {
+//   auth.useEmulator('http://localhost:9099/');
+//   storage.useEmulator('localhost', 9199);
+//   firestore.useEmulator('localhost', 8080);
+//   realtimeDb.useEmulator('localhost', 9000);
+// } else {
 
   if (firebase?.messaging?.isSupported()) {
     firebase.messaging();
@@ -41,26 +41,11 @@ if (window.location.hostname === 'localhost') {
     console.log(err);
   });
 
-  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then((res) => {
-    // if (!auth.currentUser) {
-    //   auth.signInAnonymously().catch((error)=> {
-    //     // Handle Errors here.
-    //     let errorCode = error.code;
-    //     let errorMessage = error.message;
-    //
-    //     if (errorCode === 'auth/operation-not-allowed') {
-    //       alert('You must enable Anonymous auth in the Firebase Console.');
-    //     } else {
-    //       console.error(error);
-    //     }
-    //   })
-    // }
-
-  }).catch((err) => {
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).catch((err) => {
     console.log(err);
   });
 
-}
+// }
 
 const initialState = {
   isAuthenticated: false,

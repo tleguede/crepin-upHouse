@@ -28,6 +28,8 @@ import areaCustom from '@iconify/icons-carbon/area-custom';
 import { FEATURE_ICON, REAL_ESTATE_STATE } from '../../../constant';
 import DetailIAmInteressed from './DetailIAmInteressed';
 import DetailStateSwitcher from './DetailStateSwitcher';
+import { isEmpty } from 'lodash';
+import { formatDisplay } from 'src/utils/zone';
 
 const SIZE = { height: 30, width: 30 };
 
@@ -39,8 +41,8 @@ const Item = ({ icon, label }) => {
       borderStyle: 'solid',
       borderColor: '#dcdcdc',
       p: 2,
-      width:170,
-      height:135
+      width: 170,
+      height: 135
     }}>
       <Stack direction={'column'} spacing={2}>
 
@@ -143,6 +145,23 @@ export default function Detail({ selected }) {
         </Stack>
 
         <CarouselThumbnail images={selected?.images} />
+
+
+        {
+          !isEmpty(formatDisplay(selected?.zone)) && (
+            <>
+              <Divider />
+
+              <Stack direction={'row'} justifyContent={'space-between'}>
+
+                <Typography variant={'subtitle1'}>
+                  {formatDisplay(selected?.zone)}
+                </Typography>
+
+              </Stack>
+            </>
+          )
+        }
 
 
         <Divider />

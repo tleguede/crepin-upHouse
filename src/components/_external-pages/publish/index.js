@@ -12,7 +12,7 @@ import {
   RESIDENCE_TYPE, TRANSACTION_TYPE
 } from '../../../constant';
 import * as Yup from 'yup';
-import "yup-phone";
+import 'yup-phone';
 
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useCallback, useMemo } from 'react';
@@ -31,6 +31,7 @@ import ErrorHelper from '../../ErrorHelper';
 import { updateUserPhone } from '../../../redux/slices/user.thunk';
 import 'react-phone-input-2/lib/style.css';
 import PhoneField from '../../PhoneField';
+import ZonePicker from 'src/components/_dashboard/zones/ZonePicker';
 
 export default function Publish({ selected }) {
   const { user } = useAuth();
@@ -45,6 +46,7 @@ export default function Publish({ selected }) {
   const schema = Yup.object().shape({
     // phoneNumber: Yup.string().phone('TG').required('Cet numero est invalid'),
     name: Yup.string().required('Le nom est requis'),
+    zone: Yup.object().nullable().required('Le Zone geographique est requise'),
     description: Yup.string().required('La description est requise'),
     cost: Yup.number().required('Le prix est requis'),
     files: Yup.array().min(1, 'Ajouter au moins une image')
@@ -57,6 +59,7 @@ export default function Publish({ selected }) {
       phoneNumber: user?.phoneNumber || '',
 
       name: selected?.name || '',
+      zone: selected?.zone || null,
       description: selected?.description || '',
       category: selected?.category || REAL_ESTATE_CATEGORY.RESIDENTIAL,
       type: selected?.type || RESIDENCE_TYPE.SINGLE_FAMILY_HOME,
@@ -320,6 +323,12 @@ export default function Publish({ selected }) {
               {...getFieldProps('name')}
             />
 
+            <ZonePicker
+              selected={values.zone}
+              onPick={zone => setFieldValue('zone', zone)}
+              error={touched.zone && errors.zone}
+            />
+
             <TextField
               select
               label={'Categorie'}
@@ -427,7 +436,6 @@ export default function Publish({ selected }) {
             </Stack>
 
 
-
             <UploadMultiFile
               files={values.files}
               accept='image/*'
@@ -442,9 +450,6 @@ export default function Publish({ selected }) {
 
 
             <ErrorHelper error={touched.files && errors.files} />
-
-
-
 
 
             <LoadingButton type={'submit'} variant={'contained'} style={{ width: 200 }} loading={isSubmitting}>

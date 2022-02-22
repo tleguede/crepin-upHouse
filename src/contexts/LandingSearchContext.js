@@ -17,7 +17,7 @@ export default function LandingSearchProvider({ children }) {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      zone: '',
+      zone: null,
       category: REAL_ESTATE_CATEGORY.RESIDENTIAL,
       type: [],
       transactionType: TRANSACTION_TYPE.RENT,
