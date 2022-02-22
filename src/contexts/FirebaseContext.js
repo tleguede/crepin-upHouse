@@ -22,12 +22,12 @@ const firestore = firebase.firestore();
 const realtimeDb = firebase.database();
 const messaging = firebase.messaging();
 
-// if (window.location.hostname === 'localhost') {
-//   auth.useEmulator('http://localhost:9099/');
-//   storage.useEmulator('localhost', 9199);
-//   firestore.useEmulator('localhost', 8080);
-//   realtimeDb.useEmulator('localhost', 9000);
-// } else {
+if (window.location.hostname === 'localhost') {
+  auth.useEmulator('http://localhost:9099/');
+  storage.useEmulator('localhost', 9199);
+  firestore.useEmulator('localhost', 8080);
+  realtimeDb.useEmulator('localhost', 9000);
+} else {
 
   if (firebase?.messaging?.isSupported()) {
     firebase.messaging();
@@ -45,7 +45,7 @@ const messaging = firebase.messaging();
     console.log(err);
   });
 
-// }
+}
 
 const initialState = {
   isAuthenticated: false,
