@@ -7,7 +7,7 @@ import {
 
 } from '../components/_external-pages/landing';
 import LandingRealEstateList from '../components/_external-pages/_landing';
-import LandingSearchBar from '../components/_external-pages/landing/search-bar';
+import LandingSearchFilter from '../components/_external-pages/landing/landing-search-filter';
 
 // ----------------------------------------------------------------------
 
@@ -29,7 +29,7 @@ export default function LandingPage() {
     <RootStyle title="upHouse" id="move_top">
       <LandingHero />
       <ContentStyle id={'list'}>
-        <LandingSearchBar/>
+        <LandingSearchFilter/>
         <LandingRealEstateList/>
       </ContentStyle>
     </RootStyle>
