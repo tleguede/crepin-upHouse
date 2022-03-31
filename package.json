@@ -53,6 +53,7 @@
     "@hookform/devtools": "^3.1.0",
     "@hookform/resolvers": "^2.7.1",
     "@ibrahimrahmani/react-export-excel": "^1.0.2",
+    "@iconify/icons-akar-icons": "^1.2.3",
     "@iconify/icons-ant-design": "^1.1.0",
     "@iconify/icons-bi": "^1.1.11",
     "@iconify/icons-bx": "^1.2.1",

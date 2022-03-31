@@ -1,8 +1,10 @@
-import { Grid, Container, Skeleton, Typography, Box, Paper, Stack } from '@material-ui/core';
+import { Grid, Container, Skeleton, Typography, Box,} from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 import Page from '../../Page';
 
+
 import { RealEstateItem } from './RealEstateItem';
+
 
 const RootStyle = styled(Page)({
   height: '100%',
@@ -33,7 +35,7 @@ export default function RealEstateList({ list, loading }) {
         <Grid container spacing={2}>
           {
             list.map(one => (
-              <Grid item sm={6} xs={12} md={3} style={{ marginBottom: 10, cursor: 'pointer' }} key={one?.id}>
+              <Grid item sm={6} xs={12} md={4} style={{ marginBottom: 10, cursor: 'pointer' }} key={one?.id}>
                 <RealEstateItem item={one} />
               </Grid>
             ))
@@ -57,29 +59,6 @@ export default function RealEstateList({ list, loading }) {
           )
         }
 
-        <Grid container spacing={1}>
-          {
-            list.map(one => (
-              <Grid item sm={6} xs={12} md={3} style={{ margin: 5, cursor: 'pointer' }} key={one?.id}>
-                <Paper sx={{ width: 1, height: 474, boxShadow: 5 }}>
-                  <Stack>
-
-
-                    <Stack width={1} height={155} bgcolor={'red'}>
-
-                      <Typography>
-                        {one?.name}
-                      </Typography>
-
-
-                    </Stack>
-
-                  </Stack>
-                </Paper>
-              </Grid>
-            ))
-          }
-        </Grid>
 
       </Container>
     </RootStyle>

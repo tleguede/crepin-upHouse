@@ -1,4 +1,4 @@
-import { Box, Typography, Paper, Grid, Tooltip, IconButton } from '@material-ui/core';
+import { Box, Typography, Paper, Tooltip, Button, Stack, Divider } from '@material-ui/core';
 
 import Label from '../../Label';
 import { Favorite, FavoriteBorder } from '@material-ui/icons';
@@ -15,6 +15,13 @@ import { REAL_ESTATE_STATE } from '../../../constant';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import BlockIcon from '@material-ui/icons/Block';
 import RealEstateItemMenu from './RealEstateItemMenu';
+import { formatDisplay } from '../../../utils/zone';
+import { Icon } from '@iconify/react';
+import personIcon from '@iconify/icons-akar-icons/person';
+import fieldTimeOutlined from '@iconify/icons-ant-design/field-time-outlined';
+import { formatDistanceToNow } from 'date-fns';
+import { gDate } from '../../../utils/formatTime';
+import { fr as LocalFr } from 'date-fns/locale';
 
 export function RealEstateItem({ item }) {
   const navigate = useNavigate();
@@ -35,9 +42,6 @@ export function RealEstateItem({ item }) {
     return item?.bookmarkedByIds?.includes(id) || false;
   }, [item?.bookmarkedByIds, id]);
 
-  const { name, type, images,cost } = item;
-  const [cover] = images
-
   const handleFavorite = () => {
     if (!isAuthenticated) {
       handleOpen();
@@ -56,87 +60,160 @@ export function RealEstateItem({ item }) {
 
   return (
     <>
-      <Paper sx={{ mx: 1.5, borderRadius: 2, bgcolor: 'background.neutral' }}>
-        <Box sx={{ p: 1, position: 'relative' }}>
 
-          <Box sx={{
-            position: 'absolute',
-            bottom:  110,
-            right: 5,
-            bgcolor: isHome? 'transparent':'white',
-            borderRadius: 20,
-            mr: 2
-          }}>
-            {
-              !isMyPosts && (
-                <LoadingButton
-                  loading={loading} variant={'text'}
-                  color={isFavorite ? 'error' : 'primary'}
+      <Paper sx={{ width: 1, height: 474, boxShadow: 5 }}>
+        <Stack spacing={1}>
 
-                  onClick={handleFavorite}
-                >
-                  {isFavorite ? <Favorite /> : <FavoriteBorder />}
-                </LoadingButton>
-              )
-            }
+          <Box sx={{ position: 'relative' }}>
 
-            {
-              isMyPosts&& (item?.state !== REAL_ESTATE_STATE.VALIDATED) && (
-                <Tooltip title={item?.state}>
-                  <IconButton color={(isInValidation && 'success') || (isBanned && 'error') || 'default'}>
-                    {isInValidation && (<AccessTimeIcon />)}
-                    {isBanned && (<BlockIcon />)}
-                  </IconButton>
-                </Tooltip>
-              )
-            }
+            <Box component='img' src={item?.images[0]?.url} sx={{ borderRadius: 1.5, width: 1, height: 263 }}
+                 onClick={() => goTo(item?.id)}
+            />
 
-            {
-              (isMyPosts || isAdminValidator) && (
-                <RealEstateItemMenu
-                  item={item}
-                  isMyPosts={isMyPosts}
-                  isBanned={isBanned}
-                  isInValidation={isInValidation}
-                  isAdminValidator={isAdminValidator}
-                />
-              )
-            }
+            <Box component={Stack} direction={'row'} sx={{
+              position: 'absolute',
+              bottom: 0,
+              right: 0,
+              left: 0,
+              top: 0,
+              // bgcolor: 'red',
+              height: 1,
+              width: 1
+            }}>
+              <Stack height={1} width={1} p={1} justifyContent={'space-between'}>
+                <Stack direction={'row'} justifyContent={'end'}>
 
+                  <Label sx={{ color: 'white' }}>
+                    {item?.transactionType}
+                  </Label>
+
+
+                </Stack>
+
+
+                <Stack direction={'row'} justifyContent={'space-between'}>
+
+
+                  <Typography overflow={'hidden'} textOverflow={'clip'} fontWeight={'bold'} fontSize={18}
+                              sx={{ height: 25, color: 'white' }}>
+                    {item?.cost} CFA / {item?.paymentRhythm}
+                  </Typography>
+
+                  <Box sx={{
+                    bgcolor: isHome ? 'transparent' : 'white',
+                    borderRadius: 20,
+                    mr: 2
+                  }}>
+                    {
+                      !isMyPosts && (
+                        <LoadingButton
+                          loading={loading} variant={'text'}
+                          color={isFavorite ? 'error' : 'primary'}
+
+                          onClick={handleFavorite}
+                        >
+                          {isFavorite ? <Favorite /> : <FavoriteBorder />}
+                        </LoadingButton>
+                      )
+                    }
+
+                    {
+                      isMyPosts && (item?.state !== REAL_ESTATE_STATE.VALIDATED) && (
+                        <Tooltip title={item?.state}>
+                          <Button color={(isInValidation && 'success') || (isBanned && 'error') || 'default'}>
+                            {isInValidation && (<AccessTimeIcon />)}
+                            {isBanned && (<BlockIcon />)}
+                          </Button>
+                        </Tooltip>
+                      )
+                    }
+
+                    {
+                      (isMyPosts || isAdminValidator) && (
+                        <RealEstateItemMenu
+                          item={item}
+                          isMyPosts={isMyPosts}
+                          isBanned={isBanned}
+                          isInValidation={isInValidation}
+                          isAdminValidator={isAdminValidator}
+                        />
+                      )
+                    }
+
+
+                  </Box>
+
+                </Stack>
+
+              </Stack>
+
+
+            </Box>
 
           </Box>
 
 
-          <Label
-            variant='filled'
-            color={'info'}
-            sx={{ position: 'absolute', bottom: 16, right: 16, textTransform: 'capitalize' }}
-          >
-            <Typography variant='body1'>
-              {`${cost} CFA`}
+          <Stack onClick={() => goTo(item?.id)} width={1} height={155} px={1} spacing={1}>
+
+            <Typography overflow={'hidden'} textOverflow={'clip'} fontWeight={'bold'}
+                        fontSize={16}
+                        sx={{ height: 25 }}
+            >
+              {item?.name}...
             </Typography>
-          </Label>
 
-          <Box component='img' src={cover?.url} sx={{ borderRadius: 1.5, width: 1,height:150 }} onClick={() => goTo(item?.id)} />
-        </Box>
-
-        <Grid container spacing={2} sx={{ p: 3, pt: 1, pb: 2.5 }} onClick={() => goTo(item?.id)}>
-
-          <Grid item xs={12}>
-            <Typography variant='subtitle2' sx={{ overflow: 'hidden', textOverflow: 'clip', height: 50 }}>
-              {name}
+            <Typography overflow={'hidden'} textOverflow={'clip'} fontSize={13} sx={{
+              height: 25, color: (theme) => theme.palette.text.disabled
+            }}>
+              {formatDisplay(item?.zone)}
             </Typography>
-          </Grid>
 
-          <Grid item xs={12}>
-            <Typography variant='subtitle2'>
-              {type}
+            <Typography overflow={'hidden'} textOverflow={'clip'} fontWeight={'bold'} fontSize={14}
+                        sx={{ height: 25 }}>
+              {item?.type}
             </Typography>
-          </Grid>
 
-        </Grid>
+          </Stack>
 
+          <Divider />
+
+          <Stack onClick={() => goTo(item?.id)} direction={'row'} justifyContent={'space-between'} px={1}>
+
+            <Stack direction={'row'} spacing={1}>
+
+              <Icon icon={personIcon} {...{ height: 20, width: 20 }} />
+
+              <Typography overflow={'hidden'} textOverflow={'clip'} fontWeight={'bold'} fontSize={14}
+                          sx={{ height: 25, color: (theme) => theme.palette.text.disabled }}>
+                {item?.owner?.displayName}
+              </Typography>
+
+
+            </Stack>
+
+            <Stack direction={'row'} spacing={1}>
+
+              <Icon icon={fieldTimeOutlined} {...{ height: 20, width: 20 }} />
+
+              <Typography overflow={'hidden'} textOverflow={'clip'} fontWeight={'bold'} fontSize={14}
+                          sx={{ height: 25, color: (theme) => theme.palette.text.disabled }}>
+
+                {formatDistanceToNow(gDate(item?.createdAt) || new Date(), {
+                  addSuffix: true,
+                  locale: LocalFr
+                })}
+
+              </Typography>
+
+
+            </Stack>
+
+          </Stack>
+
+
+        </Stack>
       </Paper>
+
       <FavoriteAskLogin open={open} onClose={handleClose} />
 
     </>
