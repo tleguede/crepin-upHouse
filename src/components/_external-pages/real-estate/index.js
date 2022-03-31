@@ -1,4 +1,4 @@
-import { Grid, Container, Skeleton, Typography,Box } from '@material-ui/core';
+import { Grid, Container, Skeleton, Typography, Box, Paper, Stack } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 import Page from '../../Page';
 
@@ -24,7 +24,7 @@ const Loading = () => {
 };
 
 export default function RealEstateList({ list, loading }) {
-
+  console.log(list[0]);
 
   return (
     <RootStyle>
@@ -48,7 +48,7 @@ export default function RealEstateList({ list, loading }) {
 
         {
           (list?.length === 0) && (
-            <Box sx={{m:5}}>
+            <Box sx={{ m: 5 }}>
               <Typography variant={'subtitle1'}>
                 Aucun résultat
               </Typography>
@@ -56,6 +56,30 @@ export default function RealEstateList({ list, loading }) {
 
           )
         }
+
+        <Grid container spacing={1}>
+          {
+            list.map(one => (
+              <Grid item sm={6} xs={12} md={3} style={{ margin: 5, cursor: 'pointer' }} key={one?.id}>
+                <Paper sx={{ width: 1, height: 474, boxShadow: 5 }}>
+                  <Stack>
+
+
+                    <Stack width={1} height={155} bgcolor={'red'}>
+
+                      <Typography>
+                        {one?.name}
+                      </Typography>
+
+
+                    </Stack>
+
+                  </Stack>
+                </Paper>
+              </Grid>
+            ))
+          }
+        </Grid>
 
       </Container>
     </RootStyle>

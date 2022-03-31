@@ -22,7 +22,7 @@ const firestore = firebase.firestore();
 const realtimeDb = firebase.database();
 const messaging = firebase.messaging();
 
-if (window.location.hostname === 'localhost') {
+if (window.location.hostname === 'localhost' && false) {
   auth.useEmulator('http://localhost:9099/');
   storage.useEmulator('localhost', 9199);
   firestore.useEmulator('localhost', 8080);

@@ -2803,3 +2803,177 @@ INFO: Detected non-HTTP/2 connection.
 [debug] [2022-02-16T13:52:20.379Z] Feb 16, 2022 1:52:20 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
 INFO: Detected non-HTTP/2 connection.
  {"metadata":{"emulator":{"name":"firestore"},"message":"Feb 16, 2022 1:52:20 PM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2022-03-31T20:19:46.209Z] ----------------------------------------------------------------------
+[debug] [2022-03-31T20:19:46.213Z] Command:       /usr/local/bin/node /home/tleguede/WebstormProjects/crepin/crepin-upHouse/node_modules/.bin/firebase emulators:start --import=./emulator --export-on-exit=./emulator
+[debug] [2022-03-31T20:19:46.215Z] CLI Version:   9.22.0
+[debug] [2022-03-31T20:19:46.215Z] Platform:      linux
+[debug] [2022-03-31T20:19:46.215Z] Node Version:  v16.14.2
+[debug] [2022-03-31T20:19:46.219Z] Time:          Thu Mar 31 2022 20:19:46 GMT+0000 (temps universel coordonné)
+[debug] [2022-03-31T20:19:46.219Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-03-31T20:19:46.326Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-03-31T20:19:46.326Z] > authorizing via signed-in user (cofitelstore@gmail.com)
+[info] i  emulators: Starting emulators: auth, functions, firestore, database, hosting, pubsub, storage {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions, firestore, database, hosting, pubsub, storage"}}
+[debug] [2022-03-31T20:19:46.357Z] [hub] writing locator at /tmp/hub-up-house.json
+[warn] ⚠  Your requested "node" version "14" doesn't match your global version "16" {"metadata":{"emulator":{"name":"functions"},"message":"Your requested \"node\" version \"14\" doesn't match your global version \"16\""}}
+[debug] [2022-03-31T20:19:46.386Z] defaultcredentials: writing to file /home/tleguede/.config/firebase/cofitelstore_gmail_com_application_default_credentials.json
+[debug] [2022-03-31T20:19:46.388Z] Setting GAC to /home/tleguede/.config/firebase/cofitelstore_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /home/tleguede/.config/firebase/cofitelstore_gmail_com_application_default_credentials.json"}}
+[debug] [2022-03-31T20:19:46.395Z] > refreshing access token with scopes: []
+[debug] [2022-03-31T20:19:46.397Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2022-03-31T20:19:46.759Z] <<< HTTP RESPONSE 200 {"pragma":"no-cache","expires":"Mon, 01 Jan 1990 00:00:00 GMT","date":"Thu, 31 Mar 2022 20:19:46 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2022-03-31T20:19:46.792Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/up-house/adminSdkConfig [none]
+[debug] [2022-03-31T20:19:47.313Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/up-house/adminSdkConfig 403
+[debug] [2022-03-31T20:19:47.313Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/up-house/adminSdkConfig {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2022-03-31T20:19:47.314Z] Failed to get Admin SDK config for up-house, falling back to cache Failed to get Admin SDK for Firebase project up-house. Please make sure the project exists and your account has permission to access it. {"name":"FirebaseError","children":[],"exit":2,"message":"Failed to get Admin SDK for Firebase project up-house. Please make sure the project exists and your account has permission to access it.","original":{"name":"FirebaseError","children":[],"context":{"body":{"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}},"response":{"statusCode":403}},"exit":1,"message":"HTTP Error: 403, The caller does not have permission","status":403},"status":500}
+[info] i  firestore: Importing data from /home/tleguede/WebstormProjects/crepin/crepin-upHouse/emulator/firestore_export/firestore_export.overall_export_metadata {"metadata":{"emulator":{"name":"firestore"},"message":"Importing data from /home/tleguede/WebstormProjects/crepin/crepin-upHouse/emulator/firestore_export/firestore_export.overall_export_metadata"}}
+[info] i  firestore: downloading cloud-firestore-emulator-v1.13.1.jar... {"metadata":{"emulator":{"name":"firestore"},"message":"downloading cloud-firestore-emulator-v1.13.1.jar..."}}
+[debug] [2022-03-31T20:19:47.334Z] >>> [apiv2][query] GET https://storage.googleapis.com/firebase-preview-drop/emulator/cloud-firestore-emulator-v1.13.1.jar 
+[debug] [2022-03-31T20:19:48.142Z] <<< [apiv2][status] GET https://storage.googleapis.com/firebase-preview-drop/emulator/cloud-firestore-emulator-v1.13.1.jar 200
+[debug] [2022-03-31T20:19:48.142Z] <<< [apiv2][body] GET https://storage.googleapis.com/firebase-preview-drop/emulator/cloud-firestore-emulator-v1.13.1.jar [stream]
+[info] i  firestore: Removing outdated emulator files: cloud-firestore-emulator-v1.14.1.jar {"metadata":{"emulator":{"name":"firestore"},"message":"Removing outdated emulator files: cloud-firestore-emulator-v1.14.1.jar"}}
+[debug] [2022-03-31T20:20:47.943Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2022-03-31T20:20:47.943Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-03-31T20:20:47.944Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","/home/tleguede/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar","--host","localhost","--port",8080,"--seed_from_export","/home/tleguede/WebstormProjects/crepin/crepin-upHouse/emulator/firestore_export/firestore_export.overall_export_metadata","--rules","/home/tleguede/WebstormProjects/crepin/crepin-upHouse/firestore.rules","--functions_emulator","localhost:5001"],"optionalArgs":["port","webchannel_port","host","rules","functions_emulator","seed_from_export"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"/home/tleguede/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar\",\"--host\",\"localhost\",\"--port\",8080,\"--seed_from_export\",\"/home/tleguede/WebstormProjects/crepin/crepin-upHouse/emulator/firestore_export/firestore_export.overall_export_metadata\",\"--rules\",\"/home/tleguede/WebstormProjects/crepin/crepin-upHouse/firestore.rules\",\"--functions_emulator\",\"localhost:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"functions_emulator\",\"seed_from_export\"],\"joinArgs\":false}"}}
+[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
+[debug] [2022-03-31T20:20:50.489Z] Mar 31, 2022 8:20:50 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
+INFO: Started WebSocket server on ws://localhost:40161
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Mar 31, 2022 8:20:50 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\nINFO: Started WebSocket server on ws://localhost:40161\n"}}
+[debug] [2022-03-31T20:20:50.568Z] API endpoint: http:// {"metadata":{"emulator":{"name":"firestore"},"message":"API endpoint: http://"}}
+[debug] [2022-03-31T20:20:50.568Z] localhost:8080
+If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:
+
+   export FIRESTORE_EMULATOR_HOST=localhost:8080
+
+Dev App Server is now running.
+
+ {"metadata":{"emulator":{"name":"firestore"},"message":"localhost:8080\nIf you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:\n\n   export FIRESTORE_EMULATOR_HOST=localhost:8080\n\nDev App Server is now running.\n\n"}}
+[debug] [2022-03-31T20:20:50.757Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/up-house [none]
+[debug] [2022-03-31T20:20:51.302Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/up-house 403
+[debug] [2022-03-31T20:20:51.303Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/up-house {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2022-03-31T20:20:51.304Z] HTTP Error: 403, The caller does not have permission
+[debug] [2022-03-31T20:20:51.305Z] Failed to retrieve default database instance: {"name":"FirebaseError","children":[],"exit":2,"message":"Failed to get Firebase project up-house. Please make sure the project exists and your account has permission to access it.","original":{"name":"FirebaseError","children":[],"context":{"body":{"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}},"response":{"statusCode":403}},"exit":1,"message":"HTTP Error: 403, The caller does not have permission","status":403},"status":500} {"metadata":{"emulator":{"name":"database"},"message":"Failed to retrieve default database instance: {\"name\":\"FirebaseError\",\"children\":[],\"exit\":2,\"message\":\"Failed to get Firebase project up-house. Please make sure the project exists and your account has permission to access it.\",\"original\":{\"name\":\"FirebaseError\",\"children\":[],\"context\":{\"body\":{\"error\":{\"code\":403,\"message\":\"The caller does not have permission\",\"status\":\"PERMISSION_DENIED\"}},\"response\":{\"statusCode\":403}},\"exit\":1,\"message\":\"HTTP Error: 403, The caller does not have permission\",\"status\":403},\"status\":500}"}}
+[debug] [2022-03-31T20:20:51.306Z] database rules config:  [{"instance":"up-house-default-rtdb","rules":"/home/tleguede/WebstormProjects/crepin/crepin-upHouse/database.rules.json"}]
+[info] i  database: downloading firebase-database-emulator-v4.7.2.jar... {"metadata":{"emulator":{"name":"database"},"message":"downloading firebase-database-emulator-v4.7.2.jar..."}}
+[debug] [2022-03-31T20:20:51.332Z] >>> [apiv2][query] GET https://storage.googleapis.com/firebase-preview-drop/emulator/firebase-database-emulator-v4.7.2.jar 
+[debug] [2022-03-31T20:20:52.386Z] <<< [apiv2][status] GET https://storage.googleapis.com/firebase-preview-drop/emulator/firebase-database-emulator-v4.7.2.jar 200
+[debug] [2022-03-31T20:20:52.386Z] <<< [apiv2][body] GET https://storage.googleapis.com/firebase-preview-drop/emulator/firebase-database-emulator-v4.7.2.jar [stream]
+[info] i  database: Removing outdated emulator files: firebase-database-emulator-v4.7.3.jar {"metadata":{"emulator":{"name":"database"},"message":"Removing outdated emulator files: firebase-database-emulator-v4.7.3.jar"}}
+[debug] [2022-03-31T20:21:21.069Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2022-03-31T20:21:21.069Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-03-31T20:21:21.070Z] Ignoring unsupported arg: rules {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: rules"}}
+[debug] [2022-03-31T20:21:21.070Z] Starting Database Emulator with command {"binary":"java","args":["-Duser.language=en","-jar","/home/tleguede/.cache/firebase/emulators/firebase-database-emulator-v4.7.2.jar","--host","localhost","--port",9000,"--functions_emulator_host","localhost","--functions_emulator_port",5001],"optionalArgs":["port","host","functions_emulator_port","functions_emulator_host"],"joinArgs":false} {"metadata":{"emulator":{"name":"database"},"message":"Starting Database Emulator with command {\"binary\":\"java\",\"args\":[\"-Duser.language=en\",\"-jar\",\"/home/tleguede/.cache/firebase/emulators/firebase-database-emulator-v4.7.2.jar\",\"--host\",\"localhost\",\"--port\",9000,\"--functions_emulator_host\",\"localhost\",\"--functions_emulator_port\",5001],\"optionalArgs\":[\"port\",\"host\",\"functions_emulator_port\",\"functions_emulator_host\"],\"joinArgs\":false}"}}
+[info] i  database: Database Emulator logging to database-debug.log {"metadata":{"emulator":{"name":"database"},"message":"Database Emulator logging to \u001b[1mdatabase-debug.log\u001b[22m"}}
+[debug] [2022-03-31T20:21:22.731Z] WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (file:/home/tleguede/.cache/firebase/emulators/firebase-database-emulator-v4.7.2.jar) to field sun.nio.ch.SelectorImpl.selectedKeys
+WARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release {"metadata":{"emulator":{"name":"database"},"message":"WARNING: An illegal reflective access operation has occurred\nWARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (file:/home/tleguede/.cache/firebase/emulators/firebase-database-emulator-v4.7.2.jar) to field sun.nio.ch.SelectorImpl.selectedKeys\nWARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil\nWARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations\nWARNING: All illegal access operations will be denied in a future release"}}
+[debug] [2022-03-31T20:21:22.732Z] 
+ {"metadata":{"emulator":{"name":"database"},"message":"\n"}}
+[debug] [2022-03-31T20:21:24.619Z] 20:21:24.616 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+ {"metadata":{"emulator":{"name":"database"},"message":"20:21:24.616 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started\n"}}
+[debug] [2022-03-31T20:21:24.996Z] 20:21:24.995 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
+ {"metadata":{"emulator":{"name":"database"},"message":"20:21:24.995 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000\n"}}
+[info] i  emulators: Shutting down emulators. {"metadata":{"emulator":{"name":"hub"},"message":"Shutting down emulators."}}
+[info] i  functions: Stopping Functions Emulator {"metadata":{"emulator":{"name":"functions"},"message":"Stopping Functions Emulator"}}
+[info] i  database: Stopping Database Emulator {"metadata":{"emulator":{"name":"database"},"message":"Stopping Database Emulator"}}
+[debug] [2022-03-31T20:21:25.156Z] 20:21:25.154 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
+ {"metadata":{"emulator":{"name":"database"},"message":"20:21:25.154 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.\n"}}
+[debug] [2022-03-31T20:21:25.178Z] 20:21:25.177 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.
+ {"metadata":{"emulator":{"name":"database"},"message":"20:21:25.177 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.\n"}}
+[info] i  firestore: Stopping Firestore Emulator {"metadata":{"emulator":{"name":"firestore"},"message":"Stopping Firestore Emulator"}}
+[debug] [2022-03-31T20:21:25.516Z] *** shutting down gRPC server since JVM is shutting down {"metadata":{"emulator":{"name":"firestore"},"message":"*** shutting down gRPC server since JVM is shutting down"}}
+[debug] [2022-03-31T20:21:25.516Z] 
+ {"metadata":{"emulator":{"name":"firestore"},"message":"\n"}}
+[debug] [2022-03-31T20:21:25.533Z] *** server shut down
+ {"metadata":{"emulator":{"name":"firestore"},"message":"*** server shut down\n"}}
+[info] i  hub: Stopping emulator hub {"metadata":{"emulator":{"name":"hub"},"message":"Stopping emulator hub"}}
+[debug] [2022-03-31T20:21:25.865Z] Error: ENOENT: no such file or directory, scandir '/home/tleguede/WebstormProjects/crepin/crepin-upHouse/emulator/database_export'
+    at Object.readdirSync (node:fs:1392:3)
+    at Object.startAll (/home/tleguede/WebstormProjects/crepin/crepin-upHouse/node_modules/firebase-tools/lib/emulator/controller.js:350:30)
+    at runMicrotasks (<anonymous>)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async Command.actionFn (/home/tleguede/WebstormProjects/crepin/crepin-upHouse/node_modules/firebase-tools/lib/commands/emulators-start.js:26:9)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2022-03-31T20:33:53.174Z] ----------------------------------------------------------------------
+[debug] [2022-03-31T20:33:53.179Z] Command:       /usr/local/bin/node /home/tleguede/WebstormProjects/crepin/crepin-upHouse/node_modules/.bin/firebase emulators:start --import=./emulator --export-on-exit=./emulator
+[debug] [2022-03-31T20:33:53.180Z] CLI Version:   9.22.0
+[debug] [2022-03-31T20:33:53.180Z] Platform:      linux
+[debug] [2022-03-31T20:33:53.180Z] Node Version:  v16.14.2
+[debug] [2022-03-31T20:33:53.183Z] Time:          Thu Mar 31 2022 20:33:53 GMT+0000 (temps universel coordonné)
+[debug] [2022-03-31T20:33:53.184Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-03-31T20:33:53.286Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-03-31T20:33:53.287Z] > authorizing via signed-in user (cofitelstore@gmail.com)
+[info] i  emulators: Starting emulators: auth, functions, firestore, database, hosting, pubsub, storage {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions, firestore, database, hosting, pubsub, storage"}}
+[debug] [2022-03-31T20:33:53.313Z] [hub] writing locator at /tmp/hub-up-house.json
+[warn] ⚠  Your requested "node" version "14" doesn't match your global version "16" {"metadata":{"emulator":{"name":"functions"},"message":"Your requested \"node\" version \"14\" doesn't match your global version \"16\""}}
+[debug] [2022-03-31T20:33:53.354Z] defaultcredentials: writing to file /home/tleguede/.config/firebase/cofitelstore_gmail_com_application_default_credentials.json
+[debug] [2022-03-31T20:33:53.358Z] Setting GAC to /home/tleguede/.config/firebase/cofitelstore_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to /home/tleguede/.config/firebase/cofitelstore_gmail_com_application_default_credentials.json"}}
+[debug] [2022-03-31T20:33:53.362Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/up-house/adminSdkConfig [none]
+[debug] [2022-03-31T20:33:53.899Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/up-house/adminSdkConfig 403
+[debug] [2022-03-31T20:33:53.899Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/up-house/adminSdkConfig {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2022-03-31T20:33:53.901Z] Failed to get Admin SDK config for up-house, falling back to cache Failed to get Admin SDK for Firebase project up-house. Please make sure the project exists and your account has permission to access it. {"name":"FirebaseError","children":[],"exit":2,"message":"Failed to get Admin SDK for Firebase project up-house. Please make sure the project exists and your account has permission to access it.","original":{"name":"FirebaseError","children":[],"context":{"body":{"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}},"response":{"statusCode":403}},"exit":1,"message":"HTTP Error: 403, The caller does not have permission","status":403},"status":500}
+[info] i  firestore: Importing data from /home/tleguede/WebstormProjects/crepin/crepin-upHouse/emulator/firestore_export/firestore_export.overall_export_metadata {"metadata":{"emulator":{"name":"firestore"},"message":"Importing data from /home/tleguede/WebstormProjects/crepin/crepin-upHouse/emulator/firestore_export/firestore_export.overall_export_metadata"}}
+[debug] [2022-03-31T20:33:53.919Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2022-03-31T20:33:53.919Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-03-31T20:33:53.919Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","/home/tleguede/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar","--host","localhost","--port",8080,"--seed_from_export","/home/tleguede/WebstormProjects/crepin/crepin-upHouse/emulator/firestore_export/firestore_export.overall_export_metadata","--rules","/home/tleguede/WebstormProjects/crepin/crepin-upHouse/firestore.rules","--functions_emulator","localhost:5001"],"optionalArgs":["port","webchannel_port","host","rules","functions_emulator","seed_from_export"],"joinArgs":false} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"/home/tleguede/.cache/firebase/emulators/cloud-firestore-emulator-v1.13.1.jar\",\"--host\",\"localhost\",\"--port\",8080,\"--seed_from_export\",\"/home/tleguede/WebstormProjects/crepin/crepin-upHouse/emulator/firestore_export/firestore_export.overall_export_metadata\",\"--rules\",\"/home/tleguede/WebstormProjects/crepin/crepin-upHouse/firestore.rules\",\"--functions_emulator\",\"localhost:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"functions_emulator\",\"seed_from_export\"],\"joinArgs\":false}"}}
+[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to \u001b[1mfirestore-debug.log\u001b[22m"}}
+[debug] [2022-03-31T20:33:56.423Z] Mar 31, 2022 8:33:56 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
+INFO: Started WebSocket server on ws://localhost:44897
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Mar 31, 2022 8:33:56 PM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\nINFO: Started WebSocket server on ws://localhost:44897\n"}}
+[debug] [2022-03-31T20:33:56.482Z] API endpoint: http:// {"metadata":{"emulator":{"name":"firestore"},"message":"API endpoint: http://"}}
+[debug] [2022-03-31T20:33:56.482Z] localhost:8080
+If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:
+
+   export FIRESTORE_EMULATOR_HOST=localhost:8080
+
+Dev App Server is now running.
+
+ {"metadata":{"emulator":{"name":"firestore"},"message":"localhost:8080\nIf you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:\n\n   export FIRESTORE_EMULATOR_HOST=localhost:8080\n\nDev App Server is now running.\n\n"}}
+[debug] [2022-03-31T20:33:56.731Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/up-house [none]
+[debug] [2022-03-31T20:33:57.195Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/up-house 403
+[debug] [2022-03-31T20:33:57.196Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/up-house {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2022-03-31T20:33:57.196Z] HTTP Error: 403, The caller does not have permission
+[debug] [2022-03-31T20:33:57.197Z] Failed to retrieve default database instance: {"name":"FirebaseError","children":[],"exit":2,"message":"Failed to get Firebase project up-house. Please make sure the project exists and your account has permission to access it.","original":{"name":"FirebaseError","children":[],"context":{"body":{"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}},"response":{"statusCode":403}},"exit":1,"message":"HTTP Error: 403, The caller does not have permission","status":403},"status":500} {"metadata":{"emulator":{"name":"database"},"message":"Failed to retrieve default database instance: {\"name\":\"FirebaseError\",\"children\":[],\"exit\":2,\"message\":\"Failed to get Firebase project up-house. Please make sure the project exists and your account has permission to access it.\",\"original\":{\"name\":\"FirebaseError\",\"children\":[],\"context\":{\"body\":{\"error\":{\"code\":403,\"message\":\"The caller does not have permission\",\"status\":\"PERMISSION_DENIED\"}},\"response\":{\"statusCode\":403}},\"exit\":1,\"message\":\"HTTP Error: 403, The caller does not have permission\",\"status\":403},\"status\":500}"}}
+[debug] [2022-03-31T20:33:57.198Z] database rules config:  [{"instance":"up-house-default-rtdb","rules":"/home/tleguede/WebstormProjects/crepin/crepin-upHouse/database.rules.json"}]
+[debug] [2022-03-31T20:33:57.201Z] Ignoring unsupported arg: projectId {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: projectId"}}
+[debug] [2022-03-31T20:33:57.201Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2022-03-31T20:33:57.201Z] Ignoring unsupported arg: rules {"metadata":{"emulator":{"name":"database"},"message":"Ignoring unsupported arg: rules"}}
+[debug] [2022-03-31T20:33:57.201Z] Starting Database Emulator with command {"binary":"java","args":["-Duser.language=en","-jar","/home/tleguede/.cache/firebase/emulators/firebase-database-emulator-v4.7.2.jar","--host","localhost","--port",9000,"--functions_emulator_host","localhost","--functions_emulator_port",5001],"optionalArgs":["port","host","functions_emulator_port","functions_emulator_host"],"joinArgs":false} {"metadata":{"emulator":{"name":"database"},"message":"Starting Database Emulator with command {\"binary\":\"java\",\"args\":[\"-Duser.language=en\",\"-jar\",\"/home/tleguede/.cache/firebase/emulators/firebase-database-emulator-v4.7.2.jar\",\"--host\",\"localhost\",\"--port\",9000,\"--functions_emulator_host\",\"localhost\",\"--functions_emulator_port\",5001],\"optionalArgs\":[\"port\",\"host\",\"functions_emulator_port\",\"functions_emulator_host\"],\"joinArgs\":false}"}}
+[info] i  database: Database Emulator logging to database-debug.log {"metadata":{"emulator":{"name":"database"},"message":"Database Emulator logging to \u001b[1mdatabase-debug.log\u001b[22m"}}
+[debug] [2022-03-31T20:33:58.519Z] WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (file:/home/tleguede/.cache/firebase/emulators/firebase-database-emulator-v4.7.2.jar) to field sun.nio.ch.SelectorImpl.selectedKeys
+WARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release {"metadata":{"emulator":{"name":"database"},"message":"WARNING: An illegal reflective access operation has occurred\nWARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (file:/home/tleguede/.cache/firebase/emulators/firebase-database-emulator-v4.7.2.jar) to field sun.nio.ch.SelectorImpl.selectedKeys\nWARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil\nWARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations\nWARNING: All illegal access operations will be denied in a future release"}}
+[debug] [2022-03-31T20:33:58.520Z] 
+ {"metadata":{"emulator":{"name":"database"},"message":"\n"}}
+[debug] [2022-03-31T20:34:00.078Z] 20:34:00.075 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+ {"metadata":{"emulator":{"name":"database"},"message":"20:34:00.075 [NamespaceSystem-akka.actor.default-dispatcher-4] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started\n"}}
+[debug] [2022-03-31T20:34:00.392Z] 20:34:00.391 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000
+ {"metadata":{"emulator":{"name":"database"},"message":"20:34:00.391 [main] INFO com.firebase.server.forge.App$ - Listening at localhost:9000\n"}}
+[info] i  emulators: Shutting down emulators. {"metadata":{"emulator":{"name":"hub"},"message":"Shutting down emulators."}}
+[info] i  functions: Stopping Functions Emulator {"metadata":{"emulator":{"name":"functions"},"message":"Stopping Functions Emulator"}}
+[info] i  database: Stopping Database Emulator {"metadata":{"emulator":{"name":"database"},"message":"Stopping Database Emulator"}}
+[debug] [2022-03-31T20:34:00.504Z] 20:34:00.504 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
+ {"metadata":{"emulator":{"name":"database"},"message":"20:34:00.504 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.\n"}}
+[debug] [2022-03-31T20:34:00.526Z] 20:34:00.525 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.
+ {"metadata":{"emulator":{"name":"database"},"message":"20:34:00.525 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.\n"}}
+[info] i  firestore: Stopping Firestore Emulator {"metadata":{"emulator":{"name":"firestore"},"message":"Stopping Firestore Emulator"}}
+[debug] [2022-03-31T20:34:00.866Z] *** shutting down gRPC server since JVM is shutting down {"metadata":{"emulator":{"name":"firestore"},"message":"*** shutting down gRPC server since JVM is shutting down"}}
+[debug] [2022-03-31T20:34:00.866Z] 
+ {"metadata":{"emulator":{"name":"firestore"},"message":"\n"}}
+[debug] [2022-03-31T20:34:00.880Z] *** server shut down {"metadata":{"emulator":{"name":"firestore"},"message":"*** server shut down"}}
+[debug] [2022-03-31T20:34:00.881Z] 
+ {"metadata":{"emulator":{"name":"firestore"},"message":"\n"}}
+[info] i  hub: Stopping emulator hub {"metadata":{"emulator":{"name":"hub"},"message":"Stopping emulator hub"}}
+[debug] [2022-03-31T20:34:01.228Z] Error: ENOENT: no such file or directory, scandir '/home/tleguede/WebstormProjects/crepin/crepin-upHouse/emulator/database_export'
+    at Object.readdirSync (node:fs:1392:3)
+    at Object.startAll (/home/tleguede/WebstormProjects/crepin/crepin-upHouse/node_modules/firebase-tools/lib/emulator/controller.js:350:30)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async Command.actionFn (/home/tleguede/WebstormProjects/crepin/crepin-upHouse/node_modules/firebase-tools/lib/commands/emulators-start.js:26:9)
+[error] 
+[error] Error: An unexpected error has occurred.
