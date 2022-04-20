@@ -26,7 +26,7 @@ import { renderFeatures } from '../../../utils/estate';
 
 import { take } from 'lodash';
 
-const SIZE= { height: 20, width: 20 }
+
 
 export function RealEstateItem({ item }) {
   const navigate = useNavigate();
@@ -64,12 +64,14 @@ export function RealEstateItem({ item }) {
   };
 
   const featues = take(renderFeatures(item, true), 5);
-
-
+  const colorC = "#cdcdce";
+  const colorO = "#b58a2a";
+  const SIZE= { height: 20, width: 20 }
+  const SIZEC= { height: 20, width: 20, color: colorO }
   return (
     <>
 
-      <Paper sx={{ width: 1, height: 474, boxShadow: 5 }}>
+      <Paper sx={{ width: 1, height: 437, boxShadow: 0, background:colorC}}>
         <Stack spacing={1}>
 
           <Box sx={{ position: 'relative' }}>
@@ -162,11 +164,11 @@ export function RealEstateItem({ item }) {
           </Box>
 
 
-          <Stack onClick={() => goTo(item?.id)} width={1} height={155} px={1} spacing={1}>
+          <Stack onClick={() => goTo(item?.id)} width={1} height={115} px={2} spacing={1}>
 
             <Typography overflow={'hidden'} textOverflow={'clip'} fontWeight={'bold'}
                         fontSize={16}
-                        sx={{ height: 25 }}
+                        sx={{ height: 25, color: colorO }}
             >
               {item?.name}...
             </Typography>
@@ -208,10 +210,10 @@ export function RealEstateItem({ item }) {
 
             <Stack direction={'row'} spacing={1}>
 
-              <Icon icon={personIcon} {...SIZE} />
+              <Icon icon={personIcon} {...SIZEC} />
 
               <Typography overflow={'hidden'} textOverflow={'clip'} fontWeight={'bold'} fontSize={14}
-                          sx={{ height: 25, color: (theme) => theme.palette.text.disabled }}>
+                          sx={{ height: 25, color: colorO }}>
                 {item?.owner?.displayName}
               </Typography>
 
@@ -220,10 +222,10 @@ export function RealEstateItem({ item }) {
 
             <Stack direction={'row'} spacing={1}>
 
-              <Icon icon={fieldTimeOutlined} {...SIZE} />
+              <Icon icon={fieldTimeOutlined} {...SIZEC} />
 
               <Typography overflow={'hidden'} textOverflow={'clip'} fontWeight={'bold'} fontSize={14}
-                          sx={{ height: 25, color: (theme) => theme.palette.text.disabled }}>
+                          sx={{ height: 25, color: colorO}}>
 
                 {formatDistanceToNow(gDate(item?.createdAt) || new Date(), {
                   addSuffix: true,

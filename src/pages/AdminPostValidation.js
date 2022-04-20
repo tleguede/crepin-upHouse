@@ -19,7 +19,7 @@ const ContentStyle = styled(Container)(({ theme }) => ({}));
 
 export default function AdminPostValidation() {
   return (
-    <RootStyle title='upHouse' id='move_top'>
+    <RootStyle title='SoluxImmo' id='move_top'>
       <ContentStyle maxWidth={'lg'}>
         <HeaderBreadcrumbs
           heading={'Validation'}

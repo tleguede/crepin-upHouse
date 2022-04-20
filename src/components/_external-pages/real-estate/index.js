@@ -8,7 +8,7 @@ import { RealEstateItem } from './RealEstateItem';
 
 const RootStyle = styled(Page)({
   height: '100%',
-  marginTop: 40
+  marginTop: 5,
 });
 
 const Loading = () => {
@@ -32,7 +32,7 @@ export default function RealEstateList({ list, loading }) {
     <RootStyle>
       <Container maxWidth='lg'>
 
-        <Grid container spacing={2}>
+        <Grid container spacing={9}>
           {
             list.map(one => (
               <Grid item sm={6} xs={12} md={4} style={{ marginBottom: 10, cursor: 'pointer' }} key={one?.id}>

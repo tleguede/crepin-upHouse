@@ -24,7 +24,7 @@ export default function MyFavorites() {
   const { isAuthenticated } = useAuth();
 
   return (
-    <RootStyle title="upHouse" id="move_top">
+    <RootStyle title="SoluxImmo" id="move_top">
       <ContentStyle maxWidth={'lg'}>
         <HeaderBreadcrumbs
           heading={'Mes Favoris'}

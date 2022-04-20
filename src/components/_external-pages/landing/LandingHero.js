@@ -102,8 +102,8 @@ export default function LandingHero() {
               <Typography variant='h1' sx={{ color: 'common.white' }}>
                 L'immobilier de vos rêves
                 <br /> avec
-                <Typography component='span' variant='h1' sx={{ color: 'primary.main' }}>
-                  &nbsp;upHouse
+                <Typography component='span' variant='h1' sx={{ color: '#b58a2a' }}>
+                  &nbsp;SoluxImmo
                 </Typography>
               </Typography>
             </motion.div>
@@ -121,6 +121,7 @@ export default function LandingHero() {
               <Button
                 size='large'
                 variant='contained'
+                sx={{background:'#b58a2a', color: '#ffffff'}}
                 onClick={handleScrolling}
                 startIcon={<Icon icon={flashFill} width={20} height={20} />}
 

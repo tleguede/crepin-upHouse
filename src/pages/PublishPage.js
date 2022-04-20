@@ -75,7 +75,7 @@ export default function PublishPage() {
   }, [dispatch]);
 
   return (
-    <RootStyle title='upHouse' id='move_top'>
+    <RootStyle title='SoluxImmo' id='move_top'>
       <ContentStyle maxWidth={'lg'}>
 
         {

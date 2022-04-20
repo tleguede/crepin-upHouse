@@ -70,7 +70,7 @@ export default function Register() {
           <Box sx={{ mb: 5, display: 'flex', alignItems: 'center' }}>
             <Box sx={{ flexGrow: 1 }}>
               <Typography variant="h4" gutterBottom>
-                Commencez tout à fait gratuitement.
+                Créer votre compte.
               </Typography>
               <Typography sx={{ color: 'text.secondary' }}>Libre pour toujours. Aucune carte de crédit nécessaire..</Typography>
             </Box>

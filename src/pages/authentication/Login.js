@@ -56,7 +56,7 @@ export default function Login() {
   };
 
   return (
-    <RootStyle title="Connexion | upHouse">
+    <RootStyle title="Connexion | SoluxImmo">
       <AuthLayout>
         Vous n'avez pas de compte ? &nbsp;
         <Link underline="none" variant="subtitle2" component={RouterLink} to={PATH_AUTH.register}>
@@ -67,7 +67,7 @@ export default function Login() {
       <MHidden width="mdDown">
         <SectionStyle>
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-            Salut, bienvenue à nouveau
+            Salut, bienvenue à <Typography sx={{ color: "#b58a2a"}}>SoluxImmo</Typography>
           </Typography>
           <img src="/static/illustrations/illustration_login.png" alt="login" />
         </SectionStyle>
@@ -77,10 +77,10 @@ export default function Login() {
         <ContentStyle>
           <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
             <Box sx={{ flexGrow: 1 }}>
-              <Typography variant="h4" gutterBottom>
-                Connectez-vous à upHouse
+              <Typography variant="h3" gutterBottom sx={{ color: "#b58a2a"}}>
+                Connectez-vous à SoluxImmo
               </Typography>
-              <Typography sx={{ color: 'text.secondary' }}>Entrez vos coordonnées ci-dessous.</Typography>
+              <Typography sx={{ color: '#b58a2a' }}>Entrez vos coordonnées ci-dessous.</Typography>
             </Box>
 
             <Tooltip title={capitalCase(method)}>
@@ -93,7 +93,7 @@ export default function Login() {
           {method !== 'auth0' ? (
             <LoginForm />
           ) : (
-            <Button fullWidth size="large" type="submit" variant="contained" onClick={handleLoginAuth0}>
+            <Button fullWidth size="large" sx={{ backgroundColor: '#b58a2a', color: "#fff" }} type="submit" variant="contained" onClick={handleLoginAuth0}>
               Login
             </Button>
           )}

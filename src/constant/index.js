@@ -207,8 +207,8 @@ export const COMMERCIAL_BUILDING_OTHER = {
 
 export const PAYMENT_RHYTHM = {
   ONE_SHOT: 'En une fois',
-  PER_MONTH: 'par mois',
-  PER_YEAR: 'par ans'
+  PER_MONTH: 'mois',
+  PER_YEAR: 'ans'
 };
 
 export const REAL_ESTATE_STATE = {
@@ -287,6 +287,6 @@ export const FEATURE_ICON = {
   [OTHER_FEATURES.NAVIGABLE_BODY_OF_WATER]: seaAndSun,
 
 
-};
+}; 
 
 export { NOTIFICATION_TYPES, NOTIFICATION_ICONS, NOTIFICATION_DEFAULT_ICON, getNotificationIcon } from './notification';

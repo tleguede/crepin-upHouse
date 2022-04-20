@@ -82,12 +82,13 @@ export default function Router() {
         { path: '', element: <Navigate to='/dashboard/post_validation' replace /> },
         { path: 'post_validation', element: <AdminPostValidation /> },
         { path: 'call_request', element: <AdminCallRequest /> },
+        { path: 'zones', element: <Zones /> },
 
 
         {
           path: 'user',
           children: [
-            { path: '', element: <Navigate to='/user/profile' replace /> },
+            { path: '', element: <Navigate to='/dashboard/user/profile' replace /> },
             { path: 'profile', element: <UserProfile /> },
             { path: 'cards', element: <UserCards /> },
             { path: 'list', element: <UserList /> },

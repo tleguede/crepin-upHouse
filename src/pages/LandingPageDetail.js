@@ -35,7 +35,7 @@ export default function LandingPageDetail() {
 
 
   return (
-    <RootStyle title='upHouse | Detail' id='move_top'>
+    <RootStyle title='SoluxImmo | Detail' id='move_top'>
       <ContentStyle maxWidth={'lg'}>
 
         {

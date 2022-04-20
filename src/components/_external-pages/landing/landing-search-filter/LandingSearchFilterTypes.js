@@ -95,7 +95,7 @@ export default function LandingSearchFilterTypes({ formik, onChange }) {
         anchorEl={ref.current}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'bottom',
+          vertical: 'top',
           horizontal: 'left'
         }}
       >
@@ -107,7 +107,7 @@ export default function LandingSearchFilterTypes({ formik, onChange }) {
             </IconButton>
           </Stack>
 
-          <Stack direction={'column'} spacing={2}>
+          <Stack direction={'row'} spacing={2}>
             <SectionAccordion defaultExpanded={false} hideShadow title={'Type de propriété'}>
               {
                 typeOptions.map(one => (

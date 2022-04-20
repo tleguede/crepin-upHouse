@@ -29,9 +29,9 @@ import { searchRealEstate } from '../../../../redux/slices/realEstate.thunks';
 
 
 const RootStyle = styled('div')(({ theme }) => ({
-  paddingTop: theme.spacing(15),
+  paddingTop: theme.spacing(5),
   [theme.breakpoints.up('md')]: {
-    paddingBottom: theme.spacing(15)
+    paddingBottom: theme.spacing(5)
   }
 }));
 
@@ -154,7 +154,7 @@ export default function LandingSearchFilter() {
       <Container maxWidth='lg'>
 
 
-        <Stack direction={'column'} spacing={1}>
+        <Stack direction={'column'} spacing={1}  variant='scrollable'>
 
           <Tabs
             value={values.category}
@@ -189,7 +189,7 @@ export default function LandingSearchFilter() {
             </Grid>
 
             <Grid item xs={2}>
-              <TextField
+              <TextField  
                 select
                 fullWidth
                 error={Boolean(touched.transactionType && errors.transactionType)}
