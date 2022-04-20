@@ -79,20 +79,20 @@ export default function Router() {
         </AuthGuard>
       ),
       children: [
-        { path: '/', element: <Navigate to='/dashboard/post_validation' replace /> },
-        { path: '/post_validation', element: <AdminPostValidation /> },
-        { path: '/call_request', element: <AdminCallRequest /> },
+        { path: '', element: <Navigate to='/dashboard/post_validation' replace /> },
+        { path: 'post_validation', element: <AdminPostValidation /> },
+        { path: 'call_request', element: <AdminCallRequest /> },
 
 
         {
           path: 'user',
           children: [
-            { path: '/', element: <Navigate to='/dashboard/user/profile' replace /> },
+            { path: '', element: <Navigate to='/user/profile' replace /> },
             { path: 'profile', element: <UserProfile /> },
             { path: 'cards', element: <UserCards /> },
             { path: 'list', element: <UserList /> },
             { path: 'new', element: <UserCreate /> },
-            { path: '/:id/edit', element: <UserCreate /> },
+            { path: ':id/edit', element: <UserCreate /> },
             { path: 'account', element: <UserAccount /> }
           ]
         }
@@ -115,10 +115,10 @@ export default function Router() {
       ]
     },
     {
-      path: '/',
+      path: '',
       element: <MainLayout />,
       children: [
-        { path: '/', element: <LandingPage /> },
+        { path: '', element: <LandingPage /> },
         { path: '/detail/:id', element: <LandingPageDetail /> },
         { path: '/my_favorites', element: <MyFavorites /> },
         { path: '/my_posts', element: <MyPosts /> },
