@@ -8,7 +8,8 @@ import {
 } from '../components/_external-pages/landing';
 import LandingRealEstateList from '../components/_external-pages/_landing';
 import LandingSearchFilter from '../components/_external-pages/landing/landing-search-filter';
-
+import { Hidden,} from '@material-ui/core'
+import LandingSearchBar from '../components/_external-pages/landing/search-bar/index';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)({
@@ -29,8 +30,16 @@ export default function LandingPage() {
     <RootStyle title="SoluxImmo" id="move_top">
       <LandingHero />
       <ContentStyle id={'list'}>
-        <LandingSearchFilter/>
-        <LandingRealEstateList/>
+
+        <Hidden smDown>
+          <LandingSearchFilter />
+        </Hidden>
+
+        <Hidden smUp>
+          <LandingSearchBar />
+        </Hidden>
+
+        <LandingRealEstateList />
       </ContentStyle>
     </RootStyle>
   );
