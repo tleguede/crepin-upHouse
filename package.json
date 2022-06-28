@@ -11,7 +11,7 @@
     "lint": "eslint --ext .js,.jsx ./src",
     "lint:fix": "eslint --fix --ext .js,.jsx ./src",
     "firebase:logback": "firebase logout && firebase login",
-    "deploy": "yarn run firebase:logback && yarn run build && firebase deploy",
+    "deploy": "yarn run build && firebase deploy",
     "emulate": "firebase emulators:start --import=./emulator --export-on-exit=./emulator"
   },
   "eslintConfig": {
